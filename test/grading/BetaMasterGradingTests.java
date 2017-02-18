@@ -126,6 +126,7 @@ public class BetaMasterGradingTests
 		assertEquals(ILLEGAL, game.makeMove(c15, c24));
 	}
 	
+	
 	@Test
 	public void makeValidMoveForEachPlayer()
 	{
