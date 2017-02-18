@@ -67,6 +67,7 @@ public class BetaInitializer {
 	private void addMoveValidators() {
 		moveValidators.add(MoveValidators.isDestinationValid);
 		moveValidators.add(MoveValidators.isCorrectColor);
+		moveValidators.add(MoveValidators.hasNoBlockingPiece);
 	}
 	
 	/**
