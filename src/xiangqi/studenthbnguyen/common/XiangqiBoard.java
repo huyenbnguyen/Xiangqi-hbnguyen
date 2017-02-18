@@ -2,10 +2,6 @@
  * 
  */
 package xiangqi.studenthbnguyen.common;
-
-import static xiangqi.common.XiangqiColor.*;
-import static xiangqi.common.XiangqiPieceType.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,5 +62,20 @@ public class XiangqiBoard {
 		XiangqiColor color = xiangqiPiece.getColor();
 		coordinate = XNC.makeXNC(coordinate, color);
 		boardMap.put(coordinate, xiangqiPiece);
+	}
+	
+	/**
+	 * Find the coordinate general of the given color
+	 * @param color the color 
+	 * @return the XNC of the general
+	 */
+	public XNC findGeneral(XiangqiColor color) {
+		for (Map.Entry<XNC, XiangqiPiece> entry : boardMap.entrySet()) {
+    		if (entry.getValue().getPieceType() == XiangqiPieceType.GENERAL && 
+    				entry.getValue().getColor() == color) {
+    			return entry.getKey();
+    		}
+    	}
+		return null;
 	}
 }

@@ -2,15 +2,8 @@
  * 
  */
 package xiangqi.studenthbnguyen.validators;
-
-import java.util.function.BiFunction;
-
-import java.awt.Point;
-
-import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiState;
-import static xiangqi.common.XiangqiPieceType.*;
 
 /**
  * @author huyennguyen

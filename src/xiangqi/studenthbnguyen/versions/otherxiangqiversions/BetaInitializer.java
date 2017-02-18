@@ -68,6 +68,7 @@ public class BetaInitializer {
 		moveValidators.add(MoveValidators.isDestinationValid);
 		moveValidators.add(MoveValidators.isCorrectColor);
 		moveValidators.add(MoveValidators.hasNoBlockingPiece);
+		moveValidators.add(MoveValidators.generalNotInCheck);
 	}
 	
 	/**
@@ -80,6 +81,7 @@ public class BetaInitializer {
 		state.board = makeBoard();
 		return state;
 	}
+	
 	/**
 	 * @return
 	 */

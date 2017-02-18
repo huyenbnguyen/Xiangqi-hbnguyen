@@ -3,15 +3,16 @@
  */
 package xiangqi.studenthbnguyen.validators;
 
+import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.common.XNC;
-import xiangqi.studenthbnguyen.common.XiangqiBoard;
+import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
 import xiangqi.studenthbnguyen.common.XiangqiState;
+import xiangqi.studenthbnguyen.versions.otherxiangqiversions.BetaInitializer;
+import static xiangqi.common.MoveResult.*;
 import static xiangqi.common.XiangqiPieceType.*;
-
 import java.awt.Point;
-
-import xiangqi.common.XiangqiCoordinate;
+import java.util.Map.Entry;
 
 /**
  * 
@@ -35,14 +36,6 @@ public class MoveValidators {
 		return result;
 	};
 
-	public static MoveValidator<XiangqiState, XNC, Boolean> isDestinationClear = (state, from, to) -> {
-		XiangqiPiece piece = state.board.getPieceAt(to);
-		boolean result = (piece.getPieceType() == NONE || piece.getColor() != state.onMove);
-		if (!result) 
-			state.moveMessage = "Attempt to capture your own piece";
-		return result;
-	};
-
 	public static MoveValidator<XiangqiState, XNC, Boolean> hasNoBlockingPiece = (state, from, to) -> {
 		// calculate direction vector
 		Point direction = new Point((int) Math.signum(to.getRank()-from.getRank()), 
@@ -54,5 +47,26 @@ public class MoveValidators {
 			coordinate = XNC.makeXNC(coordinate.getRank() + direction.x, coordinate.getFile() + direction.y);
 		}
 		return true;
+	};
+	
+	public static MoveValidator<XiangqiState, XNC, Boolean> generalNotInCheck = (state, from, to) -> {
+		// pretend like you're creating a new game with the move made
+		XiangqiState stateCopy = (XiangqiState) XiangqiState.makeDeepCopy(state);
+		stateCopy.board.movePiece(from, to);
+		BetaInitializer initializer = new BetaInitializer();
+		XiangqiBaseGame game = new XiangqiBaseGame(stateCopy);
+		game.setMoveValidators(initializer.getMoveValidators());
+		game.setPieceValidators(initializer.getPieceValidators());
+		
+		// for the new game, see if any opponent pieces can capture the general
+		XiangqiColor color = stateCopy.onMove;
+		XNC generalCoordinate = stateCopy.board.findGeneral(color);
+    	for (Entry<XNC, XiangqiPiece> entry : stateCopy.board.boardMap.entrySet()) {
+    		if (entry.getValue().getColor() != color && 
+    				game.makeMove(entry.getKey(), generalCoordinate) == OK) {
+    			return false;
+    		}  
+    	}
+    	return true;
 	};
 }
