@@ -8,7 +8,6 @@ import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
 import xiangqi.studenthbnguyen.common.XiangqiState;
-import xiangqi.studenthbnguyen.versions.otherxiangqiversions.BetaInitializer;
 import static xiangqi.common.MoveResult.*;
 import static xiangqi.common.XiangqiPieceType.*;
 import java.awt.Point;
