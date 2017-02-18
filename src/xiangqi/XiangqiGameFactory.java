@@ -13,6 +13,10 @@
 package xiangqi;
 
 import xiangqi.common.*;
+import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
+import xiangqi.studenthbnguyen.common.XiangqiState;
+import xiangqi.studenthbnguyen.versions.alphaxiangqi.AlphaXiangqi;
+import xiangqi.studenthbnguyen.versions.otherxiangqiversions.BetaInitializer;
 
 /**
  * A simple factory object that creates the appropriate instance of a XiangqiGame.
@@ -27,6 +31,21 @@ public class XiangqiGameFactory
 	 */
 	public static XiangqiGame makeXiangqiGame(XiangqiGameVersion version)
 	{
-		return null;
+		XiangqiBaseGame game = null;
+		switch (version) {
+		case ALPHA_XQ:
+			return new AlphaXiangqi();
+		case BETA_XQ:
+			BetaInitializer initializer = new BetaInitializer();
+			XiangqiState state = initializer.getState();
+			game = new XiangqiBaseGame(state);
+			game.setMoveValidators(initializer.getMoveValidators());
+			game.setPieceValidators(initializer.getPieceValidators());
+			break;
+		default:
+			System.out.println("Not yet implemented");
+			break;
+		}
+		return (XiangqiGame) game;
 	}
 }
