@@ -1,7 +1,7 @@
  * Check to see whether the move is valid.
      * ASSUMPTION: coordinates are already standardized.
      * The move is invalid when:
-     * 1. There's a piece from source to destination that blocks it.
+     * 1. There's a piece from source to destination that blocks it: X
      * 2. [General Only] The General put itself in check
      * 3. There's no way to go from source to destination given the rules of the piece: X
      * 4. The color of the piece doesn't match with turn (i.e. the player tries to move a piece not on their side): X

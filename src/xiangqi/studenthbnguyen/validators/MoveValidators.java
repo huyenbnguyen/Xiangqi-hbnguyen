@@ -33,7 +33,7 @@ public class MoveValidators {
 		return result;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> isClear = (state, from, to) -> {
+	public static MoveValidator<XiangqiState, XNC, Boolean> isDestinationClear = (state, from, to) -> {
 		XiangqiPiece piece = state.board.getPieceAt(to);
 		boolean result = (piece.getPieceType() == NONE || piece.getColor() != state.onMove);
 		if (!result) 
