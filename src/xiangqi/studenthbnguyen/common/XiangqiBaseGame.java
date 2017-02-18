@@ -9,6 +9,8 @@ import java.util.Map;
 
 import static xiangqi.common.MoveResult.*;
 import static xiangqi.common.XiangqiColor.*;
+
+import xiangqi.XiangqiGameFactory;
 import xiangqi.common.MoveResult;
 import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiCoordinate;
@@ -42,6 +44,14 @@ public class XiangqiBaseGame implements XiangqiGame {
 	 */
 	public XiangqiState getState() {
 		return state;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public void setState(XiangqiState state) {
+		this.state = state;
 	}
 
 	/**
@@ -165,16 +175,14 @@ public class XiangqiBaseGame implements XiangqiGame {
 	}
 	
 	/**
-	 * 
-	 * @param game
-	 * @return
+	 * Make a deep copy of the game
+	 * @param state the state of the game
+	 * @return a deep copy of the game
 	 */
 	public static XiangqiBaseGame makeDeepCopy(XiangqiState state) {
 		XiangqiState stateCopy = (XiangqiState) XiangqiState.makeDeepCopy(state);
-		BetaInitializer initializer = new BetaInitializer();
-		XiangqiBaseGame gameCopy = new XiangqiBaseGame(stateCopy);
-		gameCopy.setMoveValidators(initializer.getMoveValidators());
-		gameCopy.setPieceValidators(initializer.getPieceValidators());
+		XiangqiBaseGame gameCopy = (XiangqiBaseGame) XiangqiGameFactory.makeXiangqiGame(state.version);
+		gameCopy.setState(stateCopy);
 		return gameCopy;
 	}
 }

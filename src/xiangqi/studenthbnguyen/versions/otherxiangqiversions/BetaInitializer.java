@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import xiangqi.common.XiangqiGameVersion;
 import xiangqi.common.XiangqiPieceType;
 import static xiangqi.common.XiangqiPieceType.*;
 import static xiangqi.common.XiangqiColor.*;
@@ -76,6 +77,7 @@ public class BetaInitializer {
 	 */
 	private XiangqiState initializeState() {
 		XiangqiState state = new XiangqiState();
+		state.version = XiangqiGameVersion.BETA_XQ;
 		state.board = new XiangqiBoard(5, 5);
 		XNC.setState(state);
 		state.board = makeBoard();
