@@ -16,6 +16,7 @@ import xiangqi.common.XiangqiGame;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.common.XiangqiPieceType;
 import xiangqi.studenthbnguyen.validators.MoveValidator;
+import xiangqi.studenthbnguyen.versions.otherxiangqiversions.BetaInitializer;
 
 
 /**
@@ -35,7 +36,13 @@ public class XiangqiBaseGame implements XiangqiGame {
 		moveValidators = new LinkedList<MoveValidator>();
 	}
 
-
+	/**
+	 * 
+	 * @return
+	 */
+	public XiangqiState getState() {
+		return state;
+	}
 
 	/**
 	 * Setter for moveValidators
@@ -155,5 +162,19 @@ public class XiangqiBaseGame implements XiangqiGame {
 			throw new XiangqiRuntimeException("Invalid coordinate passed to getPieceAt()");
 		}
 		return state.board.getPieceAt(XNC.makeXNC(where, aspect));
+	}
+	
+	/**
+	 * 
+	 * @param game
+	 * @return
+	 */
+	public static XiangqiBaseGame makeDeepCopy(XiangqiState state) {
+		XiangqiState stateCopy = (XiangqiState) XiangqiState.makeDeepCopy(state);
+		BetaInitializer initializer = new BetaInitializer();
+		XiangqiBaseGame gameCopy = new XiangqiBaseGame(stateCopy);
+		gameCopy.setMoveValidators(initializer.getMoveValidators());
+		gameCopy.setPieceValidators(initializer.getPieceValidators());
+		return gameCopy;
 	}
 }

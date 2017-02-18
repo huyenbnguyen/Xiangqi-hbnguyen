@@ -15,7 +15,8 @@ import java.awt.Point;
 import java.util.Map.Entry;
 
 /**
- * 
+ * Validators BEFORE making a move.
+ * These are driven by the rules of the game.
  * @author huyennguyen
  *
  */
@@ -51,19 +52,15 @@ public class MoveValidators {
 	
 	public static MoveValidator<XiangqiState, XNC, Boolean> generalNotInCheck = (state, from, to) -> {
 		// pretend like you're creating a new game with the move made
-		XiangqiState stateCopy = (XiangqiState) XiangqiState.makeDeepCopy(state);
-		stateCopy.board.movePiece(from, to);
-		BetaInitializer initializer = new BetaInitializer();
-		XiangqiBaseGame game = new XiangqiBaseGame(stateCopy);
-		game.setMoveValidators(initializer.getMoveValidators());
-		game.setPieceValidators(initializer.getPieceValidators());
+		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);
+		gameCopy.getState().board.movePiece(from, to);
 		
 		// for the new game, see if any opponent pieces can capture the general
-		XiangqiColor color = stateCopy.onMove;
-		XNC generalCoordinate = stateCopy.board.findGeneral(color);
-    	for (Entry<XNC, XiangqiPiece> entry : stateCopy.board.boardMap.entrySet()) {
+		XiangqiColor color = gameCopy.getState().onMove;
+		XNC generalCoordinate = gameCopy.getState().board.findGeneral(color);
+    	for (Entry<XNC, XiangqiPiece> entry : gameCopy.getState().board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() != color && 
-    				game.makeMove(entry.getKey(), generalCoordinate) == OK) {
+    				gameCopy.makeMove(entry.getKey(), generalCoordinate) == OK) {
     			return false;
     		}  
     	}

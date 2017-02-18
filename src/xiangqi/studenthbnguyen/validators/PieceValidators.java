@@ -6,6 +6,8 @@ import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiState;
 
 /**
+ * Validators BEFORE making a move.
+ * These are driven by the rules of the individual piece.
  * @author huyennguyen
  *
  */

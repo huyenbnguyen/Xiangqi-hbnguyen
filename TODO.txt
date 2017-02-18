@@ -6,3 +6,18 @@
      * 3. There's no way to go from source to destination given the rules of the piece: X
      * 4. The color of the piece doesn't match with turn (i.e. the player tries to move a piece not on their side): X
      * 6. Coordinates are valid: X
+     
+     
+     
+• A player may not move the General to a position where the General is in
+check. If this is done, the implementation will return an INVALD move result: DONE
+• A player may not expose the General to check. That is if a player tries to make
+a move that would leave the General in check, the implementation will return
+an INVALID result: DONE
+• If a move puts a player in checkmate, the game should return a WIN for the
+player who put the opponent in checkmate and the game is over.
+• If a General is in check (not checkmate), the player must make a move that
+removes the check either by moving the General to safety or blocking the
+check through capture of interposing a piece between the attacker and the
+General. Any other attemped move will result in the implementation
+returning INVALID.
