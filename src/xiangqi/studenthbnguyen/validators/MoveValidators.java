@@ -10,8 +10,6 @@ import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
 import xiangqi.studenthbnguyen.common.XiangqiState;
 import static xiangqi.common.MoveResult.*;
 import static xiangqi.common.XiangqiPieceType.*;
-import java.awt.Point;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map.Entry;

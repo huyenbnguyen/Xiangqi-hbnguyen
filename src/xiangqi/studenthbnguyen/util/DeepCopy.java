@@ -32,9 +32,9 @@ public class DeepCopy {
 		if (input == null) {
 			return input;
 		} else if (input instanceof Map<?, ?>) {
-			return (X) deepCloneMap((Map<?, ?>) input);
+			return (X) deepCopyMap((Map<?, ?>) input);
 		} else if (input instanceof XNC) {
-			return (X) deepCloneXNC((XNC) input);
+			return (X) deepCopyXNC((XNC) input);
 		}
 		return input;
 	}
@@ -44,7 +44,7 @@ public class DeepCopy {
 	 * @param input an XNC object
 	 * @return a deep copy for an XNC object
 	 */
-	private static XNC deepCloneXNC(XNC input) {
+	private static XNC deepCopyXNC(XNC input) {
 		XNC clone = XNC.makeXNC(input.getRank(), input.getFile());
 		return clone;
 	}
@@ -54,7 +54,7 @@ public class DeepCopy {
 	 * @param map the original map
 	 * @return a deep copy of the map
 	 */
-	private static <K, V> Map<K, V> deepCloneMap(final Map<K, V> map) {
+	private static <K, V> Map<K, V> deepCopyMap(final Map<K, V> map) {
 		Map<K, V> clone = new HashMap<K, V>();
 		for (Map.Entry<K, V> entry : map.entrySet()) {
 			clone.put(makeDeepCopy(entry.getKey()), makeDeepCopy(entry.getValue()));
