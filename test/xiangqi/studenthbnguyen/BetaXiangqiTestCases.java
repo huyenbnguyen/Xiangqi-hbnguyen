@@ -186,10 +186,15 @@ public class BetaXiangqiTestCases
 	}
 	
 	@Test 
-	public void putGeneralInCheck() {
+	public void blackPutGeneralInCheck() {
 		game.makeMove(c11, c51);
 		assertEquals(redChariot, game.getPieceAt(c51, RED));
 		assertEquals(ILLEGAL, game.makeMove(c14, c25));
+	}
+	
+	@Test
+	public void redAdvisorMovesButBlocked() {
+		assertEquals(ILLEGAL, game.makeMove(c12, c43));
 	}
 	
 	// Helper methods
