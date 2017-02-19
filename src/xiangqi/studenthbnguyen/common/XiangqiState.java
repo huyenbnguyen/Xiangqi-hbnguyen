@@ -5,6 +5,7 @@ package xiangqi.studenthbnguyen.common;
 
 import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiGameVersion;
+import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.util.DeepCopy;
 
 import static xiangqi.common.XiangqiColor.*;
@@ -19,6 +20,7 @@ public class XiangqiState {
 	public XiangqiColor onMove = RED;
 	public XiangqiBoard board;
 	public XiangqiGameVersion version;
+	public XiangqiPiece generalAttacker;
 	
 	public XiangqiState() {
 		

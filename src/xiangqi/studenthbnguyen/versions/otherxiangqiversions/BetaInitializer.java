@@ -47,8 +47,10 @@ public class BetaInitializer {
 	 * 
 	 */
 	private void addGameTerminationValidators() {
-		gameTerminationValidators.add(GameTerminationValidators.gameNotInStalemate);	
+		gameTerminationValidators.add(GameTerminationValidators.gameNotInStalemate);
+		gameTerminationValidators.add(GameTerminationValidators.gameNotInCheckmate);
 	}
+	
 	/**
 	 * 
 	 */

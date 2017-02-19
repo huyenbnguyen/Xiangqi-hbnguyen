@@ -50,6 +50,8 @@ public class MoveValidators {
 	public static MoveValidator<XiangqiState, XNC, Boolean> generalNotInCheck = (state, from, to) -> {
 		// pretend like you're creating a new game with the move made
 		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);
+		
+		// if there's a move to be tested, do it
 		if (from != null && to != null) 
 			gameCopy.getState().board.movePiece(from, to);
 		
@@ -59,9 +61,12 @@ public class MoveValidators {
     	for (Entry<XNC, XiangqiPiece> entry : gameCopy.getState().board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() != color && 
     				gameCopy.makeMove(entry.getKey(), generalCoordinate) == OK) {
+    			// if there's not a move to be made, it means we're dealing with the game itself, not a copy
+    			if (from != null && to != null) state.generalAttacker = entry.getValue();
     			return false;
     		}  
     	}
+    	state.generalAttacker = null;
     	return true;
 	};
 }
