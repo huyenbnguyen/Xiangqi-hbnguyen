@@ -88,7 +88,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 		MoveResult moveResult = OK;
 		state.moveMessage = "";
 		XNC sourceNormalized = XNC.makeXNC(source, state.onMove);
-		XNC destinationNormalized = XNC.makeXNC(destination, state.onMove);
+		XNC destinationNormalized = XNC.makeXNC(destination, state.onMove); 
 
 		// check valid coordinates 
 		if (!checkBounds(source) || !checkBounds(destination)) {
@@ -98,8 +98,6 @@ public class XiangqiBaseGame implements XiangqiGame {
 
 		if (checkRules(sourceNormalized, destinationNormalized) == ILLEGAL)
 			return ILLEGAL;
-
-
 
 		// if the move is valid, make the move
 		state.board.movePiece(sourceNormalized, destinationNormalized);
@@ -125,7 +123,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 		// Validate the move according the rules of the game
 		if (validateGameRules(sourceNormalized, destinationNormalized) == ILLEGAL) 
 			return ILLEGAL;
-		return OK;
+		return OK;  
 	}
 	
 	
@@ -136,7 +134,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 	 * @param sourceNormalized
 	 * @param destinationNormalized
 	 */
-	private MoveResult validatePieceRules(XNC sourceNormalized, XNC destinationNormalized) {
+	public MoveResult validatePieceRules(XNC sourceNormalized, XNC destinationNormalized) {
 		XiangqiPieceType pieceType = state.board.getPieceAt(sourceNormalized).getPieceType();
 		for (MoveValidator<XiangqiState, XNC, Boolean> mv : pieceValidators.get(pieceType)) {
 			if (!mv.apply(state, sourceNormalized, destinationNormalized)) return ILLEGAL;
@@ -166,14 +164,14 @@ public class XiangqiBaseGame implements XiangqiGame {
 			if (!tv.test(state)) 
 				return (state.onMove == RED) ? BLACK_WINS : RED_WINS;
 		}
-		return OK;
+		return OK; 
 	}
 
 
 	/**
 	 * Switch move to the opponent
 	 */
-	private void switchTurn() {
+	public void switchTurn() {
 		state.onMove = (state.onMove == RED) ? BLACK : RED; 
 	}
 

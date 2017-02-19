@@ -185,6 +185,13 @@ public class BetaXiangqiTestCases
 		assertEquals(ILLEGAL, game.makeMove(c13, c22));
 	}
 	
+	@Test 
+	public void putGeneralInCheck() {
+		game.makeMove(c11, c51);
+		assertEquals(redChariot, game.getPieceAt(c51, RED));
+		assertEquals(ILLEGAL, game.makeMove(c14, c25));
+	}
+	
 	// Helper methods
 	private static XiangqiCoordinate makeCoordinate(int rank, int file)
 	{

@@ -37,7 +37,7 @@ public class GameTerminationValidators {
 		
 		// General is not in check
 		if (MoveValidators.generalNotInCheck.apply(state, null, null))
-			return true;
+			return true; 
 		
 		// General can move out of check
 		XNC generalXNC = gameCopy.getState().board.findPiece(GENERAL, color);
@@ -80,7 +80,7 @@ public class GameTerminationValidators {
 		if (!MoveValidators.generalNotInCheck.apply(state, null, null))
 			return false;
 		
-		// Check to see whether a valid move can be made
+		// Check to see whether a valid move can be made by any pieces
 		for (int i = 1; i <= state.board.ranks; i++) {
 			for (int j = 1; j <= state.board.files; j++) {
 				XNC coordinate = XNC.makeXNC(i, j);

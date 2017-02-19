@@ -14,12 +14,12 @@ import xiangqi.studenthbnguyen.common.XNC;
  * @author huyennguyen
  *
  */
-public class DeepCopy {
+public class DeepCopyMaker {
 	
 	/**
 	 * Constructor
 	 */
-	private DeepCopy() {
+	private DeepCopyMaker() {
 		
 	}
 	

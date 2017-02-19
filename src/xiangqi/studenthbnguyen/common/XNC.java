@@ -42,8 +42,8 @@ public class XNC implements XiangqiCoordinate {
 	public static XNC makeXNC(XiangqiCoordinate coordinate, XiangqiColor aspect) {
 		XNC result = makeXNC(coordinate.getRank(), coordinate.getFile());
 		if (aspect == BLACK) 
-			result = makeXNC(state.board.ranks + 1 - coordinate.getRank(), coordinate.getFile());
-		return result;
+			result = makeXNC(state.board.ranks + 1 - coordinate.getRank(), state.board.files - coordinate.getFile() + 1);
+		return result; 
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class XNC implements XiangqiCoordinate {
 			intermediateCoordinates.add(coordinate);
 			coordinate = XNC.makeXNC(coordinate.getRank() + directionVector.x, coordinate.getFile() + directionVector.y);
 		}
-		return intermediateCoordinates;
+		return intermediateCoordinates; 
 	}
 
 	/* (non-Javadoc)

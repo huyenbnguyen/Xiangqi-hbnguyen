@@ -6,7 +6,7 @@ package xiangqi.studenthbnguyen.common;
 import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiGameVersion;
 import xiangqi.common.XiangqiPiece;
-import xiangqi.studenthbnguyen.util.DeepCopy;
+import xiangqi.studenthbnguyen.util.DeepCopyMaker;
 
 import static xiangqi.common.XiangqiColor.*;
 
@@ -25,12 +25,15 @@ public class XiangqiState {
 	public XiangqiState() {
 		
 	}
-	
+	 
 	public static XiangqiState makeDeepCopy(XiangqiState state) {
 		XiangqiState stateCopy = new XiangqiState();
+		stateCopy.onMove = state.onMove;
+		stateCopy.moveMessage = state.moveMessage;
+		stateCopy.generalAttacker = state.generalAttacker;
 		stateCopy.version = state.version;
 		stateCopy.board = new XiangqiBoard(state.board.ranks, state.board.files);
-		stateCopy.board.boardMap = DeepCopy.makeDeepCopy(state.board.boardMap);
+		stateCopy.board.boardMap = DeepCopyMaker.makeDeepCopy(state.board.boardMap);
 		return stateCopy;
 	}
 }
