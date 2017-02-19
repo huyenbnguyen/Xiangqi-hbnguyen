@@ -26,6 +26,7 @@ public class XiangqiState {
 	
 	public static XiangqiState makeDeepCopy(XiangqiState state) {
 		XiangqiState stateCopy = new XiangqiState();
+		stateCopy.version = state.version;
 		stateCopy.board = new XiangqiBoard(state.board.ranks, state.board.files);
 		stateCopy.board.boardMap = DeepCopy.makeDeepCopy(state.board.boardMap);
 		return stateCopy;

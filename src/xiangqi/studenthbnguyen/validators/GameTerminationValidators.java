@@ -47,16 +47,16 @@ public class GameTerminationValidators {
 	public static Predicate<XiangqiState> gameNotInStalemate = (state) -> {
 		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);
 				
-		XiangqiColor color = state.onMove;
-		if (MoveValidators.generalNotInCheck.apply(state, null, null))
+		XiangqiColor color = gameCopy.getState().onMove;
+		if (!MoveValidators.generalNotInCheck.apply(state, null, null))
 			return false;
 		
 		for (int i = 1; i <= state.board.ranks; i++) {
 			for (int j = 1; j <= state.board.files; j++) {
 				XNC coordinate = XNC.makeXNC(i, j);
-				for (Entry<XNC, XiangqiPiece> entry : state.board.boardMap.entrySet()) {
+				for (Entry<XNC, XiangqiPiece> entry : gameCopy.getState().board.boardMap.entrySet()) {
 		    		if (entry.getValue().getColor() == color && 
-		    				gameCopy.makeMove(entry.getKey(), coordinate) == OK) {
+		    				gameCopy.checkRules(entry.getKey(), coordinate) == OK) {
 		    			return true;
 		    		}  
 		    	}

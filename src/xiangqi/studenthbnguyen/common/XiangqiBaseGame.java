@@ -47,7 +47,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 	public XiangqiState getState() {
 		return state;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -71,7 +71,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 	public void setPieceValidators(Map<XiangqiPieceType, List<MoveValidator>> pieceValidators) {
 		this.pieceValidators = pieceValidators;
 	}
-	
+
 	/**
 	 * Setter for moveValidators
 	 * @param moveValidators a list of move validators
@@ -89,32 +89,46 @@ public class XiangqiBaseGame implements XiangqiGame {
 		state.moveMessage = "";
 		XNC sourceNormalized = XNC.makeXNC(source, state.onMove);
 		XNC destinationNormalized = XNC.makeXNC(destination, state.onMove);
-		
+
 		// check valid coordinates 
 		if (!checkBounds(source) || !checkBounds(destination)) {
 			state.moveMessage = "Invalid coordinates given";
 			return ILLEGAL;
 		}
-		
-		// Validate the move according the rules of the individual piece
-		moveResult = validatePieceRules(sourceNormalized, destinationNormalized);
-		if (moveResult == ILLEGAL) return ILLEGAL;
 
-		// Validate the move according the rules of the game
-		moveResult = validateGameRules(sourceNormalized, destinationNormalized);
-		if (moveResult == ILLEGAL) return ILLEGAL;
-		
-		// Validate that the game is not in terminal state
-		moveResult = validateTerminationRules();
-		if (moveResult != OK) return moveResult;
-		
+		if (checkRules(sourceNormalized, destinationNormalized) == ILLEGAL)
+			return ILLEGAL;
+
+
+
 		// if the move is valid, make the move
 		state.board.movePiece(sourceNormalized, destinationNormalized);
 
+
+
 		// check the state of the game after the move
-		if (moveResult == OK) switchTurn();
-		return moveResult;
+		switchTurn();
+		moveResult = validateTerminationRules();
+		if (moveResult != OK) return moveResult;
+		return OK;
 	}
+
+	/**
+	 * @param sourceNormalized
+	 * @param destinationNormalized
+	 */
+	public MoveResult checkRules(XNC sourceNormalized, XNC destinationNormalized) {
+		// Validate the move according the rules of the individual piece
+		if (validatePieceRules(sourceNormalized, destinationNormalized) == ILLEGAL) 
+			return ILLEGAL;
+
+		// Validate the move according the rules of the game
+		if (validateGameRules(sourceNormalized, destinationNormalized) == ILLEGAL) 
+			return ILLEGAL;
+		return OK;
+	}
+	
+	
 
 
 
@@ -198,7 +212,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 		}
 		return state.board.getPieceAt(XNC.makeXNC(where, aspect));
 	}
-	
+
 	/**
 	 * Make a deep copy of the game
 	 * @param state the state of the game
