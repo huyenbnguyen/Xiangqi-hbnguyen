@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import xiangqi.common.XiangqiGameVersion;
 import xiangqi.common.XiangqiPieceType;
@@ -17,6 +18,7 @@ import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiBoard;
 import static xiangqi.studenthbnguyen.common.XiangqiPieceImpl.*;
 import xiangqi.studenthbnguyen.common.XiangqiState;
+import xiangqi.studenthbnguyen.validators.GameTerminationValidators;
 import xiangqi.studenthbnguyen.validators.MoveValidator;
 import xiangqi.studenthbnguyen.validators.MoveValidators;
 import xiangqi.studenthbnguyen.validators.PieceValidators;
@@ -29,13 +31,23 @@ public class BetaInitializer {
 	private XiangqiState state;
 	private List<MoveValidator> moveValidators;
 	private Map<XiangqiPieceType, List<MoveValidator>> pieceValidators;
+	private List<Predicate> gameTerminationValidators;
 
 	public BetaInitializer() {
 		moveValidators = new LinkedList<MoveValidator>();
 		pieceValidators = new HashMap<XiangqiPieceType, List<MoveValidator>>();
+		gameTerminationValidators = new LinkedList<Predicate>();
 		state = initializeState();
 		addMoveValidators();
 		addPiecevalidators();
+		addGameTerminationValidators();
+	}
+	
+	/**
+	 * 
+	 */
+	private void addGameTerminationValidators() {
+		gameTerminationValidators.add(GameTerminationValidators.gameNotInStalemate);	
 	}
 	/**
 	 * 
@@ -103,6 +115,13 @@ public class BetaInitializer {
 	 */
 	public Map<XiangqiPieceType, List<MoveValidator>> getPieceValidators() {
 		return pieceValidators;
+	}
+	
+	/**
+	 * @return
+	 */
+	public List<Predicate> getGameTerminationValidators() {
+		return gameTerminationValidators;
 	}
 
 	private XiangqiBoard makeBoard() {

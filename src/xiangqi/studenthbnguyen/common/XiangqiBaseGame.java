@@ -6,6 +6,7 @@ package xiangqi.studenthbnguyen.common;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import static xiangqi.common.MoveResult.*;
 import static xiangqi.common.XiangqiColor.*;
@@ -28,6 +29,7 @@ import xiangqi.studenthbnguyen.versions.otherxiangqiversions.BetaInitializer;
 public class XiangqiBaseGame implements XiangqiGame {
 	private XiangqiState state;
 	private List<MoveValidator> moveValidators;
+	private List<Predicate> gameTerminationValidators;
 	private Map<XiangqiPieceType, List<MoveValidator>> pieceValidators;
 
 	/**
@@ -69,6 +71,14 @@ public class XiangqiBaseGame implements XiangqiGame {
 	public void setPieceValidators(Map<XiangqiPieceType, List<MoveValidator>> pieceValidators) {
 		this.pieceValidators = pieceValidators;
 	}
+	
+	/**
+	 * Setter for moveValidators
+	 * @param moveValidators a list of move validators
+	 */
+	public void setGameTerminationValidators(List<Predicate> gameTerminationValidators) {
+		this.gameTerminationValidators = gameTerminationValidators;
+	}
 
 	/* (non-Javadoc)
 	 * @see xiangqi.common.XiangqiGame#makeMove(xiangqi.common.XiangqiCoordinate, xiangqi.common.XiangqiCoordinate)
@@ -93,6 +103,10 @@ public class XiangqiBaseGame implements XiangqiGame {
 		// Validate the move according the rules of the game
 		moveResult = validateGameRules(sourceNormalized, destinationNormalized);
 		if (moveResult == ILLEGAL) return ILLEGAL;
+		
+		// Validate that the game is not in terminal state
+		moveResult = validateTerminationRules();
+		if (moveResult != OK) return moveResult;
 		
 		// if the move is valid, make the move
 		state.board.movePiece(sourceNormalized, destinationNormalized);
@@ -129,6 +143,17 @@ public class XiangqiBaseGame implements XiangqiGame {
 		return OK;
 	}
 
+	/**
+	 * @param sourceNormalized
+	 * @param destinationNormalized
+	 */
+	private MoveResult validateTerminationRules() {
+		for (Predicate<XiangqiState> tv : gameTerminationValidators) {
+			if (!tv.test(state)) 
+				return (state.onMove == RED) ? BLACK_WINS : RED_WINS;
+		}
+		return OK;
+	}
 
 
 	/**

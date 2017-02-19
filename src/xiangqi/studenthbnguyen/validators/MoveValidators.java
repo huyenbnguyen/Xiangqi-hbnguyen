@@ -37,14 +37,13 @@ public class MoveValidators {
 	};
 
 	public static MoveValidator<XiangqiState, XNC, Boolean> hasNoBlockingPiece = (state, from, to) -> {
-		// calculate direction vector
-		Point direction = new Point((int) Math.signum(to.getRank()-from.getRank()), 
+		Point directionVector = new Point((int) Math.signum(to.getRank() - from.getRank()), 
 				(int) Math.signum(to.getFile() - from.getFile()));
-		XNC coordinate = XNC.makeXNC(from.getRank() + direction.x, from.getFile() + direction.y);
+		XNC coordinate = XNC.makeXNC(from.getRank() + directionVector.x, from.getFile() + directionVector.y);
 		while (!coordinate.equals(to)) {
 			if (state.board.getPieceAt(coordinate).getPieceType() != NONE)
 				return false;
-			coordinate = XNC.makeXNC(coordinate.getRank() + direction.x, coordinate.getFile() + direction.y);
+			coordinate = XNC.makeXNC(coordinate.getRank() + directionVector.x, coordinate.getFile() + directionVector.y);
 		}
 		return true;
 	};
@@ -52,7 +51,8 @@ public class MoveValidators {
 	public static MoveValidator<XiangqiState, XNC, Boolean> generalNotInCheck = (state, from, to) -> {
 		// pretend like you're creating a new game with the move made
 		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);
-		gameCopy.getState().board.movePiece(from, to);
+		if (from != null && to != null) 
+			gameCopy.getState().board.movePiece(from, to);
 		
 		// for the new game, see if any opponent pieces can capture the general
 		XiangqiColor color = gameCopy.getState().onMove;

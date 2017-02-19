@@ -41,6 +41,7 @@ public class XiangqiGameFactory
 			game = new XiangqiBaseGame(state);
 			game.setMoveValidators(initializer.getMoveValidators());
 			game.setPieceValidators(initializer.getPieceValidators());
+			game.setGameTerminationValidators(initializer.getGameTerminationValidators());
 			break;
 		default:
 			System.out.println("Not yet implemented");
