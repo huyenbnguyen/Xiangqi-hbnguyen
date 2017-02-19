@@ -11,6 +11,9 @@ import xiangqi.studenthbnguyen.common.XiangqiState;
 import static xiangqi.common.MoveResult.*;
 import static xiangqi.common.XiangqiPieceType.*;
 import java.awt.Point;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Map.Entry;
 
 /**
@@ -37,13 +40,11 @@ public class MoveValidators {
 	};
 
 	public static MoveValidator<XiangqiState, XNC, Boolean> hasNoBlockingPiece = (state, from, to) -> {
-		Point directionVector = new Point((int) Math.signum(to.getRank() - from.getRank()), 
-				(int) Math.signum(to.getFile() - from.getFile()));
-		XNC coordinate = XNC.makeXNC(from.getRank() + directionVector.x, from.getFile() + directionVector.y);
-		while (!coordinate.equals(to)) {
-			if (state.board.getPieceAt(coordinate).getPieceType() != NONE)
+		List<XNC> intermediateCoordinates = XNC.generateIntermediateCoordinates(from, to);		
+		ListIterator<XNC> listIterator = intermediateCoordinates.listIterator();
+		while (listIterator.hasNext()) {
+			if (state.board.getPieceAt(listIterator.next()).getPieceType() != NONE)
 				return false;
-			coordinate = XNC.makeXNC(coordinate.getRank() + directionVector.x, coordinate.getFile() + directionVector.y);
 		}
 		return true;
 	};

@@ -14,7 +14,6 @@ import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
 import xiangqi.studenthbnguyen.common.XiangqiState;
-import xiangqi.studenthbnguyen.validcoordinategenerators.ValidCoordinateGenerator;
 import xiangqi.studenthbnguyen.validcoordinategenerators.ValidCoordinateGenerators;
 
 /**
