@@ -69,9 +69,9 @@ public class XiangqiBoard {
 	 * @param color the color 
 	 * @return the XNC of the general
 	 */
-	public XNC findGeneral(XiangqiColor color) {
+	public XNC findPiece(XiangqiPieceType pieceType, XiangqiColor color) {
 		for (Map.Entry<XNC, XiangqiPiece> entry : boardMap.entrySet()) {
-    		if (entry.getValue().getPieceType() == XiangqiPieceType.GENERAL && 
+    		if (entry.getValue().getPieceType() == pieceType && 
     				entry.getValue().getColor() == color) {
     			return entry.getKey();
     		}

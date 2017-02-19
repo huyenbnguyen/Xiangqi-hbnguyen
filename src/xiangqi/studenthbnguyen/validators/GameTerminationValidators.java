@@ -3,7 +3,7 @@
  */
 package xiangqi.studenthbnguyen.validators;
 import static xiangqi.common.MoveResult.OK;
-
+import static xiangqi.common.XiangqiPieceType.*;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map.Entry;
@@ -37,7 +37,7 @@ public class GameTerminationValidators {
 			return true;
 		
 		// General can't move out of check
-		XNC generalXNC = gameCopy.getState().board.findGeneral(color);
+		XNC generalXNC = gameCopy.getState().board.findPiece(GENERAL, color);
 		LinkedList<XNC> validCoordinates = ValidCoordinateGenerators.generalValidCoordinateGenerator.apply(generalXNC);
 		ListIterator<XNC> listIterator = validCoordinates.listIterator();
 		while (listIterator.hasNext()) {
