@@ -200,10 +200,16 @@ public class BetaXiangqiTestCases
 		assertEquals(ILLEGAL, game.makeMove(c12, c43));
 	}
 	
+	@Test 
+	public void gameStalemateRedWins() {
+		game.makeMove(c32, c33);
+		
+	}
+	
 	// Helper methods
 	private static XiangqiCoordinate makeCoordinate(int rank, int file)
 	{
-		return new TestCoordinate(rank, file);
+		return new TestCoordinate(rank, file); 
 	}
 
 	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color)

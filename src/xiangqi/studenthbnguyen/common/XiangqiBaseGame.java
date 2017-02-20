@@ -100,10 +100,17 @@ public class XiangqiBaseGame implements XiangqiGame {
 			state.moveMessage = "Invalid coordinates given";
 			return ILLEGAL;
 		} 
+		
+		// check the source is not empty
+		if (state.board.getPieceAt(sourceNormalized).getPieceType() == XiangqiPieceType.NONE) {
+			state.moveMessage = "The source is empty";
+			return ILLEGAL;
+		}
 
 		// check the piece rules, and the game rules
-		if (checkRules(sourceNormalized, destinationNormalized) == ILLEGAL)
+		if (checkRules(sourceNormalized, destinationNormalized) == ILLEGAL) 
 			return ILLEGAL;
+			
 
 		// if the move is valid, make the move
 		state.board.movePiece(sourceNormalized, destinationNormalized);
@@ -121,12 +128,16 @@ public class XiangqiBaseGame implements XiangqiGame {
 	 */
 	public MoveResult checkRules(XNC sourceNormalized, XNC destinationNormalized) {
 		// Validate the move according the rules of the individual piece
-		if (validatePieceRules(sourceNormalized, destinationNormalized) == ILLEGAL) 
+		if (validatePieceRules(sourceNormalized, destinationNormalized) == ILLEGAL) {
+			state.moveMessage = "Invalid move according to the piece rules";
 			return ILLEGAL;
+		}
 
 		// Validate the move according the rules of the game
-		if (validateGameRules(sourceNormalized, destinationNormalized) == ILLEGAL) 
+		if (validateGameRules(sourceNormalized, destinationNormalized) == ILLEGAL) { 
+			state.moveMessage = "Invalid move according to the game rules";
 			return ILLEGAL;
+		}
 		return OK;  
 	}
 	
