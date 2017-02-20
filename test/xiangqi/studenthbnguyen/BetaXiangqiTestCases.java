@@ -111,6 +111,12 @@ public class BetaXiangqiTestCases
 	}
 	
 	@Test
+	public void makeInvalidChariotMove() {
+		assertEquals(OK, game.makeMove(c11, c21));
+		assertEquals(ILLEGAL, game.makeMove(c11, c22));
+	}
+	
+	@Test
 	public void attemptToMoveOpponentPiece()
 	{
 		assertEquals(ILLEGAL, game.makeMove(c51, c41));
