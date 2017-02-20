@@ -21,6 +21,8 @@ public class XiangqiState {
 	public XiangqiBoard board;
 	public XiangqiGameVersion version;
 	public XiangqiPiece generalAttacker;
+	public int moveCount = 0;
+	public int maxMove;
 	
 	public XiangqiState() {
 		
@@ -32,6 +34,7 @@ public class XiangqiState {
 		stateCopy.moveMessage = state.moveMessage;
 		stateCopy.generalAttacker = state.generalAttacker;
 		stateCopy.version = state.version;
+		stateCopy.maxMove = state.maxMove;
 		stateCopy.board = new XiangqiBoard(state.board.ranks, state.board.files);
 		stateCopy.board.boardMap = DeepCopyMaker.makeDeepCopy(state.board.boardMap);
 		return stateCopy;

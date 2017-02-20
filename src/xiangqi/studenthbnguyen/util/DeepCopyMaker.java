@@ -17,21 +17,12 @@ import xiangqi.studenthbnguyen.common.XNC;
 public class DeepCopyMaker {
 	
 	/**
-	 * Constructor
-	 */
-	private DeepCopyMaker() {
-		
-	}
-	
-	/**
 	 * Make a deep copy of a generic type
 	 * @param input a generic object
 	 * @return a deep copy of the generic object
 	 */
 	public static <X> X makeDeepCopy(final X input) {
-		if (input == null) {
-			return input;
-		} else if (input instanceof Map<?, ?>) {
+		if (input instanceof Map<?, ?>) {
 			return (X) deepCopyMap((Map<?, ?>) input);
 		} else if (input instanceof XNC) {
 			return (X) deepCopyXNC((XNC) input);

@@ -90,19 +90,23 @@ public class XiangqiBaseGame implements XiangqiGame {
 		XNC sourceNormalized = XNC.makeXNC(source, state.onMove);
 		XNC destinationNormalized = XNC.makeXNC(destination, state.onMove); 
 
+		if (state.moveCount > state.maxMove * 2) {
+			state.moveMessage = "Game ended. Result: A draw";
+			return DRAW;
+		}
+		
 		// check valid coordinates 
 		if (!checkBounds(source) || !checkBounds(destination)) {
 			state.moveMessage = "Invalid coordinates given";
 			return ILLEGAL;
-		}
+		} 
 
+		// check the piece rules, and the game rules
 		if (checkRules(sourceNormalized, destinationNormalized) == ILLEGAL)
 			return ILLEGAL;
 
 		// if the move is valid, make the move
 		state.board.movePiece(sourceNormalized, destinationNormalized);
-
-
 
 		// check the state of the game after the move
 		switchTurn();

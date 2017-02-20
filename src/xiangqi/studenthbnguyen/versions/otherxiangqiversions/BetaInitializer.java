@@ -49,7 +49,7 @@ public class BetaInitializer {
 	private void addGameTerminationValidators() {
 		gameTerminationValidators.add(GameTerminationValidators.gameNotInStalemate);
 		gameTerminationValidators.add(GameTerminationValidators.gameNotInCheckmate);
-	}
+	} 
 	
 	/**
 	 * 
@@ -93,6 +93,7 @@ public class BetaInitializer {
 		XiangqiState state = new XiangqiState();
 		state.version = XiangqiGameVersion.BETA_XQ;
 		state.board = new XiangqiBoard(5, 5);
+		state.maxMove = 10;
 		XNC.setState(state);
 		state.board = makeBoard();
 		return state;
