@@ -17,6 +17,8 @@ import static xiangqi.common.XiangqiPieceType.*;
 import static org.junit.Assert.*;
 import static xiangqi.common.MoveResult.*;
 import org.junit.*;
+
+import test.util.TestCoordinate;
 import xiangqi.XiangqiGameFactory;
 import xiangqi.common.*;
 
@@ -186,7 +188,7 @@ public class BetaXiangqiTestCases
 	}
 	
 	@Test 
-	public void blackPutGeneralInCheck() {
+	public void blackPutsGeneralInCheck() {
 		game.makeMove(c11, c51);
 		assertEquals(redChariot, game.getPieceAt(c51, RED));
 		assertEquals(ILLEGAL, game.makeMove(c14, c25));
@@ -208,30 +210,6 @@ public class BetaXiangqiTestCases
 		return new TestPiece(pieceType, color);
 	}
 	
-}
-
-class TestCoordinate implements XiangqiCoordinate
-{
-	private final int rank;
-	private final int file;
-	
-	public TestCoordinate(int rank, int file)
-	{
-		this.rank = rank;
-		this.file = file;
-	}
-	
-	@Override
-	public int getRank()
-	{
-		return rank;
-	}
-
-	@Override
-	public int getFile()
-	{
-		return file;
-	}
 }
 
 class TestPiece implements XiangqiPiece

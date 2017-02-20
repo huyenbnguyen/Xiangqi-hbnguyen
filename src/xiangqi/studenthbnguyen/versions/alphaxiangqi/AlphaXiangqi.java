@@ -8,6 +8,8 @@ import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiCoordinate;
 import xiangqi.common.XiangqiGame;
 import xiangqi.common.XiangqiPiece;
+import xiangqi.common.XiangqiPieceType;
+import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 
 /**
  * @author huyennguyen
@@ -15,11 +17,12 @@ import xiangqi.common.XiangqiPiece;
  */
 public class AlphaXiangqi implements XiangqiGame {
 
-	/**
-	 * @param state
-	 */
+	private int moveCount;
+	private String moveMessage;
+	
 	public AlphaXiangqi() {
-		// TODO Auto-generated constructor stub
+		moveCount = 0;
+		moveMessage = "";
 	}
 
 	/* (non-Javadoc)
@@ -27,8 +30,12 @@ public class AlphaXiangqi implements XiangqiGame {
 	 */
 	@Override
 	public MoveResult makeMove(XiangqiCoordinate source, XiangqiCoordinate destination) {
-		// TODO Auto-generated method stub
-		return null;
+		if (source.getRank() != 1 || source.getFile() != 1
+				|| destination.getRank() != 1 || destination.getFile() != 2) {
+			moveMessage = "Illegal";
+			return MoveResult.ILLEGAL;
+		}
+		return moveCount++ == 0? MoveResult.OK : MoveResult.RED_WINS;
 	}
 
 	/* (non-Javadoc)
@@ -36,8 +43,7 @@ public class AlphaXiangqi implements XiangqiGame {
 	 */
 	@Override
 	public String getMoveMessage() {
-		// TODO Auto-generated method stub
-		return null;
+		return moveMessage;
 	}
 
 	/* (non-Javadoc)
@@ -45,8 +51,7 @@ public class AlphaXiangqi implements XiangqiGame {
 	 */
 	@Override
 	public XiangqiPiece getPieceAt(XiangqiCoordinate where, XiangqiColor aspect) {
-		// TODO Auto-generated method stub
-		return null;
+		XiangqiPiece piece = XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE);
+		return piece;
 	}
-
 }

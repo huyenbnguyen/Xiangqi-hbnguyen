@@ -108,7 +108,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 		switchTurn();
 		moveResult = validateTerminationRules();
 		if (moveResult != OK) return moveResult;
-		return OK;
+		return OK; 
 	}
 
 	/**
