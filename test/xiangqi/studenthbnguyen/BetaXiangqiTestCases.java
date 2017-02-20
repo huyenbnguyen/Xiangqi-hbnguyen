@@ -89,6 +89,12 @@ public class BetaXiangqiTestCases
 		assertEquals(noPiece, game.getPieceAt(c22, BLACK));
 	}
 	
+	@Test 
+	public void makeMoveOnEmptySource() {
+		assertEquals(ILLEGAL, game.makeMove(c32, c33));
+		assertTrue(game.getMoveMessage().length() > 5);		
+	}
+	
 	@Test
 	public void makeMoveWithInvalidCoordinates()
 	{
@@ -200,11 +206,7 @@ public class BetaXiangqiTestCases
 		assertEquals(ILLEGAL, game.makeMove(c12, c43));
 	}
 	
-	@Test 
-	public void gameStalemateRedWins() {
-		game.makeMove(c32, c33);
-		
-	}
+	
 	
 	// Helper methods
 	private static XiangqiCoordinate makeCoordinate(int rank, int file)
