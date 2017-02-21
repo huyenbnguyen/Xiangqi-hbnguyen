@@ -119,6 +119,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 		switchTurn();
 		moveResult = validateTerminationRules();
 		if (moveResult != OK) return moveResult;
+		state.moveCount++;
 		return OK; 
 	}
 
@@ -180,7 +181,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 				return (state.onMove == RED) ? BLACK_WINS : RED_WINS;
 		}
 		return OK; 
-	}
+	} 
 
 
 	/**

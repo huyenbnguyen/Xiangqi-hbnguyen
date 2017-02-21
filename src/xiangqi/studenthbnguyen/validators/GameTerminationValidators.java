@@ -36,7 +36,7 @@ public class GameTerminationValidators {
 		XiangqiColor color = gameCopy.getState().onMove;
 		
 		// General is not in check
-		if (MoveValidators.generalNotInCheck.apply(state, null, null))
+		if (MoveValidators.generalNotInCheck.apply(gameCopy.getState(), null, null))
 			return true; 
 		
 		// General can move out of check
@@ -50,7 +50,7 @@ public class GameTerminationValidators {
 		
 		// Check can be blocked
 		XiangqiColor attackerColor = (color == RED) ? BLACK : RED;
-		XNC attackerCoordinate = gameCopy.getState().board.findPiece(state.generalAttacker.getPieceType(), attackerColor);
+		XNC attackerCoordinate = gameCopy.getState().board.findPiece(gameCopy.getState().generalAttacker.getPieceType(), attackerColor);
 		List<XNC> intermediateCoordinates = XNC.generateIntermediateCoordinates(generalXNC, attackerCoordinate);		
 		ListIterator<XNC> intermediateListIterator = intermediateCoordinates.listIterator();
 		while (intermediateListIterator.hasNext()) {
@@ -63,9 +63,10 @@ public class GameTerminationValidators {
 		return false;
 	};
 
-	// stalemate conditions:
-	// 1) King is NOT in check
-	// 2) there are no legal moves: 
+	// not in stalemate conditions:
+	// 1) King is in check
+	// OR
+	// 2) there's a legal move: 
 	//     for each piece, generate all possible moves.
 	// 			for each move, check if making that move is valid
 	// a) Some might be blocked by other pieces. 
@@ -78,7 +79,7 @@ public class GameTerminationValidators {
 		
 		// General must not be in check
 		if (!MoveValidators.generalNotInCheck.apply(state, null, null))
-			return false;
+			return true;
 		
 		// Check to see whether a valid move can be made by any pieces
 		for (int i = 1; i <= state.board.ranks; i++) {
@@ -100,7 +101,7 @@ public class GameTerminationValidators {
 	private static boolean hasPathTo(XiangqiBaseGame game, XiangqiColor color, XNC coordinate) {
 		for (Entry<XNC, XiangqiPiece> entry : game.getState().board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() == color && 
-    				game.checkRules(entry.getKey(), coordinate) == OK) {
+    				game.validatePieceRules(entry.getKey(), coordinate) == OK) {
     			return true;
     		}  
     	}

@@ -212,12 +212,27 @@ public class BetaXiangqiTestCases
 		assertEquals(ILLEGAL, game.makeMove(c12, c43));
 	}
 	
+	@Test 
+	public void checkRemovedByBlocking() {
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c11, c31));
+		assertEquals(OK, game.makeMove(c15, c25));
+		assertEquals(OK, game.makeMove(c31, c33));
+	}
 	
+	@Test
+	public void checkRemovedByCapturingTheAttacker() {
+		assertEquals(OK, game.makeMove(c11, c21));
+		assertEquals(OK, game.makeMove(c11, c41));
+		assertEquals(OK, game.makeMove(c21, c31));
+		assertEquals(OK, game.makeMove(c41, c43));
+		assertEquals(OK, game.makeMove(c12, c23));
+	}
 	
 	// Helper methods
 	private static XiangqiCoordinate makeCoordinate(int rank, int file)
 	{
-		return new TestCoordinate(rank, file); 
+		return new TestCoordinate(rank, file);  
 	}
 
 	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color)
