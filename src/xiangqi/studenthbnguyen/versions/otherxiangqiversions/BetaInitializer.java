@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import xiangqi.common.XiangqiGameVersion;
-import xiangqi.common.XiangqiPiece;
-import xiangqi.common.XiangqiPieceType;
 import static xiangqi.common.XiangqiPieceType.*;
 import static xiangqi.common.XiangqiColor.*;
 
