@@ -89,6 +89,11 @@ public class BetaXiangqiTestCases
 		assertEquals(noPiece, game.getPieceAt(c22, BLACK));
 	}
 	
+	@Test(expected = RuntimeException.class)
+	public void queryAnInvalidLocation() {
+		game.getPieceAt(makeCoordinate(100, 100), RED);
+	}
+	
 	@Test 
 	public void makeMoveOnEmptySource() {
 		assertEquals(ILLEGAL, game.makeMove(c32, c33));
@@ -213,28 +218,44 @@ public class BetaXiangqiTestCases
 	}
 	
 	@Test 
+	public void redSoldierCannotMoveBackwards() {
+		assertEquals(ILLEGAL, game.makeMove(c23, c13));
+	}
+	
+	@Test 
+	public void blackSoldierCannotMoveBackwards() {
+		assertEquals(OK, game.makeMove(c11, c21));
+		assertEquals(ILLEGAL, game.makeMove(c23, c13));
+	}
+	
+	@Test 
 	public void numberOfMovesExceeded() {
 		assertEquals(OK, game.makeMove(c11, c51));
-		assertEquals(OK, game.makeMove(c23, c33));
-		assertEquals(OK, game.makeMove(c51, c11));
-		assertEquals(OK, game.makeMove(c33, c23));
 		assertEquals(OK, game.makeMove(c11, c51));
-		assertEquals(OK, game.makeMove(c23, c33));
 		assertEquals(OK, game.makeMove(c51, c11));
-		assertEquals(OK, game.makeMove(c33, c23));
+		assertEquals(OK, game.makeMove(c51, c11));
+		
 		assertEquals(OK, game.makeMove(c11, c51));
-		assertEquals(OK, game.makeMove(c23, c33));
-		assertEquals(OK, game.makeMove(c51, c11));
-		assertEquals(OK, game.makeMove(c33, c23));
 		assertEquals(OK, game.makeMove(c11, c51));
-		assertEquals(OK, game.makeMove(c23, c33));
 		assertEquals(OK, game.makeMove(c51, c11));
-		assertEquals(OK, game.makeMove(c33, c23));
+		assertEquals(OK, game.makeMove(c51, c11));
+		
 		assertEquals(OK, game.makeMove(c11, c51));
-		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c11, c51));
 		assertEquals(OK, game.makeMove(c51, c11));
-		assertEquals(OK, game.makeMove(c33, c23));
-		assertEquals(DRAW, game.makeMove(c11, c51));
+		assertEquals(OK, game.makeMove(c51, c11));
+		
+		assertEquals(OK, game.makeMove(c11, c51));
+		assertEquals(OK, game.makeMove(c11, c51));
+		assertEquals(OK, game.makeMove(c51, c11));
+		assertEquals(OK, game.makeMove(c51, c11));
+		
+		assertEquals(OK, game.makeMove(c11, c51));
+		assertEquals(OK, game.makeMove(c11, c51));
+		assertEquals(OK, game.makeMove(c51, c11));
+		assertEquals(OK, game.makeMove(c51, c11));
+		
+		assertEquals(DRAW, game.makeMove(c11, c51)); 
 	}
 	
 	@Test 

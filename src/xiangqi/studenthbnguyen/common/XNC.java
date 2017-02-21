@@ -69,8 +69,17 @@ public class XNC implements XiangqiCoordinate {
 	 * @param to the destination coordinates
 	 * @return true if the piece moves forward one step, false otherwise
 	 */
-	public boolean isForwardOneStep(XNC to) {
-		return (to.getFile() == file && Math.abs(to.getRank() - rank) == 1);
+	public boolean isForwardOneStepRed(XNC to) {
+		return (to.getFile() == file && (to.getRank() - rank) == 1);
+	}
+	
+	/**
+	 * Check to see whether the piece moves forward one step
+	 * @param to the destination coordinates
+	 * @return true if the piece moves forward one step, false otherwise
+	 */
+	public boolean isForwardOneStepBlack(XNC to) {
+		return (to.getFile() == file && (rank - to.getRank()) == 1);
 	}
 	
 	/**

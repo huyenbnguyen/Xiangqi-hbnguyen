@@ -34,20 +34,20 @@ public class BetaInitializer {
 	private Map<XiangqiPieceImpl, List<MoveValidator>> pieceValidators;
 	private List<Predicate> gameTerminationValidators;
 
-	private static final XiangqiPieceImpl RED_CHARIOT1 = makePiece(CHARIOT, RED, XNC.makeXNC(1, 1));
-	private static final XiangqiPieceImpl RED_ADVISOR1 = makePiece(ADVISOR, RED, XNC.makeXNC(1, 2));
-	private static final XiangqiPieceImpl RED_GENERAL = makePiece(GENERAL, RED, XNC.makeXNC(1, 3));
-	private static final XiangqiPieceImpl RED_ADVISOR2 = makePiece(ADVISOR, RED, XNC.makeXNC(1, 4));
-	private static final XiangqiPieceImpl RED_CHARIOT2 = makePiece(CHARIOT, RED, XNC.makeXNC(1, 5));
-	private static final XiangqiPieceImpl RED_SOLDIER = makePiece(SOLDIER, RED, XNC.makeXNC(2, 3));
-	
-	private static final XiangqiPieceImpl BLACK_CHARIOT1 = makePiece(CHARIOT, BLACK, XNC.makeXNC(1, 1));
-	private static final XiangqiPieceImpl BLACK_ADVISOR1 = makePiece(ADVISOR, BLACK, XNC.makeXNC(1, 2));
-	private static final XiangqiPieceImpl BLACK_GENERAL = makePiece(GENERAL, BLACK, XNC.makeXNC(1, 3));
-	private static final XiangqiPieceImpl BLACK_ADVISOR2 = makePiece(ADVISOR, BLACK, XNC.makeXNC(1, 4));
-	private static final XiangqiPieceImpl BLACK_CHARIOT2 = makePiece(CHARIOT, BLACK, XNC.makeXNC(1, 5));
-	private static final XiangqiPieceImpl BLACK_SOLDIER = makePiece(SOLDIER, BLACK, XNC.makeXNC(2, 3));
-	
+	private static final XiangqiPieceImpl RED_CHARIOT1 = (XiangqiPieceImpl) makePiece(CHARIOT, RED, XNC.makeXNC(1, 1));
+	private static final XiangqiPieceImpl RED_ADVISOR1 = (XiangqiPieceImpl) makePiece(ADVISOR, RED, XNC.makeXNC(1, 2));
+	private static final XiangqiPieceImpl RED_GENERAL = (XiangqiPieceImpl) makePiece(GENERAL, RED, XNC.makeXNC(1, 3));
+	private static final XiangqiPieceImpl RED_ADVISOR2 = (XiangqiPieceImpl) makePiece(ADVISOR, RED, XNC.makeXNC(1, 4));
+	private static final XiangqiPieceImpl RED_CHARIOT2 = (XiangqiPieceImpl) makePiece(CHARIOT, RED, XNC.makeXNC(1, 5));
+	private static final XiangqiPieceImpl RED_SOLDIER = (XiangqiPieceImpl) makePiece(SOLDIER, RED, XNC.makeXNC(2, 3));
+
+	private static final XiangqiPieceImpl BLACK_CHARIOT1 = (XiangqiPieceImpl) makePiece(CHARIOT, BLACK, XNC.makeXNC(1, 1));
+	private static final XiangqiPieceImpl BLACK_ADVISOR1 = (XiangqiPieceImpl) makePiece(ADVISOR, BLACK, XNC.makeXNC(1, 2));
+	private static final XiangqiPieceImpl BLACK_GENERAL = (XiangqiPieceImpl) makePiece(GENERAL, BLACK, XNC.makeXNC(1, 3));
+	private static final XiangqiPieceImpl BLACK_ADVISOR2 = (XiangqiPieceImpl) makePiece(ADVISOR, BLACK, XNC.makeXNC(1, 4));
+	private static final XiangqiPieceImpl BLACK_CHARIOT2 = (XiangqiPieceImpl) makePiece(CHARIOT, BLACK, XNC.makeXNC(1, 5));
+	private static final XiangqiPieceImpl BLACK_SOLDIER = (XiangqiPieceImpl) makePiece(SOLDIER, BLACK, XNC.makeXNC(2, 3));
+
 	public BetaInitializer() {
 		moveValidators = new LinkedList<MoveValidator>();
 		pieceValidators = new HashMap<XiangqiPieceImpl, List<MoveValidator>>();
@@ -57,9 +57,9 @@ public class BetaInitializer {
 		addPiecevalidators();
 		addGameTerminationValidators();
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 
 	 */
@@ -67,7 +67,7 @@ public class BetaInitializer {
 		gameTerminationValidators.add(GameTerminationValidators.gameNotInStalemate);
 		gameTerminationValidators.add(GameTerminationValidators.gameNotInCheckmate);
 	} 
-	
+
 	/**
 	 * 
 	 */
@@ -94,13 +94,17 @@ public class BetaInitializer {
 		pieceValidators.put(BLACK_ADVISOR1, advisorValidators);
 		pieceValidators.put(BLACK_ADVISOR2, advisorValidators);
 
-		// soldier
-		List<MoveValidator> soldierValidators = new LinkedList<MoveValidator>();
-		soldierValidators.add(PieceValidators.isForwardOneStep);
-		pieceValidators.put(RED_SOLDIER, soldierValidators);
-		pieceValidators.put(BLACK_SOLDIER, soldierValidators);
+		// red soldier
+		List<MoveValidator> redSoldierValidators = new LinkedList<MoveValidator>();
+		redSoldierValidators.add(PieceValidators.isForwardOneStepRed);
+		pieceValidators.put(RED_SOLDIER, redSoldierValidators);
+
+		// black soldier
+		List<MoveValidator> blackSoldierValidators = new LinkedList<MoveValidator>();
+		blackSoldierValidators.add(PieceValidators.isForwardOneStepBlack);
+		pieceValidators.put(BLACK_SOLDIER, blackSoldierValidators);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -110,7 +114,7 @@ public class BetaInitializer {
 		moveValidators.add(MoveValidators.hasNoBlockingPiece);
 		moveValidators.add(MoveValidators.generalNotInCheck);
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -123,7 +127,7 @@ public class BetaInitializer {
 		state.board = makeBoard();
 		return state;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -144,7 +148,7 @@ public class BetaInitializer {
 	public Map<XiangqiPieceImpl, List<MoveValidator>> getPieceValidators() {
 		return pieceValidators;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -152,8 +156,8 @@ public class BetaInitializer {
 		return gameTerminationValidators;
 	}
 
-	
-	
+
+
 	private XiangqiBoard makeBoard() {
 		XiangqiBoard board = new XiangqiBoard(5, 5);
 		board.placePiece(RED_CHARIOT1, XNC.makeXNC(1, 1));

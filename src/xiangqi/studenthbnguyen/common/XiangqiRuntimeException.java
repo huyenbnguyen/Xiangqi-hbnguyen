@@ -8,12 +8,12 @@ package xiangqi.studenthbnguyen.common;
  *
  */
 public class XiangqiRuntimeException extends RuntimeException {
-
+	private String error;
 	/**
 	 * @param string
 	 */
-	public XiangqiRuntimeException(String string) {
-		// TODO Auto-generated constructor stub
+	public XiangqiRuntimeException(String error) {
+		this.error = error;
 	}
 
 }

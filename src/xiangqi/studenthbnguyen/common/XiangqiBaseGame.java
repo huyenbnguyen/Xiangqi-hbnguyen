@@ -225,7 +225,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 		if (!checkBounds(where)) {
 			throw new XiangqiRuntimeException("Invalid coordinate passed to getPieceAt()");
 		}
-		return state.board.getPieceAt(XNC.makeXNC(where, aspect));
+		return state.board.getPieceAtForClient(XNC.makeXNC(where, aspect));
 	}
 
 	/**

@@ -39,8 +39,15 @@ public class PieceValidators {
 		return result;
 	};
 
-	public static MoveValidator<XiangqiState, XNC, Boolean> isForwardOneStep = (state, from, to) -> {
-		boolean result = from.isForwardOneStep(to);
+	public static MoveValidator<XiangqiState, XNC, Boolean> isForwardOneStepRed = (state, from, to) -> {
+		boolean result = from.isForwardOneStepRed(to);
+		if (!result) 
+			state.moveMessage = "Piece must move forward one step";
+		return result;
+	};
+	
+	public static MoveValidator<XiangqiState, XNC, Boolean> isForwardOneStepBlack = (state, from, to) -> {
+		boolean result = from.isForwardOneStepBlack(to);
 		if (!result) 
 			state.moveMessage = "Piece must move forward one step";
 		return result;
