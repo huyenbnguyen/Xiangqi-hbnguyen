@@ -25,6 +25,24 @@ import xiangqi.studenthbnguyen.validcoordinategenerators.ValidCoordinateGenerato
  */
 public class GameTerminationValidators {
 
+	private static Predicate<XiangqiState> generalNotInCheck = (state) -> {
+		// pretend like you're creating a new game with the move made
+		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);
+		
+		// for the new game, see if any opponent pieces can capture the general
+		XiangqiColor color = gameCopy.getState().onMove;
+		XNC generalCoordinate = gameCopy.getState().board.findPiece(GENERAL, color);
+    	for (Entry<XNC, XiangqiPiece> entry : gameCopy.getState().board.boardMap.entrySet()) {
+    		if (entry.getValue().getColor() != color && 
+    				gameCopy.validatePieceRules(entry.getKey(), generalCoordinate) == OK) { 
+    			state.generalAttacker = entry.getValue();
+    			return false;
+    		}  
+    	}
+    	state.generalAttacker = null;
+    	return true;
+	};
+	
 	// Checkmate Conditions
 	//	a) King is in check
 	//	b) King can't move out of check.
@@ -36,7 +54,7 @@ public class GameTerminationValidators {
 		XiangqiColor color = gameCopy.getState().onMove;
 		
 		// General is not in check
-		if (MoveValidators.generalNotInCheck.apply(gameCopy.getState(), null, null))
+		if (generalNotInCheck.test(gameCopy.getState()))
 			return true; 
 		
 		// General can move out of check
@@ -44,7 +62,7 @@ public class GameTerminationValidators {
 		LinkedList<XNC> validCoordinates = ValidCoordinateGenerators.generalValidCoordinateGenerator.apply(generalXNC);
 		ListIterator<XNC> validListIterator = validCoordinates.listIterator();
 		while (validListIterator.hasNext()) {
-			if (gameCopy.checkRules(generalXNC, validListIterator.next()) == OK)
+			if (gameCopy.validatePieceRules(generalXNC, validListIterator.next()) == OK)
 				return true;
 		}
 		
@@ -78,7 +96,7 @@ public class GameTerminationValidators {
 		XiangqiColor color = gameCopy.getState().onMove;
 		
 		// General must not be in check
-		if (!MoveValidators.generalNotInCheck.apply(state, null, null))
+		if (!generalNotInCheck.test(state))
 			return true;
 		
 		// Check to see whether a valid move can be made by any pieces
@@ -107,4 +125,6 @@ public class GameTerminationValidators {
     	}
 		return false;
 	}
+	
+	
 }

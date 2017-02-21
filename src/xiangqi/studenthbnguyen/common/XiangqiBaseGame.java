@@ -90,7 +90,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 		XNC sourceNormalized = XNC.makeXNC(source, state.onMove);
 		XNC destinationNormalized = XNC.makeXNC(destination, state.onMove); 
 
-		if (state.moveCount > state.maxMove * 2) {
+		if (state.moveCount >= state.maxMove * 2) {
 			state.moveMessage = "Game ended. Result: A draw";
 			return DRAW;
 		}

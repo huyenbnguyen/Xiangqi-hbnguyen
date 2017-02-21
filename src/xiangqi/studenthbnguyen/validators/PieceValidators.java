@@ -2,6 +2,11 @@
  * 
  */
 package xiangqi.studenthbnguyen.validators;
+import static xiangqi.common.XiangqiPieceType.NONE;
+
+import java.util.List;
+import java.util.ListIterator;
+
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiState;
 
@@ -12,7 +17,7 @@ import xiangqi.studenthbnguyen.common.XiangqiState;
  *
  */
 public class PieceValidators {
-
+	
 	public static MoveValidator<XiangqiState, XNC, Boolean> isMoveOrthogonal = (state, from, to) -> {
 		boolean result = from.isOrthogonal(to);
 		if (!result) 

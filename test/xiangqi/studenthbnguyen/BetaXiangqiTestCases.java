@@ -213,11 +213,46 @@ public class BetaXiangqiTestCases
 	}
 	
 	@Test 
+	public void numberOfMovesExceeded() {
+		assertEquals(OK, game.makeMove(c11, c51));
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c51, c11));
+		assertEquals(OK, game.makeMove(c33, c23));
+		assertEquals(OK, game.makeMove(c11, c51));
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c51, c11));
+		assertEquals(OK, game.makeMove(c33, c23));
+		assertEquals(OK, game.makeMove(c11, c51));
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c51, c11));
+		assertEquals(OK, game.makeMove(c33, c23));
+		assertEquals(OK, game.makeMove(c11, c51));
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c51, c11));
+		assertEquals(OK, game.makeMove(c33, c23));
+		assertEquals(OK, game.makeMove(c11, c51));
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c51, c11));
+		assertEquals(OK, game.makeMove(c33, c23));
+		assertEquals(DRAW, game.makeMove(c11, c51));
+	}
+	
+	@Test 
+	public void checkNotRemoved() {
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c11, c31));
+		assertEquals(OK, game.makeMove(c15, c25));
+		assertEquals(OK, game.makeMove(c31, c33));
+		assertEquals(ILLEGAL, game.makeMove(c31, c41));
+	}
+	
+	@Test 
 	public void checkRemovedByBlocking() {
 		assertEquals(OK, game.makeMove(c23, c33));
 		assertEquals(OK, game.makeMove(c11, c31));
 		assertEquals(OK, game.makeMove(c15, c25));
 		assertEquals(OK, game.makeMove(c31, c33));
+		assertEquals(OK, game.makeMove(c14, c23));
 	}
 	
 	@Test
@@ -228,6 +263,24 @@ public class BetaXiangqiTestCases
 		assertEquals(OK, game.makeMove(c41, c43));
 		assertEquals(OK, game.makeMove(c12, c23));
 	}
+	
+	@Test 
+	public void checkRemovedByMovingGeneral() {
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c12, c21));
+		assertEquals(OK, game.makeMove(c33, c43));
+		assertEquals(OK, game.makeMove(c13, c12));
+	}
+	
+	@Test 
+	public void generalPutsItselfInCheck() {
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(OK, game.makeMove(c23, c33));
+		assertEquals(ILLEGAL, game.makeMove(c13, c23));
+	}
+	
+	
 	
 	// Helper methods
 	private static XiangqiCoordinate makeCoordinate(int rank, int file)
