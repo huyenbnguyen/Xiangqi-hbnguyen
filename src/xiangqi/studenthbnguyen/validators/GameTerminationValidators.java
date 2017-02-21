@@ -62,7 +62,7 @@ public class GameTerminationValidators {
 		LinkedList<XNC> validCoordinates = ValidCoordinateGenerators.generalValidCoordinateGenerator.apply(generalXNC);
 		ListIterator<XNC> validListIterator = validCoordinates.listIterator();
 		while (validListIterator.hasNext()) {
-			if (gameCopy.validatePieceRules(generalXNC, validListIterator.next()) == OK)
+			if (gameCopy.checkRules(generalXNC, validListIterator.next()) == OK)
 				return true;
 		}
 		

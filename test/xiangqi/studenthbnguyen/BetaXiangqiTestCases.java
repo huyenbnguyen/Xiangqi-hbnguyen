@@ -281,7 +281,6 @@ public class BetaXiangqiTestCases
 	}
 	
 	
-	
 	// Helper methods
 	private static XiangqiCoordinate makeCoordinate(int rank, int file)
 	{
