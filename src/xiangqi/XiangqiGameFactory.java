@@ -53,6 +53,7 @@ public class XiangqiGameFactory
 			game.setMoveValidators(gammaInitializer.getMoveValidators());
 			game.setPieceValidators(gammaInitializer.getPieceValidators());
 			game.setGameTerminationValidators(gammaInitializer.getGameTerminationValidators());
+			game.setAddRuleValidators(gammaInitializer.getAddRuleValidators());
 			break;
 		default:
 			System.out.println("Not yet implemented");

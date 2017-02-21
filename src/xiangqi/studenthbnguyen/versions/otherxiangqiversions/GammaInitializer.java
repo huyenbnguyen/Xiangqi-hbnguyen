@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 import xiangqi.common.XiangqiGameVersion;
@@ -18,6 +19,7 @@ import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 
 import static xiangqi.studenthbnguyen.common.XiangqiPieceImpl.*;
 import xiangqi.studenthbnguyen.common.XiangqiState;
+import xiangqi.studenthbnguyen.validators.AddRuleValidators;
 import xiangqi.studenthbnguyen.validators.GameTerminationValidators;
 import xiangqi.studenthbnguyen.validators.MoveValidator;
 import xiangqi.studenthbnguyen.validators.MoveValidators;
@@ -32,7 +34,8 @@ public class GammaInitializer {
 	private List<MoveValidator> moveValidators;
 	private Map<XiangqiPieceImpl, List<MoveValidator>> pieceValidators;
 	private List<Predicate> gameTerminationValidators;
-	
+	private List<BiFunction> addRuleValidators;
+
 	private static final XiangqiPieceImpl RED_CHARIOT1 = (XiangqiPieceImpl) makePiece(CHARIOT, RED, XNC.makeXNC(1, 1));
 	private static final XiangqiPieceImpl RED_ELEPHANT1 = (XiangqiPieceImpl) makePiece(ELEPHANT, RED, XNC.makeXNC(1, 3));
 	private static final XiangqiPieceImpl RED_ADVISOR1 = (XiangqiPieceImpl) makePiece(ADVISOR, RED, XNC.makeXNC(1, 4));
@@ -45,7 +48,7 @@ public class GammaInitializer {
 	private static final XiangqiPieceImpl RED_SOLDIER3 = (XiangqiPieceImpl) makePiece(SOLDIER, RED, XNC.makeXNC(4, 5));
 	private static final XiangqiPieceImpl RED_SOLDIER4 = (XiangqiPieceImpl) makePiece(SOLDIER, RED, XNC.makeXNC(4, 7));
 	private static final XiangqiPieceImpl RED_SOLDIER5 = (XiangqiPieceImpl) makePiece(SOLDIER, RED, XNC.makeXNC(4, 9));
-	
+
 	private static final XiangqiPieceImpl BLACK_CHARIOT1 = (XiangqiPieceImpl) makePiece(CHARIOT, BLACK, XNC.makeXNC(1, 1));
 	private static final XiangqiPieceImpl BLACK_ELEPHANT1 = (XiangqiPieceImpl) makePiece(ELEPHANT, BLACK, XNC.makeXNC(1, 3));
 	private static final XiangqiPieceImpl BLACK_ADVISOR1 = (XiangqiPieceImpl) makePiece(ADVISOR, BLACK, XNC.makeXNC(1, 4));
@@ -63,12 +66,14 @@ public class GammaInitializer {
 		moveValidators = new LinkedList<MoveValidator>();
 		pieceValidators = new HashMap<XiangqiPieceImpl, List<MoveValidator>>();
 		gameTerminationValidators = new LinkedList<Predicate>();
+		addRuleValidators = new LinkedList<BiFunction>();
 		state = initializeState();
 		addMoveValidators();
 		addPiecevalidators();
 		addGameTerminationValidators();
+		addAddRuleValidators();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -76,7 +81,7 @@ public class GammaInitializer {
 		gameTerminationValidators.add(GameTerminationValidators.gameNotInStalemate);
 		gameTerminationValidators.add(GameTerminationValidators.gameNotInCheckmate);
 	} 
-	
+
 	/**
 	 * 
 	 */
@@ -111,7 +116,7 @@ public class GammaInitializer {
 		pieceValidators.put(RED_SOLDIER3, redSoldierValidators);
 		pieceValidators.put(RED_SOLDIER4, redSoldierValidators);
 		pieceValidators.put(RED_SOLDIER5, redSoldierValidators);
-		
+
 		// black soldiers
 		List<MoveValidator> blackSoldierValidators = new LinkedList<MoveValidator>();
 		blackSoldierValidators.add(PieceValidators.isForwardOneStepBlack);
@@ -120,7 +125,7 @@ public class GammaInitializer {
 		pieceValidators.put(BLACK_SOLDIER3, blackSoldierValidators);
 		pieceValidators.put(BLACK_SOLDIER4, blackSoldierValidators);
 		pieceValidators.put(BLACK_SOLDIER5, blackSoldierValidators);
-		
+
 		// elephant
 		List<MoveValidator> elephantValidators = new LinkedList<MoveValidator>();
 		elephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
@@ -129,7 +134,7 @@ public class GammaInitializer {
 		pieceValidators.put(BLACK_ELEPHANT1, elephantValidators);
 		pieceValidators.put(BLACK_ELEPHANT2, elephantValidators);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -139,7 +144,11 @@ public class GammaInitializer {
 		moveValidators.add(MoveValidators.hasNoBlockingPiece);
 		moveValidators.add(MoveValidators.generalNotInCheck);
 	}
-	
+
+	private void addAddRuleValidators() {
+		addRuleValidators.add(AddRuleValidators.addRuleToSoldier);
+	}
+
 	/**
 	 * @return
 	 */
@@ -152,7 +161,7 @@ public class GammaInitializer {
 		state.board = makeBoard();
 		return state;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -173,7 +182,7 @@ public class GammaInitializer {
 	public Map<XiangqiPieceImpl, List<MoveValidator>> getPieceValidators() {
 		return pieceValidators;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -210,5 +219,12 @@ public class GammaInitializer {
 		board.placePiece(BLACK_SOLDIER5, XNC.makeXNC(4, 9));
 
 		return board;
+	}
+
+	/**
+	 * @return
+	 */
+	public List<BiFunction> getAddRuleValidators() {
+		return addRuleValidators;
 	}
 }
