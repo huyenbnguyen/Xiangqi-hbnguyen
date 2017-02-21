@@ -30,7 +30,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 	private XiangqiState state;
 	private List<MoveValidator> moveValidators;
 	private List<Predicate> gameTerminationValidators;
-	private Map<XiangqiPieceType, List<MoveValidator>> pieceValidators;
+	private Map<XiangqiPieceImpl, List<MoveValidator>> pieceValidators;
 
 	/**
 	 * @param state
@@ -66,10 +66,10 @@ public class XiangqiBaseGame implements XiangqiGame {
 
 	/**
 	 * Setter for pieceValidators
-	 * @param pieceValidators a list of piece validators
+	 * @param map a list of piece validators
 	 */
-	public void setPieceValidators(Map<XiangqiPieceType, List<MoveValidator>> pieceValidators) {
-		this.pieceValidators = pieceValidators;
+	public void setPieceValidators(Map<XiangqiPieceImpl, List<MoveValidator>> map) {
+		this.pieceValidators = map;
 	}
 
 	/**
@@ -152,8 +152,8 @@ public class XiangqiBaseGame implements XiangqiGame {
 	 * @param destinationNormalized
 	 */
 	public MoveResult validatePieceRules(XNC sourceNormalized, XNC destinationNormalized) {
-		XiangqiPieceType pieceType = state.board.getPieceAt(sourceNormalized).getPieceType();
-		for (MoveValidator<XiangqiState, XNC, Boolean> mv : pieceValidators.get(pieceType)) {
+		XiangqiPieceImpl piece = (XiangqiPieceImpl) state.board.getPieceAt(sourceNormalized);
+		for (MoveValidator<XiangqiState, XNC, Boolean> mv : pieceValidators.get(piece)) {
 			if (!mv.apply(state, sourceNormalized, destinationNormalized)) return ILLEGAL;
 		}
 		return OK;

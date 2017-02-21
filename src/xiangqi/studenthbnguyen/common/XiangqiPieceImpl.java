@@ -22,7 +22,7 @@ public class XiangqiPieceImpl implements XiangqiPiece {
 		this.coordinate = coordinate;
 	}
 	
-	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color, XNC coordinate) {
+	public static XiangqiPieceImpl makePiece(XiangqiPieceType pieceType, XiangqiColor color, XNC coordinate) {
 		return new XiangqiPieceImpl(pieceType, color, coordinate);
 	}
 	
@@ -31,6 +31,13 @@ public class XiangqiPieceImpl implements XiangqiPiece {
 	 */
 	public void setCoordinate(XNC coordinate) {
 		this.coordinate = coordinate;
+	}
+	
+	/**
+	 * @param coordinate the coordinate to set
+	 */
+	public XNC getCoordinate() {
+		return coordinate;
 	}
 
 	/* (non-Javadoc)
@@ -48,4 +55,32 @@ public class XiangqiPieceImpl implements XiangqiPiece {
 	public XiangqiPieceType getPieceType() {
 		return pieceType;
 	}
+	
+	/*
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof XNC)) {
+            return false;
+        }
+        XiangqiPieceImpl other = (XiangqiPieceImpl) obj;
+        if (pieceType != other.getPieceType()) {
+            return false;
+        }
+        if (color != other.getColor()) {
+            return false;
+        }
+        if (!coordinate.equals(other.getCoordinate())) {
+            return false;
+        }
+        return true;
+    }
 }

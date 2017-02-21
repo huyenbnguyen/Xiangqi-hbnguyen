@@ -46,12 +46,12 @@ public class XiangqiGameFactory
 			game.setGameTerminationValidators(betaInitializer.getGameTerminationValidators());
 			break;
 		case GAMMA_XQ:
-			GammaInitializer gammaInitializer = new GammaInitializer();
-			state = gammaInitializer.getState();
-			game = new XiangqiBaseGame(state);
-			game.setMoveValidators(gammaInitializer.getMoveValidators());
-			game.setPieceValidators(gammaInitializer.getPieceValidators());
-			game.setGameTerminationValidators(gammaInitializer.getGameTerminationValidators());
+//			GammaInitializer gammaInitializer = new GammaInitializer();
+//			state = gammaInitializer.getState();
+//			game = new XiangqiBaseGame(state);
+//			game.setMoveValidators(gammaInitializer.getMoveValidators());
+//			game.setPieceValidators(gammaInitializer.getPieceValidators());
+//			game.setGameTerminationValidators(gammaInitializer.getGameTerminationValidators());
 		default:
 			System.out.println("Not yet implemented");
 			break;
