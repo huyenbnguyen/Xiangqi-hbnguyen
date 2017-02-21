@@ -129,19 +129,19 @@ public class BetaInitializer {
 
 	private XiangqiBoard makeBoard() {
 		XiangqiBoard board = new XiangqiBoard(5, 5);
-		board.placePiece(makePiece(CHARIOT, RED), XNC.makeXNC(1, 1));
-		board.placePiece(makePiece(ADVISOR, RED), XNC.makeXNC(1, 2));		
-		board.placePiece(makePiece(GENERAL, RED), XNC.makeXNC(1, 3));
-		board.placePiece(makePiece(ADVISOR, RED), XNC.makeXNC(1, 4));
-		board.placePiece(makePiece(CHARIOT, RED), XNC.makeXNC(1, 5));
-		board.placePiece(makePiece(SOLDIER, RED), XNC.makeXNC(2, 3));
+		board.placePiece(makePiece(CHARIOT, RED, XNC.makeXNC(1, 1)), XNC.makeXNC(1, 1));
+		board.placePiece(makePiece(ADVISOR, RED, XNC.makeXNC(1, 2)), XNC.makeXNC(1, 2));		
+		board.placePiece(makePiece(GENERAL, RED, XNC.makeXNC(1, 3)), XNC.makeXNC(1, 3));
+		board.placePiece(makePiece(ADVISOR, RED, XNC.makeXNC(1, 4)), XNC.makeXNC(1, 4));
+		board.placePiece(makePiece(CHARIOT, RED, XNC.makeXNC(1, 5)), XNC.makeXNC(1, 5));
+		board.placePiece(makePiece(SOLDIER, RED, XNC.makeXNC(2, 3)), XNC.makeXNC(2, 3));
 
-		board.placePiece(makePiece(CHARIOT, BLACK), XNC.makeXNC(1, 1));
-		board.placePiece(makePiece(ADVISOR, BLACK), XNC.makeXNC(1, 2));		
-		board.placePiece(makePiece(GENERAL, BLACK), XNC.makeXNC(1, 3));
-		board.placePiece(makePiece(ADVISOR, BLACK), XNC.makeXNC(1, 4));
-		board.placePiece(makePiece(CHARIOT, BLACK), XNC.makeXNC(1, 5));
-		board.placePiece(makePiece(SOLDIER, BLACK), XNC.makeXNC(2, 3));
+		board.placePiece(makePiece(CHARIOT, BLACK, XNC.makeXNC(1, 1)), XNC.makeXNC(1, 1));
+		board.placePiece(makePiece(ADVISOR, BLACK, XNC.makeXNC(1, 2)), XNC.makeXNC(1, 2));		
+		board.placePiece(makePiece(GENERAL, BLACK, XNC.makeXNC(1, 3)), XNC.makeXNC(1, 3));
+		board.placePiece(makePiece(ADVISOR, BLACK, XNC.makeXNC(1, 4)), XNC.makeXNC(1, 4));
+		board.placePiece(makePiece(CHARIOT, BLACK, XNC.makeXNC(1, 5)), XNC.makeXNC(1, 5));
+		board.placePiece(makePiece(SOLDIER, BLACK, XNC.makeXNC(2, 3)), XNC.makeXNC(2, 3));
 
 		return board;
 	}

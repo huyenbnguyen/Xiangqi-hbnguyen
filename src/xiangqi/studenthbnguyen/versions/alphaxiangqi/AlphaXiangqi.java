@@ -9,6 +9,7 @@ import xiangqi.common.XiangqiCoordinate;
 import xiangqi.common.XiangqiGame;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.common.XiangqiPieceType;
+import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 
 /**
@@ -51,7 +52,7 @@ public class AlphaXiangqi implements XiangqiGame {
 	 */
 	@Override
 	public XiangqiPiece getPieceAt(XiangqiCoordinate where, XiangqiColor aspect) {
-		XiangqiPiece piece = XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE);
+		XiangqiPiece piece = XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE, XNC.makeXNC(0, 0));
 		return piece;
 	}
 }

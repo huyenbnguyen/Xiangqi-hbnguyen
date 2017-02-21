@@ -135,31 +135,31 @@ public class GammaInitializer {
 
 	private XiangqiBoard makeBoard() {
 		XiangqiBoard board = new XiangqiBoard(10, 9);
-		board.placePiece(makePiece(CHARIOT, RED), XNC.makeXNC(1, 1));
-		board.placePiece(makePiece(ELEPHANT, RED), XNC.makeXNC(1, 3));
-		board.placePiece(makePiece(ADVISOR, RED), XNC.makeXNC(1, 4));		
-		board.placePiece(makePiece(GENERAL, RED), XNC.makeXNC(1, 5));
-		board.placePiece(makePiece(ADVISOR, RED), XNC.makeXNC(1, 6));
-		board.placePiece(makePiece(ELEPHANT, RED), XNC.makeXNC(1, 7));
-		board.placePiece(makePiece(CHARIOT, RED), XNC.makeXNC(1, 9));
-		board.placePiece(makePiece(SOLDIER, RED), XNC.makeXNC(4, 1));
-		board.placePiece(makePiece(SOLDIER, RED), XNC.makeXNC(4, 3));
-		board.placePiece(makePiece(SOLDIER, RED), XNC.makeXNC(4, 5));
-		board.placePiece(makePiece(SOLDIER, RED), XNC.makeXNC(4, 7));
-		board.placePiece(makePiece(SOLDIER, RED), XNC.makeXNC(4, 9));
+		board.placePiece(makePiece(CHARIOT, RED, XNC.makeXNC(1, 1)), XNC.makeXNC(1, 1));
+		board.placePiece(makePiece(ELEPHANT, RED, XNC.makeXNC(1, 3)), XNC.makeXNC(1, 3));
+		board.placePiece(makePiece(ADVISOR, RED, XNC.makeXNC(1, 4)), XNC.makeXNC(1, 4));		
+		board.placePiece(makePiece(GENERAL, RED, XNC.makeXNC(1, 5)), XNC.makeXNC(1, 5));
+		board.placePiece(makePiece(ADVISOR, RED, XNC.makeXNC(1, 6)), XNC.makeXNC(1, 6));
+		board.placePiece(makePiece(ELEPHANT, RED, XNC.makeXNC(1, 7)), XNC.makeXNC(1, 7));
+		board.placePiece(makePiece(CHARIOT, RED, XNC.makeXNC(1, 9)), XNC.makeXNC(1, 9));
+		board.placePiece(makePiece(SOLDIER, RED, XNC.makeXNC(4, 1)), XNC.makeXNC(4, 1));
+		board.placePiece(makePiece(SOLDIER, RED, XNC.makeXNC(4, 3)), XNC.makeXNC(4, 3));
+		board.placePiece(makePiece(SOLDIER, RED, XNC.makeXNC(4, 5)), XNC.makeXNC(4, 5));
+		board.placePiece(makePiece(SOLDIER, RED, XNC.makeXNC(4, 7)), XNC.makeXNC(4, 7));
+		board.placePiece(makePiece(SOLDIER, RED, XNC.makeXNC(4, 9)), XNC.makeXNC(4, 9));
 
-		board.placePiece(makePiece(CHARIOT, BLACK), XNC.makeXNC(1, 1));
-		board.placePiece(makePiece(ELEPHANT, BLACK), XNC.makeXNC(1, 3));
-		board.placePiece(makePiece(ADVISOR, BLACK), XNC.makeXNC(1, 4));		
-		board.placePiece(makePiece(GENERAL, BLACK), XNC.makeXNC(1, 5));
-		board.placePiece(makePiece(ADVISOR, BLACK), XNC.makeXNC(1, 6));
-		board.placePiece(makePiece(ELEPHANT, BLACK), XNC.makeXNC(1, 7));
-		board.placePiece(makePiece(CHARIOT, BLACK), XNC.makeXNC(1, 9));
-		board.placePiece(makePiece(SOLDIER, BLACK), XNC.makeXNC(4, 1));
-		board.placePiece(makePiece(SOLDIER, BLACK), XNC.makeXNC(4, 3));
-		board.placePiece(makePiece(SOLDIER, BLACK), XNC.makeXNC(4, 5));
-		board.placePiece(makePiece(SOLDIER, BLACK), XNC.makeXNC(4, 7));
-		board.placePiece(makePiece(SOLDIER, BLACK), XNC.makeXNC(4, 9));
+		board.placePiece(makePiece(CHARIOT, BLACK, XNC.makeXNC(1, 1)), XNC.makeXNC(1, 1));
+		board.placePiece(makePiece(ELEPHANT, BLACK, XNC.makeXNC(1, 3)), XNC.makeXNC(1, 3));
+		board.placePiece(makePiece(ADVISOR, BLACK, XNC.makeXNC(1, 4)), XNC.makeXNC(1, 4));		
+		board.placePiece(makePiece(GENERAL, BLACK, XNC.makeXNC(1, 5)), XNC.makeXNC(1, 5));
+		board.placePiece(makePiece(ADVISOR, BLACK, XNC.makeXNC(1, 6)), XNC.makeXNC(1, 6));
+		board.placePiece(makePiece(ELEPHANT, BLACK, XNC.makeXNC(1, 7)), XNC.makeXNC(1, 7));
+		board.placePiece(makePiece(CHARIOT, BLACK, XNC.makeXNC(1, 9)), XNC.makeXNC(1, 9));
+		board.placePiece(makePiece(SOLDIER, BLACK, XNC.makeXNC(4, 1)), XNC.makeXNC(4, 1));
+		board.placePiece(makePiece(SOLDIER, BLACK, XNC.makeXNC(4, 3)), XNC.makeXNC(4, 3));
+		board.placePiece(makePiece(SOLDIER, BLACK, XNC.makeXNC(4, 5)), XNC.makeXNC(4, 5));
+		board.placePiece(makePiece(SOLDIER, BLACK, XNC.makeXNC(4, 7)), XNC.makeXNC(4, 7));
+		board.placePiece(makePiece(SOLDIER, BLACK, XNC.makeXNC(4, 9)), XNC.makeXNC(4, 9));
 
 		return board;
 	}

@@ -14,14 +14,23 @@ import xiangqi.common.XiangqiPieceType;
 public class XiangqiPieceImpl implements XiangqiPiece {
 	private XiangqiPieceType pieceType;
 	private XiangqiColor color;
+	private XNC coordinate;
 	
-	private XiangqiPieceImpl(XiangqiPieceType pieceType, XiangqiColor color) {
+	private XiangqiPieceImpl(XiangqiPieceType pieceType, XiangqiColor color, XNC coordinate) {
 		this.pieceType = pieceType;
 		this.color = color;
+		this.coordinate = coordinate;
 	}
 	
-	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color) {
-		return new XiangqiPieceImpl(pieceType, color);
+	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color, XNC coordinate) {
+		return new XiangqiPieceImpl(pieceType, color, coordinate);
+	}
+	
+	/**
+	 * @param coordinate the coordinate to set
+	 */
+	public void setCoordinate(XNC coordinate) {
+		this.coordinate = coordinate;
 	}
 
 	/* (non-Javadoc)
