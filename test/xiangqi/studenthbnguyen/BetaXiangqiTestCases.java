@@ -279,7 +279,7 @@ public class BetaXiangqiTestCases
 		assertEquals(OK, game.makeMove(c23, c33));
 		assertEquals(ILLEGAL, game.makeMove(c13, c23));
 	}
-	
+	 
 	
 	// Helper methods
 	private static XiangqiCoordinate makeCoordinate(int rank, int file)

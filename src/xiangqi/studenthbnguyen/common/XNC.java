@@ -53,7 +53,7 @@ public class XNC implements XiangqiCoordinate {
 	 */
 	public boolean isOrthogonal(XNC to) {
 		return to.getFile() == file || to.getRank() == rank;
-	}
+	} 
 
 	/**
 	 * Check to see whether the piece moves diagonally
@@ -154,4 +154,13 @@ public class XNC implements XiangqiCoordinate {
         }
         return true;
     }
+
+	/**
+	 * @param to
+	 * @return
+	 */
+	public boolean moveDiagonallyTwoSteps(XNC to) {
+		return (Math.abs(to.getFile() - file) == 2 && 
+				Math.abs(to.getRank() - rank) == 2);
+	}
 }

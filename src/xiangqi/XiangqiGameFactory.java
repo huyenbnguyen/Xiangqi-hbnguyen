@@ -17,6 +17,7 @@ import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
 import xiangqi.studenthbnguyen.common.XiangqiState;
 import xiangqi.studenthbnguyen.versions.alphaxiangqi.AlphaXiangqi;
 import xiangqi.studenthbnguyen.versions.otherxiangqiversions.BetaInitializer;
+import xiangqi.studenthbnguyen.versions.otherxiangqiversions.GammaInitializer;
 
 /**
  * A simple factory object that creates the appropriate instance of a XiangqiGame.
@@ -32,17 +33,25 @@ public class XiangqiGameFactory
 	public static XiangqiGame makeXiangqiGame(XiangqiGameVersion version)
 	{
 		XiangqiBaseGame game = null;
+		XiangqiState state = null;
 		switch (version) {
 		case ALPHA_XQ:
 			return new AlphaXiangqi();
 		case BETA_XQ:
-			BetaInitializer initializer = new BetaInitializer();
-			XiangqiState state = initializer.getState();
+			BetaInitializer betaInitializer = new BetaInitializer();
+			state = betaInitializer.getState();
 			game = new XiangqiBaseGame(state);
-			game.setMoveValidators(initializer.getMoveValidators());
-			game.setPieceValidators(initializer.getPieceValidators());
-			game.setGameTerminationValidators(initializer.getGameTerminationValidators());
+			game.setMoveValidators(betaInitializer.getMoveValidators());
+			game.setPieceValidators(betaInitializer.getPieceValidators());
+			game.setGameTerminationValidators(betaInitializer.getGameTerminationValidators());
 			break;
+		case GAMMA_XQ:
+			GammaInitializer gammaInitializer = new GammaInitializer();
+			state = gammaInitializer.getState();
+			game = new XiangqiBaseGame(state);
+			game.setMoveValidators(gammaInitializer.getMoveValidators());
+			game.setPieceValidators(gammaInitializer.getPieceValidators());
+			game.setGameTerminationValidators(gammaInitializer.getGameTerminationValidators());
 		default:
 			System.out.println("Not yet implemented");
 			break;
