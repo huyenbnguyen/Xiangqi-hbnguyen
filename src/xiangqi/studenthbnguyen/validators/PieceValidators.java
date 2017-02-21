@@ -59,4 +59,11 @@ public class PieceValidators {
 			state.moveMessage = "Piece must move forward one step";
 		return result;
 	};
+	
+	public static MoveValidator<XiangqiState, XNC, Boolean> moveLeftOrRightOneStep = (state, from, to) -> {
+		boolean result = from.moveLeftOrRightOneStep(to);
+		if (!result) 
+			state.moveMessage = "Piece must move forward one step";
+		return result;
+	};
 }

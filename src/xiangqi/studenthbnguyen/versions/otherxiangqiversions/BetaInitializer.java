@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 import xiangqi.common.XiangqiGameVersion;
@@ -19,6 +20,7 @@ import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 
 import static xiangqi.studenthbnguyen.common.XiangqiPieceImpl.*;
 import xiangqi.studenthbnguyen.common.XiangqiState;
+import xiangqi.studenthbnguyen.validators.AddRuleValidators;
 import xiangqi.studenthbnguyen.validators.GameTerminationValidators;
 import xiangqi.studenthbnguyen.validators.MoveValidator;
 import xiangqi.studenthbnguyen.validators.MoveValidators;
@@ -33,6 +35,7 @@ public class BetaInitializer {
 	private List<MoveValidator> moveValidators;
 	private Map<XiangqiPieceImpl, List<MoveValidator>> pieceValidators;
 	private List<Predicate> gameTerminationValidators;
+	private List<BiFunction> addRuleValidators;
 
 	private static final XiangqiPieceImpl RED_CHARIOT1 = (XiangqiPieceImpl) makePiece(CHARIOT, RED, XNC.makeXNC(1, 1));
 	private static final XiangqiPieceImpl RED_ADVISOR1 = (XiangqiPieceImpl) makePiece(ADVISOR, RED, XNC.makeXNC(1, 2));
@@ -52,13 +55,22 @@ public class BetaInitializer {
 		moveValidators = new LinkedList<MoveValidator>();
 		pieceValidators = new HashMap<XiangqiPieceImpl, List<MoveValidator>>();
 		gameTerminationValidators = new LinkedList<Predicate>();
+		addRuleValidators = new LinkedList<BiFunction>(); 
 		state = initializeState();
 		addMoveValidators();
 		addPiecevalidators();
 		addGameTerminationValidators();
+		addAddRuleValidators(); // I know, the function name is confusing :(
 	}
 
 
+
+	/**
+	 * 
+	 */
+	private void addAddRuleValidators() {
+		addRuleValidators.add(AddRuleValidators.addRuleToSoldier);
+	}
 
 	/**
 	 * 
@@ -156,7 +168,12 @@ public class BetaInitializer {
 		return gameTerminationValidators;
 	}
 
-
+	/**
+	 * @return
+	 */
+	public List<BiFunction> getAddRuleValidators() {
+		return addRuleValidators;
+	}
 
 	private XiangqiBoard makeBoard() {
 		XiangqiBoard board = new XiangqiBoard(5, 5);

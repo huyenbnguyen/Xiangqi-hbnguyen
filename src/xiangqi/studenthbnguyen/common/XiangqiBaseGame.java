@@ -6,6 +6,7 @@ package xiangqi.studenthbnguyen.common;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 import static xiangqi.common.MoveResult.*;
@@ -31,13 +32,13 @@ public class XiangqiBaseGame implements XiangqiGame {
 	private List<MoveValidator> moveValidators;
 	private List<Predicate> gameTerminationValidators;
 	private Map<XiangqiPieceImpl, List<MoveValidator>> pieceValidators;
+	private List<BiFunction> addRuleValidators;
 
 	/**
 	 * @param state
 	 */
 	public XiangqiBaseGame(XiangqiState state) {
 		this.state = state;
-		moveValidators = new LinkedList<MoveValidator>();
 	}
 
 	/**
@@ -79,6 +80,14 @@ public class XiangqiBaseGame implements XiangqiGame {
 	public void setGameTerminationValidators(List<Predicate> gameTerminationValidators) {
 		this.gameTerminationValidators = gameTerminationValidators;
 	}
+	
+	/**
+	 * Setter for addRuleValidators
+	 * @param moveValidators a list of move validators
+	 */
+	public void setAddRuleValidators(List<BiFunction> addRuleValidators) {
+		this.addRuleValidators = addRuleValidators;
+	}
 
 	/* (non-Javadoc)
 	 * @see xiangqi.common.XiangqiGame#makeMove(xiangqi.common.XiangqiCoordinate, xiangqi.common.XiangqiCoordinate)
@@ -119,9 +128,23 @@ public class XiangqiBaseGame implements XiangqiGame {
 		
 		// check the state of the game after the move
 		moveResult = validateTerminationRules();
+		
+		// add rules if necessary
+		validateAddRuleConditions();
+		
 		if (moveResult != OK) return moveResult;
 				
 		return OK; 
+	}
+
+	/**
+	 * 
+	 */
+	private Map<XiangqiPieceImpl, List<MoveValidator>> validateAddRuleConditions() {
+		for (BiFunction<XiangqiState, Map<XiangqiPieceImpl, List<MoveValidator>>, Map<XiangqiPieceImpl, List<MoveValidator>>> av : addRuleValidators) {
+			pieceValidators = av.apply(state, pieceValidators);
+		}
+		return pieceValidators;
 	}
 
 	/**
@@ -142,9 +165,6 @@ public class XiangqiBaseGame implements XiangqiGame {
 		}
 		return OK;  
 	}
-	
-	
-
 
 
 	/**

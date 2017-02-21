@@ -44,6 +44,7 @@ public class XiangqiGameFactory
 			game.setMoveValidators(betaInitializer.getMoveValidators());
 			game.setPieceValidators(betaInitializer.getPieceValidators());
 			game.setGameTerminationValidators(betaInitializer.getGameTerminationValidators());
+			game.setAddRuleValidators(betaInitializer.getAddRuleValidators());
 			break;
 		case GAMMA_XQ:
 			GammaInitializer gammaInitializer = new GammaInitializer();

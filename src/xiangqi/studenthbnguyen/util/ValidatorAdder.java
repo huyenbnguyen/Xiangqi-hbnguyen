@@ -6,7 +6,9 @@ package xiangqi.studenthbnguyen.util;
 import java.util.List;
 import java.util.Map;
 
+import xiangqi.common.XiangqiPiece;
 import xiangqi.common.XiangqiPieceType;
+import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 import xiangqi.studenthbnguyen.validators.MoveValidator;
 
 /**
@@ -14,11 +16,11 @@ import xiangqi.studenthbnguyen.validators.MoveValidator;
  *
  */
 public class ValidatorAdder {
-	public static Map<XiangqiPieceType, List<MoveValidator>> addValidator(
-			Map<XiangqiPieceType, List<MoveValidator>> pieceValidators, 
-			XiangqiPieceType pieceType,
+	public static Map<XiangqiPieceImpl, List<MoveValidator>> addValidator(
+			Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators, 
+			XiangqiPiece piece,
 			MoveValidator newValidator) {
-		pieceValidators.get(pieceType).add(newValidator);
-		return pieceValidators;
+		moveValidators.get(piece).add(newValidator);
+		return moveValidators;
 	}
 }

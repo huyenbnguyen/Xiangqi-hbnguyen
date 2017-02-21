@@ -172,4 +172,12 @@ public class XNC implements XiangqiCoordinate {
 		return (Math.abs(to.getFile() - file) == 2 && 
 				Math.abs(to.getRank() - rank) == 2);
 	}
+
+	/**
+	 * @param to
+	 * @return
+	 */
+	public boolean moveLeftOrRightOneStep(XNC to) {
+		return (rank == to.getRank() && Math.abs(file - to.getFile()) == 1);
+	}
 }
