@@ -52,7 +52,7 @@ public class AlphaXiangqi implements XiangqiGame {
 	 */
 	@Override
 	public XiangqiPiece getPieceAt(XiangqiCoordinate where, XiangqiColor aspect) {
-		XiangqiPiece piece = XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE, XNC.makeXNC(0, 0));
+		XiangqiPiece piece = XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE);
 		return piece;
 	}
 }

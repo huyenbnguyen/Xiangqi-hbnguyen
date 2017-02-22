@@ -53,7 +53,6 @@ public class MoveValidators {
 		
 		gameCopy.getState().board.movePiece(from, to);	
 		
-		
 		// for the new game, see if any opponent pieces can capture the general
 		XiangqiColor color = gameCopy.getState().onMove;
 		XNC generalCoordinate = gameCopy.getState().board.findPiece(GENERAL, color);

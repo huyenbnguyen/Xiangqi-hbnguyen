@@ -6,6 +6,7 @@ package xiangqi.studenthbnguyen.common;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -178,8 +179,6 @@ public class XiangqiBaseGame implements XiangqiGame {
 		}
 		return OK;
 	}
-
-
 
 	/**
 	 * @param sourceNormalized

@@ -29,7 +29,8 @@ public class GammaXiangqiTestCases {
 			blackElephant = makePiece(ELEPHANT, BLACK),
 			blackAdvisor = makePiece(ADVISOR, BLACK),
 			blackGeneral = makePiece(GENERAL, BLACK),
-			blackSoldier = makePiece(SOLDIER, BLACK); 
+			blackSoldier = makePiece(SOLDIER, BLACK),
+			noPiece = makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE); 
 
 	private static XiangqiCoordinate c1_1 = makeCoordinate(1, 1),
 			c1_2 = makeCoordinate(1, 2), c1_3 = makeCoordinate(1, 3),
@@ -83,7 +84,7 @@ public class GammaXiangqiTestCases {
 	{
 		game = XiangqiGameFactory.makeXiangqiGame(XiangqiGameVersion.GAMMA_XQ);
 	}
-
+	
 	@Test
 	public void correctInitialPositions()
 	{
@@ -112,6 +113,38 @@ public class GammaXiangqiTestCases {
 		assertEquals(blackSoldier, game.getPieceAt(c4_9, BLACK));
 	}
 
+	@Test
+	public void queryAnEmptyLocation()
+	{
+		assertEquals(noPiece, game.getPieceAt(c2_2, BLACK));
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void queryAnInvalidLocation() {
+		game.getPieceAt(makeCoordinate(100, 100), RED);
+	}
+	
+	@Test 
+	public void makeMoveOnEmptySource() {
+		assertEquals(ILLEGAL, game.makeMove(c2_2, c3_3));
+		assertTrue(game.getMoveMessage().length() > 5);		
+	}
+	
+	@Test
+	public void makeMoveWithInvalidCoordinates()
+	{
+		assertEquals(ILLEGAL, game.makeMove(makeCoordinate(0, 3), c1_4));
+		assertEquals(ILLEGAL, game.makeMove(c1_1, makeCoordinate(1, 15)));
+	}
+	
+	@Test
+	public void makeValidChariotMove()
+	{
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(redChariot, game.getPieceAt(c2_1, RED));
+		assertEquals(noPiece, game.getPieceAt(c1_1, RED));
+	}
+	
 	// Helper methods
 	private static XiangqiCoordinate makeCoordinate(int rank, int file)
 	{

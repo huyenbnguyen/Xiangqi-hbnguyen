@@ -14,12 +14,12 @@ import xiangqi.common.XiangqiPieceType;
 public class XiangqiPieceImpl implements XiangqiPiece {
 	private XiangqiPieceType pieceType;
 	private XiangqiColor color;
-	private XNC coordinate;
+	private int index; // used to differentiate different pieces of the same type and color
 	
-	private XiangqiPieceImpl(XiangqiPieceType pieceType, XiangqiColor color, XNC coordinate) {
+	private XiangqiPieceImpl(XiangqiPieceType pieceType, XiangqiColor color, int index) {
 		this.pieceType = pieceType;
 		this.color = color;
-		this.coordinate = coordinate;
+		this.index = index;
 	}
 	
 	private XiangqiPieceImpl(XiangqiPieceType pieceType, XiangqiColor color) {
@@ -27,8 +27,8 @@ public class XiangqiPieceImpl implements XiangqiPiece {
 		this.color = color;
 	}
 	
-	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color, XNC coordinate) {
-		return new XiangqiPieceImpl(pieceType, color, coordinate);
+	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color, int index) {
+		return new XiangqiPieceImpl(pieceType, color, index);
 	}
 	
 	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color) {
@@ -36,17 +36,10 @@ public class XiangqiPieceImpl implements XiangqiPiece {
 	}
 	
 	/**
-	 * @param coordinate the coordinate to set
+	 * 
 	 */
-	public void setCoordinate(XNC coordinate) {
-		this.coordinate = coordinate;
-	}
-	
-	/**
-	 * @param coordinate the coordinate to set
-	 */
-	public XNC getCoordinate() {
-		return coordinate;
+	public int getIndex() {
+		return index;
 	}
 
 	/* (non-Javadoc)
@@ -64,4 +57,46 @@ public class XiangqiPieceImpl implements XiangqiPiece {
 	public XiangqiPieceType getPieceType() {
 		return pieceType;
 	}
+	
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + index;
+        result = prime * result + pieceType.getPrintableName().length();
+        result = prime * result + color.name().length();
+        return result;
+    }
+	
+	 /*
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof XiangqiPieceImpl)) {
+            return false;
+        }
+        XiangqiPieceImpl other = (XiangqiPieceImpl) obj;
+        if (color != other.getColor()) {
+            return false;
+        }
+        if (pieceType != other.getPieceType()) {
+            return false;
+        }
+        if (index != other.getIndex()) {
+            return false;
+        }
+        return true;
+    }
 }

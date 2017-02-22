@@ -36,9 +36,8 @@ public class XiangqiBoard {
 	 * @return the piece at the coordinate
 	 */
 	public XiangqiPiece getPieceAt(XNC sourceNormalized) {
-		XiangqiPiece piece; 
-		piece = boardMap.get(sourceNormalized);
-		return (piece != null) ? piece : XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE, XNC.makeXNC(sourceNormalized.getRank(), sourceNormalized.getFile())); 
+		XiangqiPieceImpl piece = (XiangqiPieceImpl) boardMap.get(sourceNormalized);
+		return (piece != null) ? piece : XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE, 0); 
 	}
 	
 	/**
@@ -47,8 +46,7 @@ public class XiangqiBoard {
 	 * @return the piece at the coordinate
 	 */
 	public XiangqiPiece getPieceAtForClient(XNC sourceNormalized) {
-		XiangqiPiece piece; 
-		piece = boardMap.get(sourceNormalized);
+		XiangqiPiece piece = boardMap.get(sourceNormalized);
 		return (piece != null) ? XiangqiPieceImpl.makePiece(piece.getPieceType(), piece.getColor()) : XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE); 
 	}
 
@@ -59,7 +57,6 @@ public class XiangqiBoard {
 	 */
 	public void movePiece(XNC sourceNormalized, XNC destinationNormalized) {
 		XiangqiPieceImpl piece = (XiangqiPieceImpl) boardMap.get(sourceNormalized);
-		piece.setCoordinate(destinationNormalized);
 		boardMap.remove(sourceNormalized);
 		boardMap.put(destinationNormalized, piece);
 	}
@@ -73,7 +70,6 @@ public class XiangqiBoard {
 	public void placePiece(XiangqiPiece xiangqiPiece, XNC normalizedCoordinate) {
 		XiangqiColor color = xiangqiPiece.getColor();
 		normalizedCoordinate = XNC.makeXNC(normalizedCoordinate, color);
-		((XiangqiPieceImpl) xiangqiPiece).setCoordinate(normalizedCoordinate);
 		boardMap.put(normalizedCoordinate, xiangqiPiece);
 	}
 	
