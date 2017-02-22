@@ -357,7 +357,42 @@ public class GammaXiangqiTestCases {
 	
 	@Test 
 	public void blackPutsGeneralInCheck() {
-		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c2_4));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_4, c9_4));
+		assertEquals(ILLEGAL, game.makeMove(c1_5, c2_5));
+	}
+	
+	@Test 
+	public void checkRemovedByBlocking() {
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_6, c2_5));
+		assertEquals(OK, game.makeMove(c2_1, c2_2));
+		assertEquals(OK, game.makeMove(c1_7, c3_5));
+		assertEquals(OK, game.makeMove(c2_2, c10_2));
+		assertEquals(OK, game.makeMove(c3_5, c1_7));
+	}
+	
+	@Test
+	public void checkRemovedByCapturingTheAttacker() {
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_6, c2_7));
+		assertEquals(OK, game.makeMove(c2_1, c2_2));
+		assertEquals(OK, game.makeMove(c1_7, c3_5));
+		assertEquals(OK, game.makeMove(c2_2, c10_2));
+		assertEquals(OK, game.makeMove(c2_7, c1_8));
+	}
+	
+	@Test 
+	public void checkRemovedByMovingGeneral() {
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_6, c2_7));
+		assertEquals(OK, game.makeMove(c2_1, c2_2));
+		assertEquals(OK, game.makeMove(c1_7, c3_5));
+		assertEquals(OK, game.makeMove(c2_2, c10_2));
+		assertEquals(OK, game.makeMove(c1_5, c2_5));
 	}
 	
 	// Helper methods
