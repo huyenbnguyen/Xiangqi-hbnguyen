@@ -32,8 +32,8 @@ public class PieceValidators {
 		return result;
 	};
 
-	public static MoveValidator<XiangqiState, XNC, Boolean> isDistanceOne = (state, from, to) -> {
-		boolean result = from.isDistanceOne(to);
+	public static MoveValidator<XiangqiState, XNC, Boolean> isDistanceOneAndOrthogonal = (state, from, to) -> {
+		boolean result = from.isDistanceOneAndOrthogonal(to);
 		if (!result) 
 			state.moveMessage = "Piece must move forward one step";
 		return result;
@@ -56,14 +56,49 @@ public class PieceValidators {
 	public static MoveValidator<XiangqiState, XNC, Boolean> moveDiagonallyTwoSteps = (state, from, to) -> {
 		boolean result = from.moveDiagonallyTwoSteps(to);
 		if (!result) 
-			state.moveMessage = "Piece must move forward one step";
+			state.moveMessage = "Piece must move diagonally two steps";
 		return result;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> moveLeftOrRightOneStep = (state, from, to) -> {
-		boolean result = from.moveLeftOrRightOneStep(to);
+	public static MoveValidator<XiangqiState, XNC, Boolean> moveLeftOrRightOrUpOneStepRed = (state, from, to) -> {
+		boolean result = from.moveLeftOrRightOneStepRed(to);
 		if (!result) 
-			state.moveMessage = "Piece must move forward one step";
+			state.moveMessage = "Piece must move left or righ one step";
+		return result;
+	};
+	
+	public static MoveValidator<XiangqiState, XNC, Boolean> moveLeftOrRightOrUpOneStepBlack = (state, from, to) -> {
+		boolean result = from.moveLeftOrRightOneStepBlack(to);
+		if (!result) 
+			state.moveMessage = "Piece must move left or righ one step";
+		return result;
+	};
+	
+	public static MoveValidator<XiangqiState, XNC, Boolean> isInPalaceRed = (state, from, to) -> {
+		boolean result = from.isInPalaceRed(to);
+		if (!result) 
+			state.moveMessage = "Red General must stay in the palace";
+		return result;
+	};
+	
+	public static MoveValidator<XiangqiState, XNC, Boolean> isInPalaceBlack = (state, from, to) -> {
+		boolean result = from.isInPalaceBlack(to);
+		if (!result) 
+			state.moveMessage = "Black General must stay in the palace";
+		return result;
+	};
+	
+	public static MoveValidator<XiangqiState, XNC, Boolean> isNotCrossingRiverRed = (state, from, to) -> {
+		boolean result = from.isNotCrossingRiverRed(to);
+		if (!result) 
+			state.moveMessage = "Red Elephant must not cross river";
+		return result;
+	};
+	
+	public static MoveValidator<XiangqiState, XNC, Boolean> isNotCrossingRiverBlack = (state, from, to) -> {
+		boolean result = from.isNotCrossingRiverBlack(to);
+		if (!result) 
+			state.moveMessage = "Black Elephant must not cross river";
 		return result;
 	};
 }

@@ -125,12 +125,6 @@ public class BetaXiangqiTestCases
 		assertTrue(game.getMoveMessage().length() > 5);		// Minimum of 6 characters seems reasonable
 	}
 	
-	@Test
-	public void tryToMoveChariotDiagonally()
-	{
-		assertEquals(ILLEGAL, game.makeMove(c15, c24));
-	}
-	
 	
 	@Test
 	public void makeValidMoveForEachPlayer()
@@ -167,6 +161,17 @@ public class BetaXiangqiTestCases
 		assertEquals(ILLEGAL, game.makeMove(c23, c22));
 	}
 	
+	@Test 
+	public void redSoldierCannotMoveBackwards() {
+		assertEquals(ILLEGAL, game.makeMove(c23, c13));
+	}
+	
+	@Test 
+	public void blackSoldierCannotMoveBackwards() {
+		assertEquals(OK, game.makeMove(c11, c21));
+		assertEquals(ILLEGAL, game.makeMove(c23, c13));
+	}
+	
 	@Test
 	public void soldierCapturesSoldier()
 	{
@@ -200,17 +205,6 @@ public class BetaXiangqiTestCases
 	@Test
 	public void redAdvisorMovesButBlocked() {
 		assertEquals(ILLEGAL, game.makeMove(c12, c43));
-	}
-	
-	@Test 
-	public void redSoldierCannotMoveBackwards() {
-		assertEquals(ILLEGAL, game.makeMove(c23, c13));
-	}
-	
-	@Test 
-	public void blackSoldierCannotMoveBackwards() {
-		assertEquals(OK, game.makeMove(c11, c21));
-		assertEquals(ILLEGAL, game.makeMove(c23, c13));
 	}
 	
 	@Test 

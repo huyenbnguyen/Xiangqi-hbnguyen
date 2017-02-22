@@ -145,6 +145,221 @@ public class GammaXiangqiTestCases {
 		assertEquals(noPiece, game.getPieceAt(c1_1, RED));
 	}
 	
+	@Test
+	public void makeInvalidChariotMove() {
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(ILLEGAL, game.makeMove(c1_1, c2_2));
+	}
+	
+	@Test
+	public void chariotIsBlocked() {
+		assertEquals(ILLEGAL, game.makeMove(c1_1, c7_1));
+	}
+	
+	@Test
+	public void attemptToMoveOpponentPiece()
+	{
+		assertEquals(ILLEGAL, game.makeMove(c10_1, c4_1));
+	}
+	
+	@Test
+	public void attemptToCaptureOwnPiece()
+	{
+		assertEquals(ILLEGAL, game.makeMove(c1_1, c1_3));
+	}
+	
+	@Test
+	public void ensureMessageOnIllegalMove()
+	{
+		game.makeMove(c1_1, c1_3);
+		assertTrue(game.getMoveMessage().length() > 5);		// Minimum of 6 characters seems reasonable
+	}
+	
+	@Test
+	public void makeValidMoveForEachPlayer()
+	{
+		game.makeMove(c1_1, c3_1);
+		assertEquals(redChariot, game.getPieceAt(c3_1, RED));
+		assertEquals(OK, game.makeMove(c1_9, c2_9));
+		assertEquals(blackChariot, game.getPieceAt(c2_9, BLACK));
+	}
+	
+	@Test
+	public void validAdvisorMove()
+	{
+		assertEquals(OK, game.makeMove(c1_5, c2_5));
+		assertEquals(redGeneral, game.getPieceAt(c2_5, RED));
+	}
+	
+	@Test
+	public void invalidAdvisorMove()
+	{
+		assertEquals(ILLEGAL, game.makeMove(c1_5, c2_4));
+	}
+	
+	@Test
+	public void redGeneralTriesToMoveOutOfThePalace() {
+		assertEquals(OK, game.makeMove(c1_5, c2_5));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_5, c3_5));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(ILLEGAL, game.makeMove(c3_5, c4_5));
+	}
+	
+	@Test
+	public void blackGeneralTriesToMoveOutOfThePalace() {
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_5, c2_5));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_5, c3_5));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(ILLEGAL, game.makeMove(c3_5, c4_5));
+	}
+	
+	@Test
+	public void validElephantMove() {
+		assertEquals(OK, game.makeMove(c1_3, c3_5));
+	}
+	
+	@Test
+	public void invalidElephantMove() {
+		assertEquals(ILLEGAL, game.makeMove(c1_3, c2_4));
+	}
+	
+	@Test 
+	public void redElephantTriesToCrossRiver() {
+		assertEquals(OK, game.makeMove(c1_3, c3_5));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c3_5, c5_3));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(ILLEGAL, game.makeMove(c5_3, c7_5));
+	}
+	
+	@Test 
+	public void blackElephantTriesToCrossRiver() {
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_3, c3_5));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c3_5, c5_3));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(ILLEGAL, game.makeMove(c5_3, c7_5));
+	}
+	
+	@Test
+	public void validSoldierMove()
+	{
+		assertEquals(OK, game.makeMove(c4_1, c5_1));
+		assertEquals(redSoldier, game.getPieceAt(c5_1, RED));
+	}
+	
+	@Test
+	public void invalidSoldierMove()
+	{
+		assertEquals(ILLEGAL, game.makeMove(c4_1, c4_2));
+	}
+	
+	@Test 
+	public void redSoldierCannotMoveBackwards() {
+		assertEquals(ILLEGAL, game.makeMove(c4_1, c3_1));
+	}
+	
+	@Test 
+	public void blackSoldierCannotMoveBackwards() {
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(ILLEGAL, game.makeMove(c4_1, c3_1));
+	}
+	
+	@Test 
+	public void redSoldierCanMoveHorizontallyAfterCrossingRiver() {
+		assertEquals(OK, game.makeMove(c4_1, c5_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c5_1, c6_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c6_1, c6_2));
+	}
+	
+	@Test 
+	public void blackSoldierCanMoveHorizontallyAfterCrossingRiver() {
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c4_1, c5_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c5_1, c6_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c6_1, c6_2));
+	}
+	
+	@Test 
+	public void numberOfMovesExceeded() {
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(DRAW, game.makeMove(c2_1, c1_1));
+	}
+	
+	@Test 
+	public void blackPutsGeneralInCheck() {
+		
+	}
+	
 	// Helper methods
 	private static XiangqiCoordinate makeCoordinate(int rank, int file)
 	{

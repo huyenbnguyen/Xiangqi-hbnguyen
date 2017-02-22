@@ -49,10 +49,10 @@ public class AddRuleValidators {
 		for (Entry<XNC, XiangqiPiece> entry : state.board.boardMap.entrySet()) {
 			XiangqiPiece piece = entry.getValue();
 			XNC coordinate = entry.getKey();
-			if (piece.getColor() == RED && 
+			if (piece.getColor() == BLACK && 
 					piece.getPieceType() == SOLDIER && 
 					coordinate.getRank() <= 5) { 
-				return ValidatorAdder.addValidator(moveValidators, piece, PieceValidators.moveLeftOrRightOneStep);
+				return ValidatorAdder.addValidator(moveValidators, piece, PieceValidators.moveLeftOrRightOrUpOneStepBlack);
 			}  
 		}
 		return moveValidators;
@@ -71,7 +71,7 @@ public class AddRuleValidators {
 			if (piece.getColor() == RED && 
 					piece.getPieceType() == SOLDIER && 
 					coordinate.getRank() >= 6) { 
-				return ValidatorAdder.addValidator(moveValidators, piece, PieceValidators.moveLeftOrRightOneStep);
+				return ValidatorAdder.addValidator(moveValidators, piece, PieceValidators.moveLeftOrRightOrUpOneStepRed);
 			}  
 		}
 		return moveValidators;

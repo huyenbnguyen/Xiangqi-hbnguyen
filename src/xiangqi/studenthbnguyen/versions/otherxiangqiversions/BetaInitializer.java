@@ -86,7 +86,7 @@ public class BetaInitializer {
 	private void addPiecevalidators() {
 		// general
 		List<MoveValidator> generalValidators = new LinkedList<MoveValidator>();
-		generalValidators.add(PieceValidators.isDistanceOne);
+		generalValidators.add(PieceValidators.isDistanceOneAndOrthogonal);
 		pieceValidators.put(RED_GENERAL, generalValidators);
 		pieceValidators.put(BLACK_GENERAL, generalValidators);
 

@@ -86,11 +86,17 @@ public class GammaInitializer {
 	 * 
 	 */
 	private void addPiecevalidators() {
-		// general
-		List<MoveValidator> generalValidators = new LinkedList<MoveValidator>();
-		generalValidators.add(PieceValidators.isDistanceOne);
-		pieceValidators.put(RED_GENERAL, generalValidators);
-		pieceValidators.put(BLACK_GENERAL, generalValidators);
+		// red general
+		List<MoveValidator> redGeneralValidators = new LinkedList<MoveValidator>();
+		redGeneralValidators.add(PieceValidators.isInPalaceRed);
+		redGeneralValidators.add(PieceValidators.isDistanceOneAndOrthogonal);
+		pieceValidators.put(RED_GENERAL, redGeneralValidators);
+		
+		// black general
+		List<MoveValidator> blackGeneralValidators = new LinkedList<MoveValidator>();
+		blackGeneralValidators.add(PieceValidators.isInPalaceBlack);
+		blackGeneralValidators.add(PieceValidators.isDistanceOneAndOrthogonal);
+		pieceValidators.put(BLACK_GENERAL, blackGeneralValidators);
 
 		// chariot
 		List<MoveValidator> chariotValidators = new LinkedList<MoveValidator>();
@@ -126,13 +132,19 @@ public class GammaInitializer {
 		pieceValidators.put(BLACK_SOLDIER4, blackSoldierValidators);
 		pieceValidators.put(BLACK_SOLDIER5, blackSoldierValidators);
 
-		// elephant
-		List<MoveValidator> elephantValidators = new LinkedList<MoveValidator>();
-		elephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
-		pieceValidators.put(RED_ELEPHANT1, elephantValidators);
-		pieceValidators.put(RED_ELEPHANT2, elephantValidators);
-		pieceValidators.put(BLACK_ELEPHANT1, elephantValidators);
-		pieceValidators.put(BLACK_ELEPHANT2, elephantValidators);
+		// red elephants
+		List<MoveValidator> redElephantValidators = new LinkedList<MoveValidator>();
+		redElephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
+		redElephantValidators.add(PieceValidators.isNotCrossingRiverRed);
+		pieceValidators.put(RED_ELEPHANT1, redElephantValidators);
+		pieceValidators.put(RED_ELEPHANT2, redElephantValidators);
+		
+		// black elephants
+		List<MoveValidator> blackElephantValidators = new LinkedList<MoveValidator>();
+		blackElephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
+		blackElephantValidators.add(PieceValidators.isNotCrossingRiverBlack);
+		pieceValidators.put(BLACK_ELEPHANT1, blackElephantValidators);
+		pieceValidators.put(BLACK_ELEPHANT2, blackElephantValidators);
 	}
 
 	/**

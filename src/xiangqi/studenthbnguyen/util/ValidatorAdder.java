@@ -20,7 +20,9 @@ public class ValidatorAdder {
 			Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators, 
 			XiangqiPiece piece,
 			MoveValidator newValidator) {
-		moveValidators.get(piece).add(newValidator);
+		List<MoveValidator> validators = moveValidators.get(piece);
+		validators.clear();
+		validators.add(newValidator);
 		return moveValidators;
 	}
 }

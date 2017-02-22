@@ -87,7 +87,7 @@ public class XNC implements XiangqiCoordinate {
 	 * @param to the destination coordinates
 	 * @return true if the piece moves one step, false otherwise
 	 */
-	public boolean isDistanceOne(XNC to) {
+	public boolean isDistanceOneAndOrthogonal(XNC to) {
 		return (Math.abs(to.getFile() - file) == 1 && Math.abs(to.getRank() - rank) == 0) || 
 				(Math.abs(to.getFile() - file) == 0 && Math.abs(to.getRank() - rank) == 1);
 	}
@@ -177,7 +177,51 @@ public class XNC implements XiangqiCoordinate {
 	 * @param to
 	 * @return
 	 */
-	public boolean moveLeftOrRightOneStep(XNC to) {
-		return (rank == to.getRank() && Math.abs(file - to.getFile()) == 1);
+	public boolean moveLeftOrRightOneStepRed(XNC to) {
+		return (rank == to.getRank() && Math.abs(file - to.getFile()) == 1) || 
+				(file == to.getFile() && to.getRank() - rank == 1);
+	}
+
+	/**
+	 * @param to
+	 * @return
+	 */
+	public boolean isInPalaceRed(XNC to) {
+		return (to.getRank() >= 1 && to.getRank() <= 3 &&
+				to.getFile() >= 4 && to.getFile() <= 6);
+	}
+
+	/**
+	 * @param to
+	 * @return
+	 */
+	public boolean isInPalaceBlack(XNC to) {
+		return (to.getRank() >= 8 && to.getRank() <= 10 &&
+				to.getFile() >= 4 && to.getFile() <= 6);
+	}
+
+	/**
+	 * @param to
+	 * @return
+	 */
+	public boolean isNotCrossingRiverRed(XNC to) {
+		return to.getRank() <= 5;
+	}
+
+	/**
+	 * @param to
+	 * @return
+	 */
+	public boolean isNotCrossingRiverBlack(XNC to) {
+		return to.getRank() >= 6;
+	}
+
+	/**
+	 * @param to
+	 * @return
+	 */
+	public boolean moveLeftOrRightOneStepBlack(XNC to) {
+		return (rank == to.getRank() && Math.abs(file - to.getFile()) == 1) || 
+				(file == to.getFile() && rank - to.getRank() == 1);
 	}
 }

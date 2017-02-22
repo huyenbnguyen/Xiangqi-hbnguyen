@@ -125,6 +125,8 @@ public class XiangqiBaseGame implements XiangqiGame {
 		// if the move is valid, make the move
 		state.board.movePiece(sourceNormalized, destinationNormalized);
 		state.moveCount++;
+
+		
 		switchTurn();
 		
 		// check the state of the game after the move
