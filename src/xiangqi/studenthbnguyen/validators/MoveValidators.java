@@ -53,12 +53,13 @@ public class MoveValidators {
 		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);
 		
 		gameCopy.getState().board.movePiece(from, to);	
+		gameCopy.switchTurn();
 		
 		// for the new game, see if any opponent pieces can capture the general
 		XiangqiColor color = gameCopy.getState().onMove;
-		XNC generalCoordinate = gameCopy.getState().board.findPiece(GENERAL, color, 1);
+		XNC generalCoordinate = gameCopy.getState().board.findPiece(GENERAL, state.onMove, 1);
     	for (Entry<XNC, XiangqiPieceImpl> entry : gameCopy.getState().board.boardMap.entrySet()) {
-    		if (entry.getValue().getColor() != color && 
+    		if (entry.getValue().getColor() == color && 
     				gameCopy.validatePieceRules(entry.getKey(), generalCoordinate) == OK &&
     				hasNoBlockingPiece.apply(gameCopy.getState(), entry.getKey(), generalCoordinate)) { 
     			// if there's not a move to be made, it means we're dealing with the game itself, not a copy

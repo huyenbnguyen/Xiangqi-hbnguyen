@@ -88,7 +88,9 @@ public class XNC implements XiangqiCoordinate {
 	 * @return true if the piece moves forward one step, false otherwise
 	 */
 	public boolean isForwardOneStep(XNC to, XiangqiColor color) {
-		return (to.getFile() == file) && (color == RED) ?  (to.getRank() - rank) == 1 : (rank - to.getRank()) == 1;
+		if (to.getFile() == file) 
+			return (color == RED) ?  (to.getRank() - rank) == 1 : (rank - to.getRank()) == 1;
+		return false;
 	}
 	
 	/**
