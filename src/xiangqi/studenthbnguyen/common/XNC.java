@@ -19,7 +19,8 @@ import xiangqi.common.XiangqiCoordinate;
  */
 public class XNC implements XiangqiCoordinate {
 	private int rank, file;
-	private static XiangqiState state;
+	private static int ranks;
+	private static int files;
 	
 	private XNC(int rank, int file) {
 		this.rank = rank;
@@ -35,13 +36,19 @@ public class XNC implements XiangqiCoordinate {
 	public static XNC makeXNC(int rank, int file) {
 		return new XNC(rank, file);
 	}
-	
+
 	/**
-	 * Setter for state 
-	 * @param stateParam the state of the game
+	 * @param ranks the ranks to set
 	 */
-	public static void setState(XiangqiState stateParam) {
-		state = stateParam;
+	public static void setRanks(int maxRank) {
+		ranks = maxRank;
+	}
+
+	/**
+	 * @param files the files to set
+	 */
+	public static void setFiles(int maxFile) {
+		files = maxFile;
 	}
 
 	/**
@@ -53,7 +60,7 @@ public class XNC implements XiangqiCoordinate {
 	public static XNC makeXNC(XiangqiCoordinate coordinate, XiangqiColor aspect) {
 		XNC result = makeXNC(coordinate.getRank(), coordinate.getFile());
 		if (aspect == BLACK) 
-			result = makeXNC(state.board.ranks + 1 - coordinate.getRank(), state.board.files - coordinate.getFile() + 1);
+			result = makeXNC(ranks + 1 - coordinate.getRank(), files - coordinate.getFile() + 1);
 		return result; 
 	}
 
@@ -210,18 +217,10 @@ public class XNC implements XiangqiCoordinate {
 	 * @param to the destination
 	 * @return true if the general is in the palace after making the move, false otherwise
 	 */
-	public boolean isInPalaceRed(XNC to) {
-		return (to.getRank() >= 1 && to.getRank() <= 3 &&
-				to.getFile() >= 4 && to.getFile() <= 6);
-	}
-
-	/**
-	 * Check whether the Black General is in the palace
-	 * @param to the destination
-	 * @return true if the general is in the palace after making the move, false otherwise
-	 */
-	public boolean isInPalaceBlack(XNC to) {
-		return (to.getRank() >= 8 && to.getRank() <= 10 &&
+	public boolean isInPalace(XNC to, XiangqiColor color) {
+		int maxRank = (color == RED) ? 3 : 10;
+		int minRank = (color == RED) ? 1 : 8;
+		return (to.getRank() >= minRank && to.getRank() <= maxRank &&
 				to.getFile() >= 4 && to.getFile() <= 6);
 	}
 

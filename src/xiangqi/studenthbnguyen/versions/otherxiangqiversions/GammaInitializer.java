@@ -30,6 +30,12 @@ import xiangqi.studenthbnguyen.validators.PieceValidators;
  *
  */
 public class GammaInitializer extends InitializerTemplate {
+	// Change these 3 variables to change the size of the board
+	private static int maxRank = 10;
+	private static int maxFile = 9;
+	
+	// Change this variable to change the maximum number of moves allowed
+	private static int maxMove = 25;
 
 	private static final XiangqiPieceImpl RED_CHARIOT1 = (XiangqiPieceImpl) makePiece(CHARIOT, RED, 1);
 	private static final XiangqiPieceImpl RED_ELEPHANT1 = (XiangqiPieceImpl) makePiece(ELEPHANT, RED, 1);
@@ -75,17 +81,12 @@ public class GammaInitializer extends InitializerTemplate {
 	 */
 	@Override
 	protected void addPieceValidators() {
-		// red general
-		List<MoveValidator> redGeneralValidators = new LinkedList<MoveValidator>();
-		redGeneralValidators.add(PieceValidators.isInPalaceRed);
-		redGeneralValidators.add(PieceValidators.isDistanceOneAndOrthogonal);
-		pieceValidators.put(RED_GENERAL, redGeneralValidators);
-		
-		// black general
-		List<MoveValidator> blackGeneralValidators = new LinkedList<MoveValidator>();
-		blackGeneralValidators.add(PieceValidators.isInPalaceBlack);
-		blackGeneralValidators.add(PieceValidators.isDistanceOneAndOrthogonal);
-		pieceValidators.put(BLACK_GENERAL, blackGeneralValidators);
+		// generals
+		List<MoveValidator> generalValidators = new LinkedList<MoveValidator>();
+		generalValidators.add(PieceValidators.isInPalace);
+		generalValidators.add(PieceValidators.isDistanceOneAndOrthogonal);
+		pieceValidators.put(RED_GENERAL, generalValidators);
+		pieceValidators.put(BLACK_GENERAL, generalValidators);
 
 		// chariot
 		List<MoveValidator> chariotValidators = new LinkedList<MoveValidator>();
@@ -159,9 +160,10 @@ public class GammaInitializer extends InitializerTemplate {
 	protected XiangqiState initializeState() {
 		XiangqiState state = new XiangqiState();
 		state.version = XiangqiGameVersion.GAMMA_XQ;
-		state.board = new XiangqiBoard(10, 9);
-		state.maxMove = 25;
-		XNC.setState(state);
+		state.board = new XiangqiBoard(maxRank, maxFile);
+		state.maxMove = maxMove;
+		XNC.setRanks(maxRank);
+		XNC.setFiles(maxFile);
 		state.board = makeBoard();
 		return state;
 	}
@@ -169,7 +171,7 @@ public class GammaInitializer extends InitializerTemplate {
 	
 
 	private XiangqiBoard makeBoard() {
-		XiangqiBoard board = new XiangqiBoard(10, 9);
+		XiangqiBoard board = new XiangqiBoard(maxRank, maxFile);
 		board.placePiece(RED_CHARIOT1, XNC.makeXNC(1, 1));
 		board.placePiece(RED_ELEPHANT1, XNC.makeXNC(1, 3));
 		board.placePiece(RED_ADVISOR1, XNC.makeXNC(1, 4));		

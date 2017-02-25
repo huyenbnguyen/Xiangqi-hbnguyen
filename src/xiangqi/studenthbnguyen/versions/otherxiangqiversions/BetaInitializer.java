@@ -32,6 +32,13 @@ import xiangqi.studenthbnguyen.validators.PieceValidators;
  */
 public class BetaInitializer extends InitializerTemplate {
 
+	// Change these 3 variables to change the size of the board
+	private static int maxRank = 5;
+	private static int maxFile = 5;
+
+	// Change this variable to change the maximum number of moves allowed
+	private static int maxMove = 10;
+
 	private static final XiangqiPieceImpl RED_CHARIOT1 = (XiangqiPieceImpl) makePiece(CHARIOT, RED, 1);
 	private static final XiangqiPieceImpl RED_ADVISOR1 = (XiangqiPieceImpl) makePiece(ADVISOR, RED, 1);
 	private static final XiangqiPieceImpl RED_GENERAL = (XiangqiPieceImpl) makePiece(GENERAL, RED, 1);
@@ -128,9 +135,10 @@ public class BetaInitializer extends InitializerTemplate {
 	protected XiangqiState initializeState() {
 		XiangqiState state = new XiangqiState();
 		state.version = XiangqiGameVersion.BETA_XQ;
-		state.board = new XiangqiBoard(5, 5);
-		state.maxMove = 10;
-		XNC.setState(state);
+		state.board = new XiangqiBoard(maxRank, maxFile);
+		state.maxMove = maxMove;
+		XNC.setRanks(maxRank);
+		XNC.setFiles(maxFile);
 		state.board = makeBoard();
 		return state;
 	}

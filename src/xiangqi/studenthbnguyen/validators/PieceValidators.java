@@ -74,17 +74,10 @@ public class PieceValidators {
 		return result;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> isInPalaceRed = (state, from, to) -> {
-		boolean result = from.isInPalaceRed(to);
+	public static MoveValidator<XiangqiState, XNC, Boolean> isInPalace = (state, from, to) -> {
+		boolean result = from.isInPalace(to, state.onMove);
 		if (!result) 
 			state.moveMessage = "Red General must stay in the palace";
-		return result;
-	};
-	
-	public static MoveValidator<XiangqiState, XNC, Boolean> isInPalaceBlack = (state, from, to) -> {
-		boolean result = from.isInPalaceBlack(to);
-		if (!result) 
-			state.moveMessage = "Black General must stay in the palace";
 		return result;
 	};
 	
