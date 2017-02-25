@@ -30,12 +30,7 @@ import xiangqi.studenthbnguyen.validators.PieceValidators;
  * @author huyennguyen
  *
  */
-public class BetaInitializer {
-	private XiangqiState state;
-	private List<MoveValidator> moveValidators;
-	private Map<XiangqiPieceImpl, List<MoveValidator>> pieceValidators;
-	private List<Predicate> gameTerminationValidators;
-	private List<BiFunction> addRuleValidators;
+public class BetaInitializer extends InitializerTemplate {
 
 	private static final XiangqiPieceImpl RED_CHARIOT1 = (XiangqiPieceImpl) makePiece(CHARIOT, RED, 1);
 	private static final XiangqiPieceImpl RED_ADVISOR1 = (XiangqiPieceImpl) makePiece(ADVISOR, RED, 1);
@@ -55,15 +50,7 @@ public class BetaInitializer {
 	 * Default constructor
 	 */
 	public BetaInitializer() {
-		moveValidators = new LinkedList<MoveValidator>();
-		pieceValidators = new HashMap<XiangqiPieceImpl, List<MoveValidator>>();
-		gameTerminationValidators = new LinkedList<Predicate>();
-		addRuleValidators = new LinkedList<BiFunction>(); 
-		state = initializeState();
-		addMoveValidators();
-		addPiecevalidators();
-		addGameTerminationValidators();
-		addAddRuleValidators(); // I know, the function name is confusing :(
+		super();
 	}
 
 
@@ -71,14 +58,16 @@ public class BetaInitializer {
 	/**
 	 * 
 	 */
-	private void addAddRuleValidators() {
+	@Override
+	protected void addAddRuleValidators() {
 		addRuleValidators.add(AddRuleValidators.addRuleToSoldier);
 	}
 
 	/**
 	 * 
 	 */
-	private void addGameTerminationValidators() {
+	@Override
+	protected void addGameTerminationValidators() {
 		gameTerminationValidators.add(GameTerminationValidators.gameNotInStalemate);
 		gameTerminationValidators.add(GameTerminationValidators.gameNotInCheckmate);
 	} 
@@ -86,7 +75,8 @@ public class BetaInitializer {
 	/**
 	 * 
 	 */
-	private void addPiecevalidators() {
+	@Override
+	protected void addPieceValidators() {
 		// general
 		List<MoveValidator> generalValidators = new LinkedList<MoveValidator>();
 		generalValidators.add(PieceValidators.isDistanceOneAndOrthogonal);
@@ -123,7 +113,8 @@ public class BetaInitializer {
 	/**
 	 * 
 	 */
-	private void addMoveValidators() {
+	@Override
+	protected void addMoveValidators() {
 		moveValidators.add(MoveValidators.isDestinationValid);
 		moveValidators.add(MoveValidators.isCorrectColor);
 		moveValidators.add(MoveValidators.hasNoBlockingPiece);
@@ -133,7 +124,8 @@ public class BetaInitializer {
 	/**
 	 * @return
 	 */
-	private XiangqiState initializeState() {
+	@Override
+	protected XiangqiState initializeState() {
 		XiangqiState state = new XiangqiState();
 		state.version = XiangqiGameVersion.BETA_XQ;
 		state.board = new XiangqiBoard(5, 5);
@@ -141,46 +133,6 @@ public class BetaInitializer {
 		XNC.setState(state);
 		state.board = makeBoard();
 		return state;
-	}
-
-	/**
-	 * getter for state
-	 * @return state
-	 */
-	public XiangqiState getState() {
-		return state;
-	}
-
-	/**
-	 * getter for move validators
-	 * @return move validators 
-	 */
-	public List<MoveValidator> getMoveValidators() {
-		return moveValidators;
-	}
-
-	/**
-	 * getter for piece validators
-	 * @return piece validators
-	 */
-	public Map<XiangqiPieceImpl, List<MoveValidator>> getPieceValidators() {
-		return pieceValidators;
-	}
-
-	/**
-	 * getter for game termination validators
-	 * @return game termination validators
-	 */
-	public List<Predicate> getGameTerminationValidators() {
-		return gameTerminationValidators;
-	}
-
-	/**
-	 * getter for add rule validators
-	 * @return add rule validators
-	 */
-	public List<BiFunction> getAddRuleValidators() {
-		return addRuleValidators;
 	}
 
 	private XiangqiBoard makeBoard() {

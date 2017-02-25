@@ -29,12 +29,7 @@ import xiangqi.studenthbnguyen.validators.PieceValidators;
  * @author huyennguyen
  *
  */
-public class GammaInitializer {
-	private XiangqiState state;
-	private List<MoveValidator> moveValidators;
-	private Map<XiangqiPieceImpl, List<MoveValidator>> pieceValidators;
-	private List<Predicate> gameTerminationValidators;
-	private List<BiFunction> addRuleValidators;
+public class GammaInitializer extends InitializerTemplate {
 
 	private static final XiangqiPieceImpl RED_CHARIOT1 = (XiangqiPieceImpl) makePiece(CHARIOT, RED, 1);
 	private static final XiangqiPieceImpl RED_ELEPHANT1 = (XiangqiPieceImpl) makePiece(ELEPHANT, RED, 1);
@@ -63,21 +58,14 @@ public class GammaInitializer {
 	private static final XiangqiPieceImpl BLACK_SOLDIER5 = (XiangqiPieceImpl) makePiece(SOLDIER, BLACK, 5);
 
 	public GammaInitializer() {
-		moveValidators = new LinkedList<MoveValidator>();
-		pieceValidators = new HashMap<XiangqiPieceImpl, List<MoveValidator>>();
-		gameTerminationValidators = new LinkedList<Predicate>();
-		addRuleValidators = new LinkedList<BiFunction>();
-		state = initializeState();
-		addMoveValidators();
-		addPiecevalidators();
-		addGameTerminationValidators();
-		addAddRuleValidators();
+		super();
 	}
 
 	/**
 	 * 
 	 */
-	private void addGameTerminationValidators() {
+	@Override
+	protected void addGameTerminationValidators() {
 		gameTerminationValidators.add(GameTerminationValidators.gameNotInStalemate);
 		gameTerminationValidators.add(GameTerminationValidators.gameNotInCheckmate);
 	} 
@@ -85,7 +73,8 @@ public class GammaInitializer {
 	/**
 	 * 
 	 */
-	private void addPiecevalidators() {
+	@Override
+	protected void addPieceValidators() {
 		// red general
 		List<MoveValidator> redGeneralValidators = new LinkedList<MoveValidator>();
 		redGeneralValidators.add(PieceValidators.isInPalaceRed);
@@ -150,21 +139,24 @@ public class GammaInitializer {
 	/**
 	 * 
 	 */
-	private void addMoveValidators() {
+	@Override
+	protected void addMoveValidators() {
 		moveValidators.add(MoveValidators.isDestinationValid);
 		moveValidators.add(MoveValidators.isCorrectColor);
 		moveValidators.add(MoveValidators.hasNoBlockingPiece);
 		moveValidators.add(MoveValidators.generalNotInCheck);
 	}
 
-	private void addAddRuleValidators() {
+	@Override
+	protected void addAddRuleValidators() {
 		addRuleValidators.add(AddRuleValidators.addRuleToSoldier);
 	}
 
 	/**
 	 * @return
 	 */
-	private XiangqiState initializeState() {
+	@Override
+	protected XiangqiState initializeState() {
 		XiangqiState state = new XiangqiState();
 		state.version = XiangqiGameVersion.GAMMA_XQ;
 		state.board = new XiangqiBoard(10, 9);
@@ -174,33 +166,7 @@ public class GammaInitializer {
 		return state;
 	}
 
-	/**
-	 * @return
-	 */
-	public XiangqiState getState() {
-		return state;
-	}
-
-	/**
-	 * @return
-	 */
-	public List<MoveValidator> getMoveValidators() {
-		return moveValidators;
-	}
-
-	/**
-	 * @return
-	 */
-	public Map<XiangqiPieceImpl, List<MoveValidator>> getPieceValidators() {
-		return pieceValidators;
-	}
-
-	/**
-	 * @return
-	 */
-	public List<Predicate> getGameTerminationValidators() {
-		return gameTerminationValidators;
-	}
+	
 
 	private XiangqiBoard makeBoard() {
 		XiangqiBoard board = new XiangqiBoard(10, 9);
@@ -231,12 +197,5 @@ public class GammaInitializer {
 		board.placePiece(BLACK_SOLDIER5, XNC.makeXNC(4, 9));
 
 		return board;
-	}
-
-	/**
-	 * @return
-	 */
-	public List<BiFunction> getAddRuleValidators() {
-		return addRuleValidators;
 	}
 }
