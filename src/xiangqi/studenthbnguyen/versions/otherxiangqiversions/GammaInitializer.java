@@ -104,25 +104,21 @@ public class GammaInitializer extends InitializerTemplate {
 		pieceValidators.put(BLACK_ADVISOR1, advisorValidators);
 		pieceValidators.put(BLACK_ADVISOR2, advisorValidators);
 
-		// red soldiers
-		List<MoveValidator> redSoldierValidators = new LinkedList<MoveValidator>();
-		redSoldierValidators.add(PieceValidators.isForwardOneStepRed);
-		pieceValidators.put(RED_SOLDIER1, redSoldierValidators);
-		pieceValidators.put(RED_SOLDIER2, redSoldierValidators);
-		pieceValidators.put(RED_SOLDIER3, redSoldierValidators);
-		pieceValidators.put(RED_SOLDIER4, redSoldierValidators);
-		pieceValidators.put(RED_SOLDIER5, redSoldierValidators);
+		// soldiers
+		List<MoveValidator> soldierValidators = new LinkedList<MoveValidator>();
+		soldierValidators.add(PieceValidators.isForwardOneStep);
+		pieceValidators.put(RED_SOLDIER1, soldierValidators);
+		pieceValidators.put(RED_SOLDIER2, soldierValidators);
+		pieceValidators.put(RED_SOLDIER3, soldierValidators);
+		pieceValidators.put(RED_SOLDIER4, soldierValidators);
+		pieceValidators.put(RED_SOLDIER5, soldierValidators);
+		pieceValidators.put(BLACK_SOLDIER1, soldierValidators);
+		pieceValidators.put(BLACK_SOLDIER2, soldierValidators);
+		pieceValidators.put(BLACK_SOLDIER3, soldierValidators);
+		pieceValidators.put(BLACK_SOLDIER4, soldierValidators);
+		pieceValidators.put(BLACK_SOLDIER5, soldierValidators);
 
-		// black soldiers
-		List<MoveValidator> blackSoldierValidators = new LinkedList<MoveValidator>();
-		blackSoldierValidators.add(PieceValidators.isForwardOneStepBlack);
-		pieceValidators.put(BLACK_SOLDIER1, blackSoldierValidators);
-		pieceValidators.put(BLACK_SOLDIER2, blackSoldierValidators);
-		pieceValidators.put(BLACK_SOLDIER3, blackSoldierValidators);
-		pieceValidators.put(BLACK_SOLDIER4, blackSoldierValidators);
-		pieceValidators.put(BLACK_SOLDIER5, blackSoldierValidators);
-
-		// red elephants
+		// elephants
 		List<MoveValidator> elephantValidators = new LinkedList<MoveValidator>();
 		elephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
 		elephantValidators.add(PieceValidators.isNotCrossingRiver);

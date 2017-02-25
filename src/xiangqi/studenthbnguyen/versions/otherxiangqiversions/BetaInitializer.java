@@ -106,15 +106,11 @@ public class BetaInitializer extends InitializerTemplate {
 		pieceValidators.put(BLACK_ADVISOR1, advisorValidators);
 		pieceValidators.put(BLACK_ADVISOR2, advisorValidators);
 
-		// red soldier
-		List<MoveValidator> redSoldierValidators = new LinkedList<MoveValidator>();
-		redSoldierValidators.add(PieceValidators.isForwardOneStepRed);
-		pieceValidators.put(RED_SOLDIER, redSoldierValidators);
-
-		// black soldier
-		List<MoveValidator> blackSoldierValidators = new LinkedList<MoveValidator>();
-		blackSoldierValidators.add(PieceValidators.isForwardOneStepBlack);
-		pieceValidators.put(BLACK_SOLDIER, blackSoldierValidators);
+		// soldier
+		List<MoveValidator> soldierValidators = new LinkedList<MoveValidator>();
+		soldierValidators.add(PieceValidators.isForwardOneStep);
+		pieceValidators.put(RED_SOLDIER, soldierValidators);
+		pieceValidators.put(BLACK_SOLDIER, soldierValidators);
 	}
 
 	/**

@@ -87,17 +87,8 @@ public class XNC implements XiangqiCoordinate {
 	 * @param to the destination coordinates
 	 * @return true if the piece moves forward one step, false otherwise
 	 */
-	public boolean isForwardOneStepRed(XNC to) {
-		return (to.getFile() == file && (to.getRank() - rank) == 1);
-	}
-	
-	/**
-	 * Check to see whether the piece moves forward one step
-	 * @param to the destination coordinates
-	 * @return true if the piece moves forward one step, false otherwise
-	 */
-	public boolean isForwardOneStepBlack(XNC to) {
-		return (to.getFile() == file && (rank - to.getRank()) == 1);
+	public boolean isForwardOneStep(XNC to, XiangqiColor color) {
+		return (to.getFile() == file) && (color == RED) ?  (to.getRank() - rank) == 1 : (rank - to.getRank()) == 1;
 	}
 	
 	/**
@@ -215,6 +206,7 @@ public class XNC implements XiangqiCoordinate {
 	/**
 	 * Check whether the Red General is in the palace
 	 * @param to the destination
+	 * @param color the color
 	 * @return true if the general is in the palace after making the move, false otherwise
 	 */
 	public boolean isInPalace(XNC to, XiangqiColor color) {
@@ -225,8 +217,9 @@ public class XNC implements XiangqiCoordinate {
 	}
 
 	/**
-	 * Check whether the Red Elephant is crossing the river
+	 * Check whether the Elephant is crossing the river
 	 * @param to the destination
+	 * @param color the color
 	 * @return true if the Red Elephant is crossing the river after making the move, false otherwise
 	 */
 	public boolean isNotCrossingRiver(XNC to, XiangqiColor color) {
