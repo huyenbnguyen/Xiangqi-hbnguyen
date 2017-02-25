@@ -229,18 +229,7 @@ public class XNC implements XiangqiCoordinate {
 	 * @param to the destination
 	 * @return true if the Red Elephant is crossing the river after making the move, false otherwise
 	 */
-	public boolean isNotCrossingRiverRed(XNC to) {
-		return to.getRank() <= 5;
+	public boolean isNotCrossingRiver(XNC to, XiangqiColor color) {
+		return (color == RED) ? (to.getRank() <= 5) : (to.getRank() >= 6);
 	}
-
-	/**
-	 * Check whether the Black Elephant is crossing the river
-	 * @param to the destination
-	 * @return true if the Black Elephant is crossing the river after making the move, false otherwise
-	 */
-	public boolean isNotCrossingRiverBlack(XNC to) {
-		return to.getRank() >= 6;
-	}
-
-	
 }

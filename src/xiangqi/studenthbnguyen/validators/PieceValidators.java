@@ -81,17 +81,10 @@ public class PieceValidators {
 		return result;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> isNotCrossingRiverRed = (state, from, to) -> {
-		boolean result = from.isNotCrossingRiverRed(to);
+	public static MoveValidator<XiangqiState, XNC, Boolean> isNotCrossingRiver = (state, from, to) -> {
+		boolean result = from.isNotCrossingRiver(to, state.onMove);
 		if (!result) 
 			state.moveMessage = "Red Elephant must not cross river";
-		return result;
-	};
-	
-	public static MoveValidator<XiangqiState, XNC, Boolean> isNotCrossingRiverBlack = (state, from, to) -> {
-		boolean result = from.isNotCrossingRiverBlack(to);
-		if (!result) 
-			state.moveMessage = "Black Elephant must not cross river";
 		return result;
 	};
 }

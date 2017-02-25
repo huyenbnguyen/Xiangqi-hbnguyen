@@ -123,18 +123,13 @@ public class GammaInitializer extends InitializerTemplate {
 		pieceValidators.put(BLACK_SOLDIER5, blackSoldierValidators);
 
 		// red elephants
-		List<MoveValidator> redElephantValidators = new LinkedList<MoveValidator>();
-		redElephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
-		redElephantValidators.add(PieceValidators.isNotCrossingRiverRed);
-		pieceValidators.put(RED_ELEPHANT1, redElephantValidators);
-		pieceValidators.put(RED_ELEPHANT2, redElephantValidators);
-		
-		// black elephants
-		List<MoveValidator> blackElephantValidators = new LinkedList<MoveValidator>();
-		blackElephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
-		blackElephantValidators.add(PieceValidators.isNotCrossingRiverBlack);
-		pieceValidators.put(BLACK_ELEPHANT1, blackElephantValidators);
-		pieceValidators.put(BLACK_ELEPHANT2, blackElephantValidators);
+		List<MoveValidator> elephantValidators = new LinkedList<MoveValidator>();
+		elephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
+		elephantValidators.add(PieceValidators.isNotCrossingRiver);
+		pieceValidators.put(RED_ELEPHANT1, elephantValidators);
+		pieceValidators.put(RED_ELEPHANT2, elephantValidators);
+		pieceValidators.put(BLACK_ELEPHANT1, elephantValidators);
+		pieceValidators.put(BLACK_ELEPHANT2, elephantValidators);
 	}
 
 	/**
