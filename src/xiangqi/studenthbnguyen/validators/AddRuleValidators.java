@@ -29,32 +29,19 @@ public class AddRuleValidators {
 	
 	public static BiFunction<XiangqiState, Map<XiangqiPieceImpl, List<MoveValidator>>, Map<XiangqiPieceImpl, List<MoveValidator>>> addRuleToSoldier = (state, moveValidators) -> {
 		if (state.version != GAMMA_XQ) return moveValidators;
-		moveValidators = addRuleToSoldierHelperRed(state, moveValidators);
-		moveValidators = addRuleToSoldierHelperBlack(state, moveValidators);
+		moveValidators = addRuleToSoldierHelper(state, moveValidators, RED);
+		moveValidators = addRuleToSoldierHelper(state, moveValidators, BLACK);
 		return moveValidators;
 	};
 
-	private static Map<XiangqiPieceImpl, List<MoveValidator>> addRuleToSoldierHelperBlack(XiangqiState state, Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators) {
+	private static Map<XiangqiPieceImpl, List<MoveValidator>> addRuleToSoldierHelper(XiangqiState state, Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators, XiangqiColor color) {
+		
 		for (Entry<XNC, XiangqiPieceImpl> entry : state.board.boardMap.entrySet()) {
 			XiangqiPiece piece = entry.getValue();
 			XNC coordinate = entry.getKey();
-			if (piece.getColor() == BLACK && 
-					piece.getPieceType() == SOLDIER && 
-					coordinate.getRank() <= 5) { 
-				return ValidatorAdder.addValidator(moveValidators, piece, PieceValidators.moveLeftOrRightOrUpOneStepBlack);
-			}  
-		}
-		return moveValidators;
-	}
-
-	private static Map<XiangqiPieceImpl, List<MoveValidator>> addRuleToSoldierHelperRed(XiangqiState state, Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators) {
-		for (Entry<XNC, XiangqiPieceImpl> entry : state.board.boardMap.entrySet()) {
-			XiangqiPiece piece = entry.getValue();
-			XNC coordinate = entry.getKey();
-			if (piece.getColor() == RED && 
-					piece.getPieceType() == SOLDIER && 
-					coordinate.getRank() >= 6) { 
-				return ValidatorAdder.addValidator(moveValidators, piece, PieceValidators.moveLeftOrRightOrUpOneStepRed);
+			boolean crossedRiver = (color == RED) ? coordinate.getRank() >= 6 : coordinate.getRank() <= 5; 
+			if (crossedRiver && piece.getColor() == color && piece.getPieceType() == SOLDIER) { 
+				return ValidatorAdder.addValidator(moveValidators, piece, PieceValidators.moveLeftOrRightOrUpOneStep);
 			}  
 		}
 		return moveValidators;

@@ -6,6 +6,7 @@ package xiangqi.studenthbnguyen.util;
 import java.util.List;
 import java.util.Map;
 
+import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.common.XiangqiPieceType;
 import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
