@@ -190,11 +190,9 @@ public class XNC implements XiangqiCoordinate {
 	 * @param to the destination
 	 * @return true if the piece is moving left or right by one step, false otherwise
 	 */
-	public boolean moveLeftOrRightOrUpOneStep(XNC to, XiangqiColor color) {		
-		return (rank == to.getRank() && 
-				Math.abs(file - to.getFile()) == 1) || 
-				(file == to.getFile() && 
-				(color == RED) ? (to.getRank() - rank == 1) : (rank - to.getRank() == 1));
+	public boolean moveLeftOrRightOrUpOneStep(XNC to, XiangqiColor color) {	
+		return (rank == to.getRank() && Math.abs(file - to.getFile()) == 1) || 
+				isForwardOneStep(to, color);
 	}
 
 	/**
