@@ -27,10 +27,23 @@ public class XiangqiPieceImpl implements XiangqiPiece {
 		this.color = color;
 	}
 	
+	/**
+	 * make a XiangqiPiece 
+	 * @param pieceType piece type
+	 * @param color color
+	 * @param index index to differentiate between different pieces of the same type
+	 * @return a chess piece
+	 */
 	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color, int index) {
 		return new XiangqiPieceImpl(pieceType, color, index);
 	}
 	
+	/**
+	 * make a XiangqiPiece 
+	 * @param pieceType piece type
+	 * @param color color
+	 * @return a chess piece
+	 */
 	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color) {
 		return new XiangqiPieceImpl(pieceType, color);
 	}

@@ -26,18 +26,29 @@ public class XNC implements XiangqiCoordinate {
 		this.file = file;
 	}
 	
+	/**
+	 * make a XNC 
+	 * @param rank the rank 
+	 * @param file the file
+	 * @return an XNC
+	 */
 	public static XNC makeXNC(int rank, int file) {
 		return new XNC(rank, file);
 	}
 	
+	/**
+	 * Setter for state 
+	 * @param stateParam the state of the game
+	 */
 	public static void setState(XiangqiState stateParam) {
 		state = stateParam;
 	}
 
 	/**
-	 * @param destination
-	 * @param onMove
-	 * @return
+	 * make an XNC
+	 * @param coordinate the original coordinate 
+	 * @param aspect the aspect
+	 * @return the XNC of the original coordinate
 	 */
 	public static XNC makeXNC(XiangqiCoordinate coordinate, XiangqiColor aspect) {
 		XNC result = makeXNC(coordinate.getRank(), coordinate.getFile());
@@ -165,8 +176,9 @@ public class XNC implements XiangqiCoordinate {
     }
 
 	/**
-	 * @param to
-	 * @return
+	 * Check whether the piece is moving diagonally by two steps
+	 * @param to the destination
+	 * @return true if the piece is moving diagonally by two steps, false otherwise
 	 */
 	public boolean moveDiagonallyTwoSteps(XNC to) {
 		return (Math.abs(to.getFile() - file) == 2 && 
@@ -174,17 +186,29 @@ public class XNC implements XiangqiCoordinate {
 	}
 
 	/**
-	 * @param to
-	 * @return
+	 * Check whether the Red Soldier is moving left or right or up by one step
+	 * @param to the destination
+	 * @return true if the piece is moving left or right by one step, false otherwise
 	 */
-	public boolean moveLeftOrRightOneStepRed(XNC to) {
+	public boolean moveLeftOrRightOrUpOneStepRed(XNC to) {
 		return (rank == to.getRank() && Math.abs(file - to.getFile()) == 1) || 
 				(file == to.getFile() && to.getRank() - rank == 1);
 	}
+	
+	/**
+	 * Check whether the Black Soldier is moving left or right or up by one step
+	 * @param to the destination
+	 * @return true if the piece is moving left or right by one step, false otherwise
+	 */
+	public boolean moveLeftOrRightOrUpOneStepBlack(XNC to) {
+		return (rank == to.getRank() && Math.abs(file - to.getFile()) == 1) || 
+				(file == to.getFile() && rank - to.getRank() == 1);
+	}
 
 	/**
-	 * @param to
-	 * @return
+	 * Check whether the Red General is in the palace
+	 * @param to the destination
+	 * @return true if the general is in the palace after making the move, false otherwise
 	 */
 	public boolean isInPalaceRed(XNC to) {
 		return (to.getRank() >= 1 && to.getRank() <= 3 &&
@@ -192,8 +216,9 @@ public class XNC implements XiangqiCoordinate {
 	}
 
 	/**
-	 * @param to
-	 * @return
+	 * Check whether the Black General is in the palace
+	 * @param to the destination
+	 * @return true if the general is in the palace after making the move, false otherwise
 	 */
 	public boolean isInPalaceBlack(XNC to) {
 		return (to.getRank() >= 8 && to.getRank() <= 10 &&
@@ -201,27 +226,22 @@ public class XNC implements XiangqiCoordinate {
 	}
 
 	/**
-	 * @param to
-	 * @return
+	 * Check whether the Red Elephant is crossing the river
+	 * @param to the destination
+	 * @return true if the Red Elephant is crossing the river after making the move, false otherwise
 	 */
 	public boolean isNotCrossingRiverRed(XNC to) {
 		return to.getRank() <= 5;
 	}
 
 	/**
-	 * @param to
-	 * @return
+	 * Check whether the Black Elephant is crossing the river
+	 * @param to the destination
+	 * @return true if the Black Elephant is crossing the river after making the move, false otherwise
 	 */
 	public boolean isNotCrossingRiverBlack(XNC to) {
 		return to.getRank() >= 6;
 	}
 
-	/**
-	 * @param to
-	 * @return
-	 */
-	public boolean moveLeftOrRightOneStepBlack(XNC to) {
-		return (rank == to.getRank() && Math.abs(file - to.getFile()) == 1) || 
-				(file == to.getFile() && rank - to.getRank() == 1);
-	}
+	
 }

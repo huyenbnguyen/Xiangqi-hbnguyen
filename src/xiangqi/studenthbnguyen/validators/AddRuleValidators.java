@@ -27,12 +27,6 @@ import xiangqi.studenthbnguyen.util.ValidatorAdder;
  */
 public class AddRuleValidators {
 	
-	/**
-	 * 
-	 * @param state
-	 * @param moveValidators
-	 * @return
-	 */
 	public static BiFunction<XiangqiState, Map<XiangqiPieceImpl, List<MoveValidator>>, Map<XiangqiPieceImpl, List<MoveValidator>>> addRuleToSoldier = (state, moveValidators) -> {
 		if (state.version != GAMMA_XQ) return moveValidators;
 		moveValidators = addRuleToSoldierHelperRed(state, moveValidators);
@@ -40,11 +34,6 @@ public class AddRuleValidators {
 		return moveValidators;
 	};
 
-	/**
-	 * @param state
-	 * @param moveValidators 
-	 * @return
-	 */
 	private static Map<XiangqiPieceImpl, List<MoveValidator>> addRuleToSoldierHelperBlack(XiangqiState state, Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators) {
 		for (Entry<XNC, XiangqiPiece> entry : state.board.boardMap.entrySet()) {
 			XiangqiPiece piece = entry.getValue();
@@ -58,12 +47,6 @@ public class AddRuleValidators {
 		return moveValidators;
 	}
 
-	/**
-	 * 
-	 * @param state
-	 * @param moveValidators
-	 * @return
-	 */
 	private static Map<XiangqiPieceImpl, List<MoveValidator>> addRuleToSoldierHelperRed(XiangqiState state, Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators) {
 		for (Entry<XNC, XiangqiPiece> entry : state.board.boardMap.entrySet()) {
 			XiangqiPiece piece = entry.getValue();

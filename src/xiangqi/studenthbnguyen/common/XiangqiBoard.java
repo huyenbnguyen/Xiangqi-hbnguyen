@@ -74,7 +74,7 @@ public class XiangqiBoard {
 	}
 	
 	/**
-	 * Find the coordinate general of the given color
+	 * Find the coordinate of a piece given its color and piece type
 	 * @param color the color 
 	 * @return the XNC of the general
 	 */

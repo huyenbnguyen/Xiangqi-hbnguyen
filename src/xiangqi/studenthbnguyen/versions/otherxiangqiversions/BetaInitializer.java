@@ -51,6 +51,9 @@ public class BetaInitializer {
 	private static final XiangqiPieceImpl BLACK_CHARIOT2 = (XiangqiPieceImpl) makePiece(CHARIOT, BLACK, 2);
 	private static final XiangqiPieceImpl BLACK_SOLDIER = (XiangqiPieceImpl) makePiece(SOLDIER, BLACK, 1);
 
+	/**
+	 * Default constructor
+	 */
 	public BetaInitializer() {
 		moveValidators = new LinkedList<MoveValidator>();
 		pieceValidators = new HashMap<XiangqiPieceImpl, List<MoveValidator>>();
@@ -141,35 +144,40 @@ public class BetaInitializer {
 	}
 
 	/**
-	 * @return
+	 * getter for state
+	 * @return state
 	 */
 	public XiangqiState getState() {
 		return state;
 	}
 
 	/**
-	 * @return
+	 * getter for move validators
+	 * @return move validators 
 	 */
 	public List<MoveValidator> getMoveValidators() {
 		return moveValidators;
 	}
 
 	/**
-	 * @return
+	 * getter for piece validators
+	 * @return piece validators
 	 */
 	public Map<XiangqiPieceImpl, List<MoveValidator>> getPieceValidators() {
 		return pieceValidators;
 	}
 
 	/**
-	 * @return
+	 * getter for game termination validators
+	 * @return game termination validators
 	 */
 	public List<Predicate> getGameTerminationValidators() {
 		return gameTerminationValidators;
 	}
 
 	/**
-	 * @return
+	 * getter for add rule validators
+	 * @return add rule validators
 	 */
 	public List<BiFunction> getAddRuleValidators() {
 		return addRuleValidators;

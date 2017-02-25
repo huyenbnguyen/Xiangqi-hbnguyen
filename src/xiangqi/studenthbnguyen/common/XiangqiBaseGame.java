@@ -141,7 +141,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 	}
 
 	/**
-	 * 
+	 * check to see whether the rules for any pieces need to be updated, and update if necessary
 	 */
 	private Map<XiangqiPieceImpl, List<MoveValidator>> validateAddRuleConditions() {
 		for (BiFunction<XiangqiState, Map<XiangqiPieceImpl, List<MoveValidator>>, Map<XiangqiPieceImpl, List<MoveValidator>>> av : addRuleValidators) {
@@ -151,8 +151,11 @@ public class XiangqiBaseGame implements XiangqiGame {
 	}
 
 	/**
-	 * @param sourceNormalized
-	 * @param destinationNormalized
+	 * Check whether a move is valid based on:
+	 * 1. The rules for the piece
+	 * 2. The rules of the game
+	 * @param sourceNormalized the source
+	 * @param destinationNormalized the destination
 	 */
 	public MoveResult checkRules(XNC sourceNormalized, XNC destinationNormalized) {
 		// Validate the move according the rules of the individual piece
@@ -171,8 +174,9 @@ public class XiangqiBaseGame implements XiangqiGame {
 
 
 	/**
-	 * @param sourceNormalized
-	 * @param destinationNormalized
+	 * Check whether a move is valid based on the rules of the piece
+	 * @param sourceNormalized the source
+	 * @param destinationNormalized the destination
 	 */
 	public MoveResult validatePieceRules(XNC sourceNormalized, XNC destinationNormalized) {
 		XiangqiPieceImpl piece = (XiangqiPieceImpl) state.board.getPieceAt(sourceNormalized);
@@ -183,8 +187,9 @@ public class XiangqiBaseGame implements XiangqiGame {
 	}
 
 	/**
-	 * @param sourceNormalized
-	 * @param destinationNormalized
+	 * Check whether a move is valid based on the rules of the game
+	 * @param sourceNormalized the source
+	 * @param destinationNormalized the destination
 	 */
 	private MoveResult validateGameRules(XNC sourceNormalized, XNC destinationNormalized) {
 		for (MoveValidator<XiangqiState, XNC, Boolean> mv : moveValidators) {
@@ -194,8 +199,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 	}
 
 	/**
-	 * @param sourceNormalized
-	 * @param destinationNormalized
+	 * Check whether the game is in terminal state
 	 */
 	private MoveResult validateTerminationRules() {
 		for (Predicate<XiangqiState> tv : gameTerminationValidators) {
@@ -213,11 +217,10 @@ public class XiangqiBaseGame implements XiangqiGame {
 		state.onMove = (state.onMove == RED) ? BLACK : RED; 
 	}
 
-
-
 	/**
-	 * @param source
-	 * @return
+	 * Check whether is given coordinate is within the board
+	 * @param coordinate the coordinate
+	 * @return true if the given coordinate is within the board, false otherwise
 	 */
 	private boolean checkBounds(XiangqiCoordinate coordinate) {
 		final int rank = coordinate.getRank();

@@ -27,7 +27,12 @@ public class XiangqiState {
 	public XiangqiState() {
 		
 	}
-	 
+	
+	/**
+	 * make a deep copy of the game 
+	 * @param state the state of the original game
+	 * @return a deep copy of the game
+	 */
 	public static XiangqiState makeDeepCopy(XiangqiState state) {
 		XiangqiState stateCopy = new XiangqiState();
 		stateCopy.onMove = state.onMove;

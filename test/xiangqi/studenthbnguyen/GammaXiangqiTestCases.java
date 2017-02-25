@@ -289,6 +289,15 @@ public class GammaXiangqiTestCases {
 	}
 	
 	@Test 
+	public void redSoldierCanMoveBackwardsAfterCrossingRiver() {
+		assertEquals(OK, game.makeMove(c4_1, c5_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c5_1, c6_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(ILLEGAL, game.makeMove(c6_1, c5_1));
+	}
+	
+	@Test 
 	public void numberOfMovesExceeded() {
 		assertEquals(OK, game.makeMove(c1_1, c2_1));
 		assertEquals(OK, game.makeMove(c1_1, c2_1));

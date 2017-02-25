@@ -13,6 +13,7 @@ import xiangqi.studenthbnguyen.common.XNC;
  *
  */
 public class ValidCoordinateGenerators {
+
 	public static ValidCoordinateGenerator<XNC> generalValidCoordinateGenerator = (coordinate) -> {
 		LinkedList<XNC> validXNCs = new LinkedList<XNC>();
 		int rank = coordinate.getRank();

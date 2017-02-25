@@ -61,14 +61,14 @@ public class PieceValidators {
 	};
 	
 	public static MoveValidator<XiangqiState, XNC, Boolean> moveLeftOrRightOrUpOneStepRed = (state, from, to) -> {
-		boolean result = from.moveLeftOrRightOneStepRed(to);
+		boolean result = from.moveLeftOrRightOrUpOneStepRed(to);
 		if (!result) 
 			state.moveMessage = "Piece must move left or righ one step";
 		return result;
 	};
 	
 	public static MoveValidator<XiangqiState, XNC, Boolean> moveLeftOrRightOrUpOneStepBlack = (state, from, to) -> {
-		boolean result = from.moveLeftOrRightOneStepBlack(to);
+		boolean result = from.moveLeftOrRightOrUpOneStepBlack(to);
 		if (!result) 
 			state.moveMessage = "Piece must move left or righ one step";
 		return result;
