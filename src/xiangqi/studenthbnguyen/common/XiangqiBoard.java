@@ -14,7 +14,7 @@ import xiangqi.common.XiangqiPieceType;
  *
  */
 public class XiangqiBoard {
-	public Map<XNC, XiangqiPiece> boardMap;
+	public Map<XNC, XiangqiPieceImpl> boardMap;
 	
 	public int ranks;
 	public int files;
@@ -25,7 +25,7 @@ public class XiangqiBoard {
 	 * @param files the number of files
 	 */
 	public XiangqiBoard(int ranks, int files) {
-		boardMap = new HashMap<XNC, XiangqiPiece>();
+		boardMap = new HashMap<XNC, XiangqiPieceImpl>();
 		this.ranks = ranks;
 		this.files = files;
 	}
@@ -70,7 +70,7 @@ public class XiangqiBoard {
 	public void placePiece(XiangqiPiece xiangqiPiece, XNC normalizedCoordinate) {
 		XiangqiColor color = xiangqiPiece.getColor();
 		normalizedCoordinate = XNC.makeXNC(normalizedCoordinate, color);
-		boardMap.put(normalizedCoordinate, xiangqiPiece);
+		boardMap.put(normalizedCoordinate, (XiangqiPieceImpl) xiangqiPiece);
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class XiangqiBoard {
 	 * @return the XNC of the general
 	 */
 	public XNC findPiece(XiangqiPieceType pieceType, XiangqiColor color) {
-		for (Map.Entry<XNC, XiangqiPiece> entry : boardMap.entrySet()) {
+		for (Map.Entry<XNC, XiangqiPieceImpl> entry : boardMap.entrySet()) {
     		if (entry.getValue().getPieceType() == pieceType && 
     				entry.getValue().getColor() == color) {
     			return entry.getKey();

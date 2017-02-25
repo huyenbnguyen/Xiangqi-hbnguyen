@@ -7,6 +7,7 @@ import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
+import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 import xiangqi.studenthbnguyen.common.XiangqiState;
 import static xiangqi.common.MoveResult.*;
 import static xiangqi.common.XiangqiPieceType.*;
@@ -56,7 +57,7 @@ public class MoveValidators {
 		// for the new game, see if any opponent pieces can capture the general
 		XiangqiColor color = gameCopy.getState().onMove;
 		XNC generalCoordinate = gameCopy.getState().board.findPiece(GENERAL, color);
-    	for (Entry<XNC, XiangqiPiece> entry : gameCopy.getState().board.boardMap.entrySet()) {
+    	for (Entry<XNC, XiangqiPieceImpl> entry : gameCopy.getState().board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() != color && 
     				gameCopy.validatePieceRules(entry.getKey(), generalCoordinate) == OK &&
     				hasNoBlockingPiece.apply(gameCopy.getState(), entry.getKey(), generalCoordinate)) { 

@@ -35,7 +35,7 @@ public class AddRuleValidators {
 	};
 
 	private static Map<XiangqiPieceImpl, List<MoveValidator>> addRuleToSoldierHelperBlack(XiangqiState state, Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators) {
-		for (Entry<XNC, XiangqiPiece> entry : state.board.boardMap.entrySet()) {
+		for (Entry<XNC, XiangqiPieceImpl> entry : state.board.boardMap.entrySet()) {
 			XiangqiPiece piece = entry.getValue();
 			XNC coordinate = entry.getKey();
 			if (piece.getColor() == BLACK && 
@@ -48,7 +48,7 @@ public class AddRuleValidators {
 	}
 
 	private static Map<XiangqiPieceImpl, List<MoveValidator>> addRuleToSoldierHelperRed(XiangqiState state, Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators) {
-		for (Entry<XNC, XiangqiPiece> entry : state.board.boardMap.entrySet()) {
+		for (Entry<XNC, XiangqiPieceImpl> entry : state.board.boardMap.entrySet()) {
 			XiangqiPiece piece = entry.getValue();
 			XNC coordinate = entry.getKey();
 			if (piece.getColor() == RED && 

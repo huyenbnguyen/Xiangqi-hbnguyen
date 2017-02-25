@@ -16,6 +16,7 @@ import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
+import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 import xiangqi.studenthbnguyen.common.XiangqiState;
 import xiangqi.studenthbnguyen.validcoordinategenerators.ValidCoordinateGenerators;
 
@@ -32,7 +33,7 @@ public class GameTerminationValidators {
 		// for the new game, see if any opponent pieces can capture the general
 		XiangqiColor color = gameCopy.getState().onMove;
 		XNC generalCoordinate = gameCopy.getState().board.findPiece(GENERAL, color);
-    	for (Entry<XNC, XiangqiPiece> entry : gameCopy.getState().board.boardMap.entrySet()) {
+    	for (Entry<XNC, XiangqiPieceImpl> entry : gameCopy.getState().board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() != color && 
     				gameCopy.validatePieceRules(entry.getKey(), generalCoordinate) == OK) { 
     			state.generalAttacker = entry.getValue();
@@ -117,7 +118,7 @@ public class GameTerminationValidators {
 	 * @return true if there's a way for any pieces of the given color to move to the given coordinate, false otherwise
 	 */
 	private static boolean hasPathTo(XiangqiBaseGame game, XiangqiColor color, XNC coordinate) {
-		for (Entry<XNC, XiangqiPiece> entry : game.getState().board.boardMap.entrySet()) {
+		for (Entry<XNC, XiangqiPieceImpl> entry : game.getState().board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() == color && 
     				game.validatePieceRules(entry.getKey(), coordinate) == OK) {
     			return true;
