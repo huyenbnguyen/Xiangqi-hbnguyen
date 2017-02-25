@@ -32,7 +32,7 @@ public class GameTerminationValidators {
 		
 		// for the new game, see if any opponent pieces can capture the general
 		XiangqiColor color = gameCopy.getState().onMove;
-		XNC generalCoordinate = gameCopy.getState().board.findPiece(GENERAL, color);
+		XNC generalCoordinate = gameCopy.getState().board.findPiece(GENERAL, color, 1);
     	for (Entry<XNC, XiangqiPieceImpl> entry : gameCopy.getState().board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() != color && 
     				gameCopy.validatePieceRules(entry.getKey(), generalCoordinate) == OK) { 
@@ -59,7 +59,7 @@ public class GameTerminationValidators {
 			return true; 
 		
 		// General can move out of check
-		XNC generalXNC = gameCopy.getState().board.findPiece(GENERAL, color);
+		XNC generalXNC = gameCopy.getState().board.findPiece(GENERAL, color, 1);
 		LinkedList<XNC> validCoordinates = ValidCoordinateGenerators.generalValidCoordinateGenerator.apply(generalXNC);
 		ListIterator<XNC> validListIterator = validCoordinates.listIterator();
 		while (validListIterator.hasNext()) {
@@ -69,7 +69,8 @@ public class GameTerminationValidators {
 		
 		// Check can be blocked
 		XiangqiColor attackerColor = (color == RED) ? BLACK : RED;
-		XNC attackerCoordinate = gameCopy.getState().board.findPiece(gameCopy.getState().generalAttacker.getPieceType(), attackerColor);
+		XiangqiPieceImpl attacker = (XiangqiPieceImpl) gameCopy.getState().generalAttacker;
+		XNC attackerCoordinate = gameCopy.getState().board.findPiece(attacker.getPieceType(), attacker.getColor(), attacker.getIndex());
 		List<XNC> intermediateCoordinates = XNC.generateIntermediateCoordinates(generalXNC, attackerCoordinate);		
 		ListIterator<XNC> intermediateListIterator = intermediateCoordinates.listIterator();
 		while (intermediateListIterator.hasNext()) {
