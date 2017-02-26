@@ -38,9 +38,7 @@ public class MoveValidators {
 		return result;
 	};
 
-	public static MoveValidator<XiangqiState, XNC, Boolean> hasNoBlockingPiece = (state, from, to) -> {
-		return (countBlockingPiece(state, from, to) == 0);
-	};
+
 	
 	public static MoveValidator<XiangqiState, XNC, Boolean> generalNotInCheck = (state, from, to) -> {
 		// pretend like you're creating a new game with the move made
@@ -55,7 +53,7 @@ public class MoveValidators {
     	for (Entry<XNC, XiangqiPieceImpl> entry : gameCopy.getState().board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() == color && 
     				gameCopy.validatePieceRules(entry.getKey(), generalCoordinate) == OK &&
-    				hasNoBlockingPiece.apply(gameCopy.getState(), entry.getKey(), generalCoordinate)) { 
+    				PieceValidators.hasNoBlockingPiece.apply(gameCopy.getState(), entry.getKey(), generalCoordinate)) { 
     			// if there's not a move to be made, it means we're dealing with the game itself, not a copy
     			state.generalAttacker = entry.getValue();
     			return false;
@@ -65,14 +63,5 @@ public class MoveValidators {
     	return true;
 	};
 	
-	private static int countBlockingPiece(XiangqiState state, XNC from, XNC to) {
-		int blockingPieceNum = 0;
-		List<XNC> intermediateCoordinates = XNC.generateIntermediateCoordinates(from, to);		
-		ListIterator<XNC> listIterator = intermediateCoordinates.listIterator();
-		while (listIterator.hasNext()) {
-			if (state.board.getPieceAt(listIterator.next()).getPieceType() != NONE)
-				blockingPieceNum++;
-		}
-		return blockingPieceNum;
-	}
+	
 }

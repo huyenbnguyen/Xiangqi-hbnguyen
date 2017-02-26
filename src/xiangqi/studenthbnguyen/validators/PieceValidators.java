@@ -73,4 +73,19 @@ public class PieceValidators {
 			state.moveMessage = "Red Elephant must not cross river";
 		return result;
 	};
+	
+	public static MoveValidator<XiangqiState, XNC, Boolean> hasNoBlockingPiece = (state, from, to) -> {
+		return (countBlockingPiece(state, from, to) == 0);
+	};
+	
+	private static int countBlockingPiece(XiangqiState state, XNC from, XNC to) {
+		int blockingPieceNum = 0;
+		List<XNC> intermediateCoordinates = XNC.generateIntermediateCoordinates(from, to);		
+		ListIterator<XNC> listIterator = intermediateCoordinates.listIterator();
+		while (listIterator.hasNext()) {
+			if (state.board.getPieceAt(listIterator.next()).getPieceType() != NONE)
+				blockingPieceNum++;
+		}
+		return blockingPieceNum;
+	}
 }
