@@ -277,6 +277,7 @@ public class GammaXiangqiTestCases {
 		assertEquals(OK, game.makeMove(c6_1, c6_2));
 		assertEquals(OK, game.makeMove(c1_1, c2_1)); 
 		assertEquals(OK, game.makeMove(c6_2, c7_2));
+		assertEquals(ILLEGAL, game.makeMove(c4_1, c4_2));
 	}
 	 
 	@Test 

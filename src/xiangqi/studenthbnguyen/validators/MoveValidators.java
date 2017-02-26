@@ -52,8 +52,7 @@ public class MoveValidators {
 		XNC generalCoordinate = gameCopy.getState().board.findPiece(GENERAL, state.onMove, 1);
     	for (Entry<XNC, XiangqiPieceImpl> entry : gameCopy.getState().board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() == color && 
-    				gameCopy.validatePieceRules(entry.getKey(), generalCoordinate) == OK &&
-    				PieceValidators.hasNoBlockingPiece.apply(gameCopy.getState(), entry.getKey(), generalCoordinate)) { 
+    				gameCopy.validatePieceRules(entry.getKey(), generalCoordinate) == OK) { 
     			// if there's not a move to be made, it means we're dealing with the game itself, not a copy
     			state.generalAttacker = entry.getValue();
     			return false;

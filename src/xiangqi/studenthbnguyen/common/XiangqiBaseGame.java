@@ -180,6 +180,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 	 */
 	public MoveResult validatePieceRules(XNC sourceNormalized, XNC destinationNormalized) {
 		XiangqiPieceImpl piece = (XiangqiPieceImpl) state.board.getPieceAt(sourceNormalized);
+		List<MoveValidator> list = pieceValidators.get(piece);
 		for (MoveValidator<XiangqiState, XNC, Boolean> mv : pieceValidators.get(piece)) {
 			if (!mv.apply(state, sourceNormalized, destinationNormalized)) return ILLEGAL;
 		}

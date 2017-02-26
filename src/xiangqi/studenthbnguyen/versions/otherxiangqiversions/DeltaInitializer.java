@@ -78,7 +78,7 @@ public class DeltaInitializer extends InitializerTemplate {
 	@Override
 	protected XiangqiState initializeState() {
 		XiangqiState state = new XiangqiState();
-		state.version = XiangqiGameVersion.GAMMA_XQ;
+		state.version = XiangqiGameVersion.DELTA_XQ;
 		state.board = new XiangqiBoard(maxRank, maxFile);
 		state.maxMove = maxMove;
 		XNC.setRanks(maxRank);
