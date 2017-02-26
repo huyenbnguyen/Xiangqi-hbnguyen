@@ -17,6 +17,7 @@ import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
 import xiangqi.studenthbnguyen.common.XiangqiState;
 import xiangqi.studenthbnguyen.versions.alphaxiangqi.AlphaXiangqi;
 import xiangqi.studenthbnguyen.versions.otherxiangqiversions.BetaInitializer;
+import xiangqi.studenthbnguyen.versions.otherxiangqiversions.DeltaInitializer;
 import xiangqi.studenthbnguyen.versions.otherxiangqiversions.GammaInitializer;
 
 /**
@@ -54,6 +55,15 @@ public class XiangqiGameFactory
 			game.setPieceValidators(gammaInitializer.getPieceValidators());
 			game.setGameTerminationValidators(gammaInitializer.getGameTerminationValidators());
 			game.setAddRuleValidators(gammaInitializer.getAddRuleValidators());
+			break;
+		case DELTA_XQ:
+			DeltaInitializer deltaInitializer = new DeltaInitializer();
+			state = deltaInitializer.getState();
+			game = new XiangqiBaseGame(state);
+			game.setMoveValidators(deltaInitializer.getMoveValidators());
+			game.setPieceValidators(deltaInitializer.getPieceValidators());
+			game.setGameTerminationValidators(deltaInitializer.getGameTerminationValidators());
+			game.setAddRuleValidators(deltaInitializer.getAddRuleValidators());
 			break;
 		default:
 			System.out.println("Not yet implemented");
