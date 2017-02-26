@@ -18,29 +18,26 @@ import xiangqi.studenthbnguyen.validators.MoveValidator;
  * @author huyennguyen
  *
  */
-public class ValidatorAdder {
+public class ValidatorReplacer {
 
 	/**
 	 * Add validators to a specific piece
 	 * @param pieceValidators the existing move validators of all the pieces
 	 * @param piece the piece
-	 * @param newValidator the new validator to be added
+	 * @param newValidators the new validator to be added
 	 * @return new validators of all the pieces
 	 */
-	public static Map<XiangqiPieceImpl, List<MoveValidator>> addValidator(
+	public static Map<XiangqiPieceImpl, List<MoveValidator>> replaceValidator(
 			Map<XiangqiPieceImpl, List<MoveValidator>> pieceValidators, 
 			XiangqiPieceImpl piece,
-			MoveValidator newValidator) {
-		List<MoveValidator> validators = new LinkedList<MoveValidator>();
-		validators.add(newValidator);
+			List<MoveValidator> newValidators) {
 		for (Map.Entry<XiangqiPieceImpl, List<MoveValidator>> entry : pieceValidators.entrySet()) {
 			XiangqiPiece pieceEntry = entry.getKey();
 			if (piece.equals(pieceEntry)) {
 				pieceValidators.remove(entry);
-				pieceValidators.put(piece, validators);
+				pieceValidators.put(piece, newValidators);
 			}
 		}
-
 		return pieceValidators;
 	}
 }

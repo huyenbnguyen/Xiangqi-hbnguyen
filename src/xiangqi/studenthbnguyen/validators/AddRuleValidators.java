@@ -5,6 +5,7 @@ package xiangqi.studenthbnguyen.validators;
 
 import static xiangqi.common.MoveResult.OK;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,7 +20,7 @@ import static xiangqi.common.XiangqiPieceType.*;
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 import xiangqi.studenthbnguyen.common.XiangqiState;
-import xiangqi.studenthbnguyen.util.ValidatorAdder;
+import xiangqi.studenthbnguyen.util.ValidatorReplacer;
 
 /**
  * @author huyennguyen
@@ -40,7 +41,9 @@ public class AddRuleValidators {
 			XNC coordinate = entry.getKey();
 			boolean crossedRiver = (color == RED) ? coordinate.getRank() >= 6 : coordinate.getRank() <= 5; 
 			if (crossedRiver && piece.getColor() == color && piece.getPieceType() == SOLDIER) { 
-				return ValidatorAdder.addValidator(moveValidators, piece, PieceValidators.moveLeftOrRightOrUpOneStep);
+				List<MoveValidator> newSoldierValidators = new LinkedList<MoveValidator>();
+				newSoldierValidators.add(PieceValidators.moveLeftOrRightOrUpOneStep);
+				return ValidatorReplacer.replaceValidator(moveValidators, piece, newSoldierValidators);
 			}  
 		}
 		return moveValidators;
