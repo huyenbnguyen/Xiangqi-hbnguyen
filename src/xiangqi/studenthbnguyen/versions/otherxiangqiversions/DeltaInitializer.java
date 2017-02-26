@@ -104,6 +104,8 @@ public class DeltaInitializer extends InitializerTemplate {
 		board.placePiece(RED_SOLDIER3, XNC.makeXNC(4, 5));
 		board.placePiece(RED_SOLDIER4, XNC.makeXNC(4, 7));
 		board.placePiece(RED_SOLDIER5, XNC.makeXNC(4, 9));
+		board.placePiece(RED_CANNON1, XNC.makeXNC(3, 2));
+		board.placePiece(RED_CANNON2, XNC.makeXNC(3, 8));
 
 		board.placePiece(BLACK_CHARIOT1, XNC.makeXNC(1, 1));
 		board.placePiece(BLACK_ELEPHANT1, XNC.makeXNC(1, 3));
@@ -117,6 +119,8 @@ public class DeltaInitializer extends InitializerTemplate {
 		board.placePiece(BLACK_SOLDIER3, XNC.makeXNC(4, 5));
 		board.placePiece(BLACK_SOLDIER4, XNC.makeXNC(4, 7));
 		board.placePiece(BLACK_SOLDIER5, XNC.makeXNC(4, 9));
+		board.placePiece(BLACK_CANNON1, XNC.makeXNC(3, 2));
+		board.placePiece(BLACK_CANNON2, XNC.makeXNC(3, 8));
 
 		return board;
 	}
@@ -146,6 +150,7 @@ public class DeltaInitializer extends InitializerTemplate {
 		// chariot
 		List<MoveValidator> chariotValidators = new LinkedList<MoveValidator>();
 		chariotValidators.add(PieceValidators.isMoveOrthogonal);
+		chariotValidators.add(PieceValidators.hasNoBlockingPiece);
 		pieceValidators.put(RED_CHARIOT1, chariotValidators);
 		pieceValidators.put(RED_CHARIOT2, chariotValidators);
 		pieceValidators.put(BLACK_CHARIOT1, chariotValidators);
@@ -154,6 +159,7 @@ public class DeltaInitializer extends InitializerTemplate {
 		// advisor
 		List<MoveValidator> advisorValidators = new LinkedList<MoveValidator>();
 		advisorValidators.add(PieceValidators.isMoveDiagonal);
+		advisorValidators.add(PieceValidators.hasNoBlockingPiece);
 		pieceValidators.put(RED_ADVISOR1, advisorValidators);
 		pieceValidators.put(RED_ADVISOR2, advisorValidators);
 		pieceValidators.put(BLACK_ADVISOR1, advisorValidators);
@@ -177,11 +183,20 @@ public class DeltaInitializer extends InitializerTemplate {
 		List<MoveValidator> elephantValidators = new LinkedList<MoveValidator>();
 		elephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
 		elephantValidators.add(PieceValidators.isNotCrossingRiver);
+		elephantValidators.add(PieceValidators.hasNoBlockingPiece);
 		pieceValidators.put(RED_ELEPHANT1, elephantValidators);
 		pieceValidators.put(RED_ELEPHANT2, elephantValidators);
 		pieceValidators.put(BLACK_ELEPHANT1, elephantValidators);
 		pieceValidators.put(BLACK_ELEPHANT2, elephantValidators);
 
+		// cannons
+		List<MoveValidator> cannonValidators = new LinkedList<MoveValidator>();
+		cannonValidators.add(PieceValidators.hasOneBlockingPiece);
+		cannonValidators.add(PieceValidators.isMoveOrthogonal);
+		pieceValidators.put(RED_CANNON1, cannonValidators);
+		pieceValidators.put(RED_CANNON2, cannonValidators);
+		pieceValidators.put(BLACK_CANNON1, cannonValidators);
+		pieceValidators.put(BLACK_CANNON2, cannonValidators);
 	}
 
 	/* (non-Javadoc)

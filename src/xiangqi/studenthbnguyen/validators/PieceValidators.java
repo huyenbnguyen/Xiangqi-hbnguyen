@@ -78,6 +78,10 @@ public class PieceValidators {
 		return (countBlockingPiece(state, from, to) == 0);
 	};
 	
+	public static MoveValidator<XiangqiState, XNC, Boolean> hasOneBlockingPiece = (state, from, to) -> {
+		return (countBlockingPiece(state, from, to) == 1);
+	};
+	
 	private static int countBlockingPiece(XiangqiState state, XNC from, XNC to) {
 		int blockingPieceNum = 0;
 		List<XNC> intermediateCoordinates = XNC.generateIntermediateCoordinates(from, to);		
