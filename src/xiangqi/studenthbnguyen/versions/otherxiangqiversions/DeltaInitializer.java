@@ -33,7 +33,7 @@ public class DeltaInitializer extends InitializerTemplate {
 	private static int maxFile = 9;
 
 	// Change this variable to change the maximum number of moves allowed
-	private static int maxMove = Integer.MAX_VALUE;
+	private static int maxMove = 10000;
 
 	private static final XiangqiPieceImpl RED_CHARIOT1 = (XiangqiPieceImpl) makePiece(CHARIOT, RED, 1);
 	private static final XiangqiPieceImpl RED_ELEPHANT1 = (XiangqiPieceImpl) makePiece(ELEPHANT, RED, 1);
@@ -188,8 +188,7 @@ public class DeltaInitializer extends InitializerTemplate {
 
 		// cannons
 		List<MoveValidator> cannonValidators = new LinkedList<MoveValidator>();
-		cannonValidators.add(PieceValidators.isCaptureMove);
-		cannonValidators.add(PieceValidators.isMoveOrthogonal);
+		cannonValidators.add(PieceValidators.isValidCannonMove);
 		pieceValidators.put(RED_CANNON1, cannonValidators);
 		pieceValidators.put(RED_CANNON2, cannonValidators);
 		pieceValidators.put(BLACK_CANNON1, cannonValidators);

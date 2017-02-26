@@ -7,6 +7,7 @@ import static xiangqi.common.XiangqiPieceType.NONE;
 import java.util.List;
 import java.util.ListIterator;
 
+import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiState;
 
@@ -77,10 +78,18 @@ public class PieceValidators {
 		return result;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> isCaptureMove = (state, from, to) -> {
-		return (state.board.getPieceAt(to).getPieceType() != NONE) &&
-				(state.board.getPieceAt(to).getColor() != state.onMove) &&
-				(countBlockingPiece(state, from, to) == 1);
+	public static MoveValidator<XiangqiState, XNC, Boolean> isValidCannonMove = (state, from, to) -> {		
+		XiangqiPiece destinationPiece = state.board.getPieceAt(to);
+		
+		// normal move
+		if (destinationPiece.getPieceType() == NONE) {
+			return isMoveOrthogonal.apply(state, from, to);
+		} else { // capture move
+			return (from.isOrthogonal(to)) &&
+					(destinationPiece.getPieceType() != NONE) &&
+					(destinationPiece.getColor() != state.onMove) &&
+					(countBlockingPiece(state, from, to) == 1);
+		}
 	};
 	
 	private static int countBlockingPiece(XiangqiState state, XNC from, XNC to) {

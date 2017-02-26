@@ -19,6 +19,7 @@ import xiangqi.common.XiangqiGame;
 import xiangqi.common.XiangqiGameVersion;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.common.XiangqiPieceType;
+import static xiangqi.common.MoveResult.*;
 
 /**
  * @author huyennguyen
@@ -92,7 +93,7 @@ public class DeltaXiangqiTestCases {
 	{
 		game = XiangqiGameFactory.makeXiangqiGame(XiangqiGameVersion.DELTA_XQ);
 	}
-
+	/*
 	@Test
 	public void correctInitialPositions()
 	{
@@ -124,4 +125,16 @@ public class DeltaXiangqiTestCases {
 		assertEquals(blackCannon, game.getPieceAt(c3_2, BLACK));
 		assertEquals(blackCannon, game.getPieceAt(c3_8, BLACK));
 	}
+	*/
+	@Test
+	public void cannonMakesValidMove() {
+		assertEquals(OK, game.makeMove(c3_2, c3_3));
+	}
+	
+//	@Test
+//	public void cannonCaptureOpponentPiece() {
+//		assertEquals(OK, game.makeMove(c3_2, c3_3));
+//		assertEquals(OK, game.makeMove(c3_2, c3_3));
+//		assertEquals(OK, game.makeMove(c3_3, c4_7));
+//	}
 }
