@@ -91,7 +91,6 @@ public class GammaInitializer extends InitializerTemplate {
 		// chariot
 		List<MoveValidator> chariotValidators = new LinkedList<MoveValidator>();
 		chariotValidators.add(PieceValidators.isMoveOrthogonal);
-		chariotValidators.add(PieceValidators.hasNoBlockingPiece);
 		pieceValidators.put(RED_CHARIOT1, chariotValidators);
 		pieceValidators.put(RED_CHARIOT2, chariotValidators);
 		pieceValidators.put(BLACK_CHARIOT1, chariotValidators);
@@ -100,7 +99,6 @@ public class GammaInitializer extends InitializerTemplate {
 		// advisor
 		List<MoveValidator> advisorValidators = new LinkedList<MoveValidator>();
 		advisorValidators.add(PieceValidators.isMoveDiagonal);
-		advisorValidators.add(PieceValidators.hasNoBlockingPiece);
 		pieceValidators.put(RED_ADVISOR1, advisorValidators);
 		pieceValidators.put(RED_ADVISOR2, advisorValidators);
 		pieceValidators.put(BLACK_ADVISOR1, advisorValidators);

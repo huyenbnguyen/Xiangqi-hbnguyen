@@ -17,16 +17,19 @@ import xiangqi.studenthbnguyen.common.XiangqiState;
  *
  */
 public class PieceValidators {
+	public static MoveValidator<XiangqiState, XNC, Boolean> hasNoBlockingPiece = (state, from, to) -> {
+		return (countBlockingPiece(state, from, to) == 0);
+	};
 	
 	public static MoveValidator<XiangqiState, XNC, Boolean> isMoveOrthogonal = (state, from, to) -> {
-		boolean result = from.isOrthogonal(to);
+		boolean result = from.isOrthogonal(to) && hasNoBlockingPiece.apply(state, from, to);
 		if (!result) 
 			state.moveMessage = "Piece must move orthogonally";
 		return result;
 	};
 
 	public static MoveValidator<XiangqiState, XNC, Boolean> isMoveDiagonal = (state, from, to) -> {
-		boolean result = from.isDiagonalTo(to);
+		boolean result = from.isDiagonalTo(to) && hasNoBlockingPiece.apply(state, from, to);
 		if (!result) 
 			state.moveMessage = "Piece must move diagonally";
 		return result;
@@ -47,7 +50,7 @@ public class PieceValidators {
 	};
 	
 	public static MoveValidator<XiangqiState, XNC, Boolean> moveDiagonallyTwoSteps = (state, from, to) -> {
-		boolean result = from.moveDiagonallyTwoSteps(to);
+		boolean result = from.moveDiagonallyTwoSteps(to) && hasNoBlockingPiece.apply(state, from, to);
 		if (!result) 
 			state.moveMessage = "Piece must move diagonally two steps";
 		return result;
@@ -74,12 +77,10 @@ public class PieceValidators {
 		return result;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> hasNoBlockingPiece = (state, from, to) -> {
-		return (countBlockingPiece(state, from, to) == 0);
-	};
-	
-	public static MoveValidator<XiangqiState, XNC, Boolean> hasOneBlockingPiece = (state, from, to) -> {
-		return (countBlockingPiece(state, from, to) == 1);
+	public static MoveValidator<XiangqiState, XNC, Boolean> isCaptureMove = (state, from, to) -> {
+		return (state.board.getPieceAt(to).getPieceType() != NONE) &&
+				(state.board.getPieceAt(to).getColor() != state.onMove) &&
+				(countBlockingPiece(state, from, to) == 1);
 	};
 	
 	private static int countBlockingPiece(XiangqiState state, XNC from, XNC to) {

@@ -150,7 +150,6 @@ public class DeltaInitializer extends InitializerTemplate {
 		// chariot
 		List<MoveValidator> chariotValidators = new LinkedList<MoveValidator>();
 		chariotValidators.add(PieceValidators.isMoveOrthogonal);
-		chariotValidators.add(PieceValidators.hasNoBlockingPiece);
 		pieceValidators.put(RED_CHARIOT1, chariotValidators);
 		pieceValidators.put(RED_CHARIOT2, chariotValidators);
 		pieceValidators.put(BLACK_CHARIOT1, chariotValidators);
@@ -159,7 +158,6 @@ public class DeltaInitializer extends InitializerTemplate {
 		// advisor
 		List<MoveValidator> advisorValidators = new LinkedList<MoveValidator>();
 		advisorValidators.add(PieceValidators.isMoveDiagonal);
-		advisorValidators.add(PieceValidators.hasNoBlockingPiece);
 		pieceValidators.put(RED_ADVISOR1, advisorValidators);
 		pieceValidators.put(RED_ADVISOR2, advisorValidators);
 		pieceValidators.put(BLACK_ADVISOR1, advisorValidators);
@@ -183,7 +181,6 @@ public class DeltaInitializer extends InitializerTemplate {
 		List<MoveValidator> elephantValidators = new LinkedList<MoveValidator>();
 		elephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
 		elephantValidators.add(PieceValidators.isNotCrossingRiver);
-		elephantValidators.add(PieceValidators.hasNoBlockingPiece);
 		pieceValidators.put(RED_ELEPHANT1, elephantValidators);
 		pieceValidators.put(RED_ELEPHANT2, elephantValidators);
 		pieceValidators.put(BLACK_ELEPHANT1, elephantValidators);
@@ -191,7 +188,7 @@ public class DeltaInitializer extends InitializerTemplate {
 
 		// cannons
 		List<MoveValidator> cannonValidators = new LinkedList<MoveValidator>();
-		cannonValidators.add(PieceValidators.hasOneBlockingPiece);
+		cannonValidators.add(PieceValidators.isCaptureMove);
 		cannonValidators.add(PieceValidators.isMoveOrthogonal);
 		pieceValidators.put(RED_CANNON1, cannonValidators);
 		pieceValidators.put(RED_CANNON2, cannonValidators);
