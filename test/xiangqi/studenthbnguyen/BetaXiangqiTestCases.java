@@ -5,12 +5,10 @@ import static xiangqi.common.XiangqiPieceType.*;
 import static org.junit.Assert.*;
 import static xiangqi.common.MoveResult.*;
 import org.junit.*;
-
-import test.util.TestCoordinate;
-import test.util.TestPiece;
 import xiangqi.XiangqiGameFactory;
 import xiangqi.common.*;
-
+import static test.util.TestPiece.*;
+import static test.util.TestCoordinate.*;
 
 public class BetaXiangqiTestCases
 {
@@ -278,16 +276,5 @@ public class BetaXiangqiTestCases
 		assertEquals(OK, game.makeMove(c23, c33));
 		assertEquals(OK, game.makeMove(c23, c33));
 		assertEquals(ILLEGAL, game.makeMove(c13, c23));
-	}
-	
-	// Helper methods
-	private static XiangqiCoordinate makeCoordinate(int rank, int file)
-	{
-		return new TestCoordinate(rank, file);  
-	}
-
-	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color)
-	{
-		return new TestPiece(pieceType, color);
 	}
 }

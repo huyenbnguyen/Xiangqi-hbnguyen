@@ -22,6 +22,11 @@ public class TestPiece implements XiangqiPiece {
 		this.color = color;
 	}
 	
+	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color)
+	{
+		return new TestPiece(pieceType, color);
+	}
+	
 	/*
 	 * @see xiangqi.common.XiangqiPiece#getColor()
 	 */

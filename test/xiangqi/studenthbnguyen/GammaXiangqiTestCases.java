@@ -8,11 +8,10 @@ import static xiangqi.common.XiangqiPieceType.*;
 import static org.junit.Assert.*;
 import static xiangqi.common.MoveResult.*;
 import org.junit.*;
-
-import test.util.TestCoordinate;
-import test.util.TestPiece;
 import xiangqi.XiangqiGameFactory;
 import xiangqi.common.*;
+import static test.util.TestPiece.*;
+import static test.util.TestCoordinate.*;
 
 /**
  * @author huyennguyen
@@ -406,16 +405,5 @@ public class GammaXiangqiTestCases {
 		assertEquals(OK, game.makeMove(c1_7, c3_5));
 		assertEquals(OK, game.makeMove(c2_2, c10_2));
 		assertEquals(OK, game.makeMove(c1_5, c2_5));
-	}
-	
-	// Helper methods
-	private static XiangqiCoordinate makeCoordinate(int rank, int file)
-	{
-		return new TestCoordinate(rank, file);  
-	}
-
-	public static XiangqiPiece makePiece(XiangqiPieceType pieceType, XiangqiColor color)
-	{
-		return new TestPiece(pieceType, color);
 	}
 }
