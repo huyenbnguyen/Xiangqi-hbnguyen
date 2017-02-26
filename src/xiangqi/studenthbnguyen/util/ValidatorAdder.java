@@ -3,12 +3,14 @@
  */
 package xiangqi.studenthbnguyen.util;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.common.XiangqiPieceType;
+import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 import xiangqi.studenthbnguyen.validators.MoveValidator;
 
@@ -17,21 +19,28 @@ import xiangqi.studenthbnguyen.validators.MoveValidator;
  *
  */
 public class ValidatorAdder {
-	
+
 	/**
 	 * Add validators to a specific piece
-	 * @param moveValidators the existing move validators of all the pieces
+	 * @param pieceValidators the existing move validators of all the pieces
 	 * @param piece the piece
 	 * @param newValidator the new validator to be added
 	 * @return new validators of all the pieces
 	 */
 	public static Map<XiangqiPieceImpl, List<MoveValidator>> addValidator(
-			Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators, 
-			XiangqiPiece piece,
+			Map<XiangqiPieceImpl, List<MoveValidator>> pieceValidators, 
+			XiangqiPieceImpl piece,
 			MoveValidator newValidator) {
-		List<MoveValidator> validators = moveValidators.get(piece);
-		validators.clear();
+		List<MoveValidator> validators = new LinkedList<MoveValidator>();
 		validators.add(newValidator);
-		return moveValidators;
+		for (Map.Entry<XiangqiPieceImpl, List<MoveValidator>> entry : pieceValidators.entrySet()) {
+			XiangqiPiece pieceEntry = entry.getKey();
+			if (piece.equals(pieceEntry)) {
+				pieceValidators.remove(entry);
+				pieceValidators.put(piece, validators);
+			}
+		}
+
+		return pieceValidators;
 	}
 }

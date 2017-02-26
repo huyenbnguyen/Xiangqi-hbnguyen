@@ -28,16 +28,15 @@ import xiangqi.studenthbnguyen.util.ValidatorAdder;
 public class AddRuleValidators {
 	
 	public static BiFunction<XiangqiState, Map<XiangqiPieceImpl, List<MoveValidator>>, Map<XiangqiPieceImpl, List<MoveValidator>>> addRuleToSoldier = (state, moveValidators) -> {
-		if (state.version != GAMMA_XQ) return moveValidators;
+		if (state.version == ALPHA_XQ || state.version == BETA_XQ) return moveValidators;
 		moveValidators = addRuleToSoldierHelper(state, moveValidators, RED);
 		moveValidators = addRuleToSoldierHelper(state, moveValidators, BLACK);
 		return moveValidators;
 	};
 
 	private static Map<XiangqiPieceImpl, List<MoveValidator>> addRuleToSoldierHelper(XiangqiState state, Map<XiangqiPieceImpl, List<MoveValidator>> moveValidators, XiangqiColor color) {
-		
 		for (Entry<XNC, XiangqiPieceImpl> entry : state.board.boardMap.entrySet()) {
-			XiangqiPiece piece = entry.getValue();
+			XiangqiPieceImpl piece = entry.getValue();
 			XNC coordinate = entry.getKey();
 			boolean crossedRiver = (color == RED) ? coordinate.getRank() >= 6 : coordinate.getRank() <= 5; 
 			if (crossedRiver && piece.getColor() == color && piece.getPieceType() == SOLDIER) { 

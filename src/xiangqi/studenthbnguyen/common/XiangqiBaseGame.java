@@ -133,7 +133,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 		moveResult = validateTerminationRules();
 		
 		// add rules if necessary
-		validateAddRuleConditions();
+		pieceValidators = validateAddRuleConditions();
 		
 		if (moveResult != OK) return moveResult;
 				

@@ -279,7 +279,7 @@ public class GammaXiangqiTestCases {
 		assertEquals(OK, game.makeMove(c6_2, c7_2));
 		assertEquals(ILLEGAL, game.makeMove(c4_1, c4_2));
 	}
-	 
+	
 	@Test 
 	public void blackSoldierCanMoveHorizontallyAfterCrossingRiver() {
 		assertEquals(OK, game.makeMove(c1_1, c2_1));
@@ -290,6 +290,7 @@ public class GammaXiangqiTestCases {
 		assertEquals(OK, game.makeMove(c6_1, c6_2));
 		assertEquals(OK, game.makeMove(c2_1, c1_1));
 		assertEquals(OK, game.makeMove(c6_2, c7_2));
+		assertEquals(ILLEGAL, game.makeMove(c4_1, c4_2));
 	}
 	
 	@Test 
@@ -407,4 +408,5 @@ public class GammaXiangqiTestCases {
 		assertEquals(OK, game.makeMove(c2_2, c10_2));
 		assertEquals(OK, game.makeMove(c1_5, c2_5));
 	}
+	
 }
