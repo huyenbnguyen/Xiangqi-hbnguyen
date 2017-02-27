@@ -34,7 +34,6 @@ public class ValidatorReplacer {
 		for (Map.Entry<XiangqiPieceImpl, List<MoveValidator>> entry : pieceValidators.entrySet()) {
 			XiangqiPiece pieceEntry = entry.getKey();
 			if (piece.equals(pieceEntry)) {
-				pieceValidators.remove(entry);
 				pieceValidators.put(piece, newValidators);
 			}
 		}
