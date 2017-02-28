@@ -7,6 +7,8 @@ import static xiangqi.common.XiangqiPieceType.NONE;
 import java.util.List;
 import java.util.ListIterator;
 
+import xiangqi.common.MoveResult;
+import static xiangqi.common.MoveResult.*;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiState;
@@ -18,77 +20,97 @@ import xiangqi.studenthbnguyen.common.XiangqiState;
  *
  */
 public class PieceValidators {
-	public static MoveValidator<XiangqiState, XNC, Boolean> hasNoBlockingPiece = (state, from, to) -> {
-		return (countBlockingPiece(state, from, to) == 0);
+	public static MoveValidator<XiangqiState, XNC, MoveResult> hasNoBlockingPiece = (state, from, to) -> {
+		return (countBlockingPiece(state, from, to) == 0) ? OK : ILLEGAL;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> isMoveOrthogonal = (state, from, to) -> {
-		boolean result = from.isOrthogonal(to) && hasNoBlockingPiece.apply(state, from, to);
-		if (!result) 
+	public static MoveValidator<XiangqiState, XNC, MoveResult> isMoveOrthogonal = (state, from, to) -> {
+		boolean result = from.isOrthogonal(to) && (hasNoBlockingPiece.apply(state, from, to) == OK);
+		if (!result) { 
 			state.moveMessage = "Piece must move orthogonally";
-		return result;
+			return ILLEGAL;
+		}
+		return OK;
 	};
 
-	public static MoveValidator<XiangqiState, XNC, Boolean> isMoveDiagonal = (state, from, to) -> {
-		boolean result = from.isDiagonalTo(to) && hasNoBlockingPiece.apply(state, from, to);
-		if (!result) 
+	public static MoveValidator<XiangqiState, XNC, MoveResult> isMoveDiagonal = (state, from, to) -> {
+		boolean result = from.isDiagonalTo(to) && (hasNoBlockingPiece.apply(state, from, to) == OK);
+		if (!result) {
 			state.moveMessage = "Piece must move diagonally";
-		return result;
+			return ILLEGAL;
+		}
+		return OK;
 	};
 
-	public static MoveValidator<XiangqiState, XNC, Boolean> isDistanceOneAndOrthogonal = (state, from, to) -> {
+	public static MoveValidator<XiangqiState, XNC, MoveResult> isDistanceOneAndOrthogonal = (state, from, to) -> {
 		boolean result = from.isDistanceOneAndOrthogonal(to);
-		if (!result) 
+		if (!result) {
 			state.moveMessage = "Piece must move forward one step";
-		return result;
+			return ILLEGAL;
+		}
+		return OK;
 	};
 
-	public static MoveValidator<XiangqiState, XNC, Boolean> isForwardOneStep = (state, from, to) -> {
+	public static MoveValidator<XiangqiState, XNC, MoveResult> isForwardOneStep = (state, from, to) -> {
 		boolean result = from.isForwardOneStep(to, state.onMove);
-		if (!result) 
+		if (!result) {
 			state.moveMessage = "Piece must move forward one step";
-		return result;
+			return ILLEGAL;
+		}
+		return OK;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> moveDiagonallyTwoSteps = (state, from, to) -> {
-		boolean result = from.moveDiagonallyTwoSteps(to) && hasNoBlockingPiece.apply(state, from, to);
-		if (!result) 
+	public static MoveValidator<XiangqiState, XNC, MoveResult> moveDiagonallyTwoSteps = (state, from, to) -> {
+		boolean result = from.moveDiagonallyTwoSteps(to) && (hasNoBlockingPiece.apply(state, from, to) == OK);
+		if (!result) {
 			state.moveMessage = "Piece must move diagonally two steps";
-		return result;
+			return ILLEGAL;
+		}
+		return OK;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> moveLeftOrRightOrUpOneStep = (state, from, to) -> {
+	public static MoveValidator<XiangqiState, XNC, MoveResult> moveLeftOrRightOrUpOneStep = (state, from, to) -> {
 		boolean result = from.moveLeftOrRightOrUpOneStep(to, state.onMove);
-		if (!result) 
+		if (!result) {
 			state.moveMessage = "Piece must move left or righ one step";
-		return result;
+			return ILLEGAL;
+		}
+		return OK;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> isInPalace = (state, from, to) -> {
+	public static MoveValidator<XiangqiState, XNC, MoveResult> isInPalace = (state, from, to) -> {
 		boolean result = from.isInPalace(to, state.onMove);
-		if (!result) 
+		if (!result) {
 			state.moveMessage = "Red General must stay in the palace";
-		return result;
+			return ILLEGAL;
+		}
+		return OK;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> isNotCrossingRiver = (state, from, to) -> {
+	public static MoveValidator<XiangqiState, XNC, MoveResult> isNotCrossingRiver = (state, from, to) -> {
 		boolean result = from.isNotCrossingRiver(to, state.onMove);
-		if (!result) 
+		if (!result) {
 			state.moveMessage = "Red Elephant must not cross river";
-		return result;
+			return ILLEGAL;
+		}
+		return OK;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, Boolean> isValidCannonMove = (state, from, to) -> {		
+	public static MoveValidator<XiangqiState, XNC, MoveResult> isValidCannonMove = (state, from, to) -> {		
 		XiangqiPiece destinationPiece = state.board.getPieceAt(to);
 		
 		// normal move
 		if (destinationPiece.getPieceType() == NONE) {
 			return isMoveOrthogonal.apply(state, from, to);
 		} else { // capture move
-			return (from.isOrthogonal(to)) &&
+			if (!(from.isOrthogonal(to)) &&
 					(destinationPiece.getPieceType() != NONE) &&
 					(destinationPiece.getColor() != state.onMove) &&
-					(countBlockingPiece(state, from, to) == 1);
+					(countBlockingPiece(state, from, to) == 1)) {
+				state.moveMessage = "ILLEGAL: Cannon made an invalid move";
+				return ILLEGAL;
+			}
+			return OK;
 		}
 	};
 	

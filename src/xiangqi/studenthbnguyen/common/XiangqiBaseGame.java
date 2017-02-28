@@ -182,7 +182,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 		XiangqiPieceImpl piece = (XiangqiPieceImpl) state.board.getPieceAt(sourceNormalized);
 		List<MoveValidator> list = pieceValidators.get(piece);
 		for (MoveValidator<XiangqiState, XNC, Boolean> mv : pieceValidators.get(piece)) {
-			if (!mv.apply(state, sourceNormalized, destinationNormalized)) return ILLEGAL;
+			if (mv.apply(state, sourceNormalized, destinationNormalized) == ILLEGAL) return ILLEGAL;
 		}
 		return OK;
 	}
@@ -194,7 +194,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 	 */
 	private MoveResult validateGameRules(XNC sourceNormalized, XNC destinationNormalized) {
 		for (MoveValidator<XiangqiState, XNC, Boolean> mv : moveValidators) {
-			if (!mv.apply(state, sourceNormalized, destinationNormalized)) return ILLEGAL;
+			if (mv.apply(state, sourceNormalized, destinationNormalized) == ILLEGAL) return ILLEGAL;
 		}
 		return OK;
 	}
