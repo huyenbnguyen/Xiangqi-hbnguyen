@@ -2,13 +2,16 @@
  * 
  */
 package xiangqi.studenthbnguyen.validators;
-import static xiangqi.common.XiangqiPieceType.NONE;
+import static xiangqi.common.XiangqiPieceType.*;
 
 import java.util.List;
 import java.util.ListIterator;
 
 import xiangqi.common.MoveResult;
+import xiangqi.common.XiangqiGameVersion;
+
 import static xiangqi.common.MoveResult.*;
+import static xiangqi.common.XiangqiGameVersion.*;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiState;
@@ -69,10 +72,12 @@ public class PieceValidators {
 		return OK;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, MoveResult> moveLeftOrRightOrUpOneStep = (state, from, to) -> {
-		boolean result = from.moveLeftOrRightOrUpOneStep(to, state.onMove);
-		if (!result) {
-			state.moveMessage = "Piece must move left or righ one step";
+	public static MoveValidator<XiangqiState, XNC, MoveResult> moveForSoldierAfterCrossingRiver = (state, from, to) -> {
+		boolean rightVersion = (state.version != ALPHA_XQ && state.version != BETA_XQ);
+		boolean isSoldierPiece = (state.board.getPieceAt(from).getPieceType() == SOLDIER);
+		boolean isValidMove = from.moveLeftOrRightOrUpOneStep(to, state.onMove);
+		if (!rightVersion || !isSoldierPiece || !isValidMove) {
+			state.moveMessage = "ILLEGAL";
 			return ILLEGAL;
 		}
 		return OK;

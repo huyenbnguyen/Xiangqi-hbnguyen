@@ -29,7 +29,7 @@ public class XiangqiState {
 	}
 	
 	/**
-	 * make a deep copy of the game 
+	 * make a deep copy of the state 
 	 * @param state the state of the original game
 	 * @return a deep copy of the game
 	 */

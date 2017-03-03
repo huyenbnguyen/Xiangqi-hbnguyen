@@ -16,32 +16,31 @@ import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.studenthbnguyen.common.XNC;
 import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
+import xiangqi.studenthbnguyen.common.XiangqiBoard;
 import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 import xiangqi.studenthbnguyen.common.XiangqiState;
+import xiangqi.studenthbnguyen.validatorchecker.PieceChecker;
 import xiangqi.studenthbnguyen.validcoordinategenerators.ValidCoordinateGenerators;
 
 /**
  * @author huyennguyen
  *
  */
-public class GameTerminationValidators {
+public class PostMoveValidators {
 
-	private static Predicate<XiangqiState> generalNotInCheck = (state) -> {
-		// pretend like you're creating a new game with the move made
-		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);
-		
-		// for the new game, see if any opponent pieces can capture the general
-		XiangqiColor color = gameCopy.getState().onMove;
-		XNC generalCoordinate = gameCopy.getState().board.findPiece(GENERAL, color, 1);
-    	for (Entry<XNC, XiangqiPieceImpl> entry : gameCopy.getState().board.boardMap.entrySet()) {
-    		if (entry.getValue().getColor() != color && 
-    				gameCopy.validatePieceRules(entry.getKey(), generalCoordinate) == OK) { 
-    			state.generalAttacker = entry.getValue();
-    			return false;
-    		}  
-    	}
-    	state.generalAttacker = null;
-    	return true;
+	private static Predicate<XiangqiState> generalInCheck = (state) -> {
+		XNC generalCoordinate = state.board.findPiece(GENERAL, state.onMove);
+		for (Entry<XNC, XiangqiPieceImpl> entry : state.board.boardMap.entrySet()) {
+			XiangqiPieceImpl piece = entry.getValue();
+			if (piece.getColor() != state.onMove && 
+					PieceChecker.runChecker(state, entry.getKey(), generalCoordinate) == OK) { 
+				state.generalAttacker = piece;
+//				stateCopy.moveMessage = "ILLEGAL: Move puts the general in check";
+				return true;
+			}  
+		}
+		state.generalAttacker = null;
+		return false;
 	};
 	
 	// Checkmate Conditions
@@ -49,37 +48,38 @@ public class GameTerminationValidators {
 	//	b) King can't move out of check.
 	//	c) Check can't be blocked
 	//	d) checking piece can't be captured
-	public static Predicate<XiangqiState> gameNotInCheckmate = (state) -> {
+	public static Predicate<XiangqiState> gameInCheckmate = (state) -> {
 
-		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);
-		XiangqiColor color = gameCopy.getState().onMove;
-		
-		// General is not in check
-		if (generalNotInCheck.test(gameCopy.getState()))
-			return true; 
-		
-		// General can move out of check
-		XNC generalXNC = gameCopy.getState().board.findPiece(GENERAL, color, 1);
+//		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);
+//		XiangqiColor color = gameCopy.getState().onMove;
+//		
+		// General in check
+		if (!generalInCheck.test(state))
+			return false; 
+//		
+//		 General can move out of check
+		XNC generalXNC = state.board.findPiece(GENERAL, state.onMove);
 		LinkedList<XNC> validCoordinates = ValidCoordinateGenerators.generalValidCoordinateGenerator.apply(generalXNC);
 		ListIterator<XNC> validListIterator = validCoordinates.listIterator();
 		while (validListIterator.hasNext()) {
-			if (gameCopy.checkRules(generalXNC, validListIterator.next()) == OK)
-				return true;
+			XNC newCoordinate = validListIterator.next();
+			XiangqiState stateCopy = XiangqiState.makeDeepCopy(state);
+			if (PreMoveValidators.isGeneralInCheck.apply(stateCopy, generalXNC, newCoordinate) == OK)
+				return false;
 		}
-		
+//		
 		// Check can be blocked
-		XiangqiColor attackerColor = (color == RED) ? BLACK : RED;
-		XiangqiPieceImpl attacker = (XiangqiPieceImpl) gameCopy.getState().generalAttacker;
-		XNC attackerCoordinate = gameCopy.getState().board.findPiece(attacker.getPieceType(), attacker.getColor(), attacker.getIndex());
+		XiangqiPieceImpl attacker = (XiangqiPieceImpl) state.generalAttacker;
+		XNC attackerCoordinate = state.board.findPiece(attacker.getPieceType(), attacker.getColor());
 		List<XNC> intermediateCoordinates = XNC.generateIntermediateCoordinates(generalXNC, attackerCoordinate);		
 		ListIterator<XNC> intermediateListIterator = intermediateCoordinates.listIterator();
 		while (intermediateListIterator.hasNext()) {
 			XNC coordinate = intermediateListIterator.next();
-			if (hasPathTo(gameCopy, color, coordinate)) return true;
+			if (hasPathTo(state, state.onMove, coordinate)) return true;
 		}
 		
 		// checking piece can be captured
-		if (hasPathTo(gameCopy, color, attackerCoordinate)) return true;
+		if (hasPathTo(state, state.onMove, attackerCoordinate)) return true;
 		return false;
 	};
 
@@ -93,22 +93,23 @@ public class GameTerminationValidators {
 	// The squares on which to move might be occupied with other pieces of the same player or sometimes with enemy pieces.
 	//	b) Some pieces could be protecting the king form check by standing in the way of enemy pieces. According to the chess rules this pieces can't be moved because the king would enter in check.
 	//	c) The king might have all its surrounding squares under the control of enemy pieces, occupied with its own pieces or occupied with protected enemy pieces.
-	public static Predicate<XiangqiState> gameNotInStalemate = (state) -> {
-		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);				
-		XiangqiColor color = gameCopy.getState().onMove;
-		
+	public static Predicate<XiangqiState> gameInStalemate = (state) -> {
+//		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);	
+//		XiangqiColor color = gameCopy.getState().onMove;
+//		
 		// General must not be in check
-		if (!generalNotInCheck.test(state))
-			return true;
+		if (generalInCheck.test(state))
+			return false;
 		
 		// Check to see whether a valid move can be made by any pieces
 		for (int i = 1; i <= state.board.ranks; i++) {
 			for (int j = 1; j <= state.board.files; j++) {
 				XNC coordinate = XNC.makeXNC(i, j);
-				if (hasPathTo(gameCopy, color, coordinate)) return true;
+				if (hasPathTo(state, state.onMove, coordinate)) 
+					return false;
 			}
 		}
-		return false;
+		return true;
 	};
 	
 	/**
@@ -118,15 +119,13 @@ public class GameTerminationValidators {
 	 * @param coordinate the coordinate 
 	 * @return true if there's a way for any pieces of the given color to move to the given coordinate, false otherwise
 	 */
-	private static boolean hasPathTo(XiangqiBaseGame game, XiangqiColor color, XNC coordinate) {
-		for (Entry<XNC, XiangqiPieceImpl> entry : game.getState().board.boardMap.entrySet()) {
+	private static boolean hasPathTo(XiangqiState state, XiangqiColor color, XNC coordinate) {
+		for (Entry<XNC, XiangqiPieceImpl> entry : state.board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() == color && 
-    				game.validatePieceRules(entry.getKey(), coordinate) == OK) {
+    				PieceChecker.runChecker(state, entry.getKey(), coordinate) == OK) {
     			return true;
     		}  
     	}
 		return false;
 	}
-	
-	
 }

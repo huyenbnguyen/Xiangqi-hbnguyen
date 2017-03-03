@@ -21,32 +21,31 @@ import xiangqi.studenthbnguyen.validators.MoveValidator;
  */
 public abstract class InitializerTemplate {
 	protected XiangqiState state;
-	protected List<MoveValidator> moveValidators;
+	protected List<MoveValidator> preMoveValidators;
 	protected Map<XiangqiPieceImpl, List<MoveValidator>> pieceValidators;
-	protected List<Predicate> gameTerminationValidators;
-	protected List<BiFunction> addRuleValidators;
+	protected List<Predicate> postMoveValidators;
 	
 	public InitializerTemplate() {
-		moveValidators = new LinkedList<MoveValidator>();
+		preMoveValidators = new LinkedList<MoveValidator>();
 		pieceValidators = new HashMap<XiangqiPieceImpl, List<MoveValidator>>();
-		gameTerminationValidators = new LinkedList<Predicate>();
-		addRuleValidators = new LinkedList<BiFunction>();
-		state = initializeState();
-		addMoveValidators();
+		postMoveValidators = new LinkedList<Predicate>();
+		state = new XiangqiState();
+		initializeState();
+		addPreMoveValidators();
 		addPieceValidators();
-		addGameTerminationValidators();
-		addAddRuleValidators();
+		addPostMoveValidators();
+		initializeBoard();
 	}
 
 	/**
 	 * @return
 	 */
-	protected abstract XiangqiState initializeState();
+	protected abstract void initializeState();
 	
 	/**
 	 * @return
 	 */
-	protected abstract void addMoveValidators();
+	protected abstract void addPreMoveValidators();
 	
 	/**
 	 * @return
@@ -56,12 +55,12 @@ public abstract class InitializerTemplate {
 	/**
 	 * @return
 	 */
-	protected abstract void addGameTerminationValidators();
+	protected abstract void addPostMoveValidators();
 	
 	/**
 	 * @return
 	 */
-	protected abstract void addAddRuleValidators();
+	protected abstract void initializeBoard();
 	
 	/**
 	 * @return
@@ -73,8 +72,8 @@ public abstract class InitializerTemplate {
 	/**
 	 * @return
 	 */
-	public List<MoveValidator> getMoveValidators() {
-		return moveValidators;
+	public List<MoveValidator> getPreMoveValidators() {
+		return preMoveValidators;
 	}
 
 	/**
@@ -87,14 +86,7 @@ public abstract class InitializerTemplate {
 	/**
 	 * @return
 	 */
-	public List<Predicate> getGameTerminationValidators() {
-		return gameTerminationValidators;
-	}
-	
-	/**
-	 * @return
-	 */
-	public List<BiFunction> getAddRuleValidators() {
-		return addRuleValidators;
+	public List<Predicate> getPostMoveValidators() {
+		return postMoveValidators;
 	}
 }

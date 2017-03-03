@@ -8,6 +8,7 @@ import java.util.Map;
 import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.common.XiangqiPieceType;
+import xiangqi.studenthbnguyen.util.DeepCopyMaker;
 
 /**
  * @author huyennguyen
@@ -37,7 +38,7 @@ public class XiangqiBoard {
 	 */
 	public XiangqiPiece getPieceAt(XNC sourceNormalized) {
 		XiangqiPieceImpl piece = (XiangqiPieceImpl) boardMap.get(sourceNormalized);
-		return (piece != null) ? piece : XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE, 0); 
+		return (piece != null) ? piece : XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE); 
 	}
 	
 	/**
@@ -78,15 +79,20 @@ public class XiangqiBoard {
 	 * @param color the color 
 	 * @return the XNC of the general
 	 */
-	public XNC findPiece(XiangqiPieceType pieceType, XiangqiColor color, int index) {
+	public XNC findPiece(XiangqiPieceType pieceType, XiangqiColor color) {
 		for (Map.Entry<XNC, XiangqiPieceImpl> entry : boardMap.entrySet()) {
 			XiangqiPieceImpl piece = entry.getValue();
     		if (piece.getPieceType() == pieceType && 
-    				piece.getColor() == color &&
-    				piece.getIndex() == index) {
+    				piece.getColor() == color) {
     			return entry.getKey();
     		}
     	}
 		return null;
+	}
+	
+	public XiangqiBoard makeCopyBoard() {
+		XiangqiBoard clone = new XiangqiBoard(ranks, files);
+		clone.boardMap = DeepCopyMaker.makeDeepCopy(boardMap);
+		return clone;
 	}
 }

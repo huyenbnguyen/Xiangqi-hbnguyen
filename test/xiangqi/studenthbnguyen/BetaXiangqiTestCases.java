@@ -97,7 +97,7 @@ public class BetaXiangqiTestCases
 		assertEquals(redChariot, game.getPieceAt(c21, RED));
 		assertEquals(noPiece, game.getPieceAt(c11, RED));
 	}
-	
+
 	@Test
 	public void makeInvalidChariotMove() {
 		assertEquals(OK, game.makeMove(c11, c21));
@@ -123,7 +123,7 @@ public class BetaXiangqiTestCases
 		assertTrue(game.getMoveMessage().length() > 5);		// Minimum of 6 characters seems reasonable
 	}
 	
-	
+
 	@Test
 	public void makeValidMoveForEachPlayer()
 	{
@@ -192,7 +192,7 @@ public class BetaXiangqiTestCases
 	{
 		assertEquals(ILLEGAL, game.makeMove(c13, c22));
 	}
-	
+	/*
 	@Test 
 	public void blackPutsGeneralInCheck() {
 		game.makeMove(c11, c51);
@@ -277,4 +277,5 @@ public class BetaXiangqiTestCases
 		assertEquals(OK, game.makeMove(c23, c33));
 		assertEquals(ILLEGAL, game.makeMove(c13, c23));
 	}
+	*/
 }

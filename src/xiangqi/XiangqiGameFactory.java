@@ -15,10 +15,14 @@ package xiangqi;
 import xiangqi.common.*;
 import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
 import xiangqi.studenthbnguyen.common.XiangqiState;
+import xiangqi.studenthbnguyen.validatorchecker.PieceChecker;
+import xiangqi.studenthbnguyen.validatorchecker.PostMoveChecker;
+import xiangqi.studenthbnguyen.validatorchecker.PreMoveChecker;
 import xiangqi.studenthbnguyen.versions.alphaxiangqi.AlphaXiangqi;
 import xiangqi.studenthbnguyen.versions.otherxiangqiversions.BetaInitializer;
 import xiangqi.studenthbnguyen.versions.otherxiangqiversions.DeltaInitializer;
 import xiangqi.studenthbnguyen.versions.otherxiangqiversions.GammaInitializer;
+import xiangqi.studenthbnguyen.versions.otherxiangqiversions.InitializerTemplate;
 
 /**
  * A simple factory object that creates the appropriate instance of a XiangqiGame.
@@ -42,33 +46,30 @@ public class XiangqiGameFactory
 			BetaInitializer betaInitializer = new BetaInitializer();
 			state = betaInitializer.getState();
 			game = new XiangqiBaseGame(state);
-			game.setMoveValidators(betaInitializer.getMoveValidators());
-			game.setPieceValidators(betaInitializer.getPieceValidators());
-			game.setGameTerminationValidators(betaInitializer.getGameTerminationValidators());
-			game.setAddRuleValidators(betaInitializer.getAddRuleValidators());
+			setCheckers(betaInitializer);
 			break;
 		case GAMMA_XQ:
 			GammaInitializer gammaInitializer = new GammaInitializer();
 			state = gammaInitializer.getState();
 			game = new XiangqiBaseGame(state);
-			game.setMoveValidators(gammaInitializer.getMoveValidators());
-			game.setPieceValidators(gammaInitializer.getPieceValidators());
-			game.setGameTerminationValidators(gammaInitializer.getGameTerminationValidators());
-			game.setAddRuleValidators(gammaInitializer.getAddRuleValidators());
+			setCheckers(gammaInitializer);
 			break;
 		case DELTA_XQ:
 			DeltaInitializer deltaInitializer = new DeltaInitializer();
 			state = deltaInitializer.getState();
 			game = new XiangqiBaseGame(state);
-			game.setMoveValidators(deltaInitializer.getMoveValidators());
-			game.setPieceValidators(deltaInitializer.getPieceValidators());
-			game.setGameTerminationValidators(deltaInitializer.getGameTerminationValidators());
-			game.setAddRuleValidators(deltaInitializer.getAddRuleValidators());
+			setCheckers(deltaInitializer);
 			break;
 		default:
 			System.out.println("Not yet implemented");
 			break;
 		}
 		return (XiangqiGame) game;
+	}
+	
+	private static void setCheckers(InitializerTemplate init) {
+		PieceChecker.setPiecevalidators(init.getPieceValidators());
+		PostMoveChecker.setPostMoveValidators(init.getPostMoveValidators());
+		PreMoveChecker.setPreMoveValidators(init.getPreMoveValidators());
 	}
 }
