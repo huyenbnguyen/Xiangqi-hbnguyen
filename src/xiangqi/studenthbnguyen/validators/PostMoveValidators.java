@@ -19,6 +19,7 @@ import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
 import xiangqi.studenthbnguyen.common.XiangqiBoard;
 import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 import xiangqi.studenthbnguyen.common.XiangqiState;
+import xiangqi.studenthbnguyen.util.FindPieceToMakeMove;
 import xiangqi.studenthbnguyen.validatorchecker.PieceChecker;
 import xiangqi.studenthbnguyen.validcoordinategenerators.ValidCoordinateGenerators;
 
@@ -52,7 +53,7 @@ public class PostMoveValidators {
 
 //		XiangqiBaseGame gameCopy = XiangqiBaseGame.makeDeepCopy(state);
 //		XiangqiColor color = gameCopy.getState().onMove;
-//		
+		FindPieceToMakeMove findPieceToMakeMove;
 		// General in check
 		if (!generalInCheck.test(state))
 			return false; 
@@ -64,7 +65,8 @@ public class PostMoveValidators {
 		while (validListIterator.hasNext()) {
 			XNC newCoordinate = validListIterator.next();
 			XiangqiState stateCopy = XiangqiState.makeDeepCopy(state);
-			if (PreMoveValidators.isGeneralInCheck.apply(stateCopy, generalXNC, newCoordinate) == OK)
+			if (PreMoveValidators.checkBounds(newCoordinate, stateCopy) &&
+					PreMoveValidators.isGeneralInCheck.apply(stateCopy, generalXNC, newCoordinate) == OK)
 				return false;
 		}
 //		
@@ -75,12 +77,15 @@ public class PostMoveValidators {
 		ListIterator<XNC> intermediateListIterator = intermediateCoordinates.listIterator();
 		while (intermediateListIterator.hasNext()) {
 			XNC coordinate = intermediateListIterator.next();
-			if (hasPathTo(state, state.onMove, coordinate)) return true;
+			findPieceToMakeMove = hasPathTo(state, state.onMove, coordinate);
+			if (findPieceToMakeMove.hasPiece && !generalInCheck.test(findPieceToMakeMove.newState)) 
+				return false;
 		}
 		
 		// checking piece can be captured
-		if (hasPathTo(state, state.onMove, attackerCoordinate)) return true;
-		return false;
+		findPieceToMakeMove = hasPathTo(state, state.onMove, attackerCoordinate);
+		if (findPieceToMakeMove.hasPiece && !generalInCheck.test(findPieceToMakeMove.newState)) return false;
+		return true;
 	};
 
 	// not in stalemate conditions:
@@ -105,7 +110,8 @@ public class PostMoveValidators {
 		for (int i = 1; i <= state.board.ranks; i++) {
 			for (int j = 1; j <= state.board.files; j++) {
 				XNC coordinate = XNC.makeXNC(i, j);
-				if (hasPathTo(state, state.onMove, coordinate)) 
+				FindPieceToMakeMove findPieceToMakeMove = hasPathTo(state, state.onMove, coordinate);
+				if (findPieceToMakeMove.hasPiece && !generalInCheck.test(findPieceToMakeMove.newState)) 
 					return false;
 			}
 		}
@@ -119,13 +125,16 @@ public class PostMoveValidators {
 	 * @param coordinate the coordinate 
 	 * @return true if there's a way for any pieces of the given color to move to the given coordinate, false otherwise
 	 */
-	private static boolean hasPathTo(XiangqiState state, XiangqiColor color, XNC coordinate) {
+	private static FindPieceToMakeMove hasPathTo(XiangqiState state, XiangqiColor color, XNC coordinate) {
+		
 		for (Entry<XNC, XiangqiPieceImpl> entry : state.board.boardMap.entrySet()) {
     		if (entry.getValue().getColor() == color && 
     				PieceChecker.runChecker(state, entry.getKey(), coordinate) == OK) {
-    			return true;
+    			XiangqiState stateCopy = XiangqiState.makeDeepCopy(state);
+    			stateCopy.board.movePiece(entry.getKey(), coordinate);
+    			return new FindPieceToMakeMove(true, stateCopy);
     		}  
     	}
-		return false;
+		return new FindPieceToMakeMove(false, state);
 	}
 }
