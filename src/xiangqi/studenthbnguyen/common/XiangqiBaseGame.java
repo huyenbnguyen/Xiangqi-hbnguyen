@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.CompletionException;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
@@ -58,9 +59,10 @@ public class XiangqiBaseGame implements XiangqiGame {
 		state.moveMessage = "";
 		XNC sourceNormalized = XNC.makeXNC(source, state.onMove);
 		XNC destinationNormalized = XNC.makeXNC(destination, state.onMove); 
-
-		if (PreMoveChecker.runChecker(state, sourceNormalized, destinationNormalized) == ILLEGAL) 
-			return ILLEGAL;
+		
+		MoveResult preMove = PreMoveChecker.runChecker(state, sourceNormalized, destinationNormalized);
+		
+		if (preMove != OK) return preMove;	
 		
 		if (PieceChecker.runChecker(state, sourceNormalized, destinationNormalized) == ILLEGAL) 
 			return ILLEGAL;
@@ -68,8 +70,12 @@ public class XiangqiBaseGame implements XiangqiGame {
 		// if the move is valid, make the move
 		state.board.movePiece(sourceNormalized, destinationNormalized);
 		state.moveCount++;
+		System.out.println(state.moveCount);
+		
 		switchTurn();
 		
+		MoveResult isDraw = PreMoveValidators.gameRanOutOfMove.apply(state, sourceNormalized, destinationNormalized);
+		if (isDraw != OK) return isDraw;
 		return PostMoveChecker.runChecker(state, sourceNormalized, destinationNormalized);
 	}
 	
@@ -96,7 +102,7 @@ public class XiangqiBaseGame implements XiangqiGame {
 	@Override
 	public XiangqiPiece getPieceAt(XiangqiCoordinate where, XiangqiColor aspect) {
 		if (!PreMoveValidators.checkBounds(where, state)) {
-			throw new XiangqiRuntimeException("Invalid coordinate passed to getPieceAt()");
+			throw new CompletionException(null);
 		}
 		return state.board.getPieceAtForClient(XNC.makeXNC(where, aspect));
 	}

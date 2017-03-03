@@ -63,6 +63,15 @@ public class PieceValidators {
 		return OK;
 	};
 	
+	public static MoveValidator<XiangqiState, XNC, MoveResult> isNotCrossingRiver = (state, from, to) -> {
+		boolean result = from.isNotCrossingRiver(to, state.onMove);
+		if (!result) {
+			state.moveMessage = "Red Elephant must not cross river";
+			return ILLEGAL;
+		}
+		return OK;
+	};
+	
 	public static MoveValidator<XiangqiState, XNC, MoveResult> moveDiagonallyTwoSteps = (state, from, to) -> {
 		boolean result = from.moveDiagonallyTwoSteps(to) && (hasNoBlockingPiece.apply(state, from, to) == OK);
 		if (!result) {
@@ -72,7 +81,12 @@ public class PieceValidators {
 		return OK;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, MoveResult> moveForSoldierAfterCrossingRiver = (state, from, to) -> {
+	public static MoveValidator<XiangqiState, XNC, MoveResult> soldierValidator = (state, from, to) -> {
+		
+		if (from.isNotCrossingRiver(to, state.onMove)) {
+			return isForwardOneStep.apply(state, from, to);
+		}
+		
 		boolean rightVersion = (state.version != ALPHA_XQ && state.version != BETA_XQ);
 		boolean isSoldierPiece = (state.board.getPieceAt(from).getPieceType() == SOLDIER);
 		boolean isValidMove = from.moveLeftOrRightOrUpOneStep(to, state.onMove);
@@ -92,14 +106,7 @@ public class PieceValidators {
 		return OK;
 	};
 	
-	public static MoveValidator<XiangqiState, XNC, MoveResult> isNotCrossingRiver = (state, from, to) -> {
-		boolean result = from.isNotCrossingRiver(to, state.onMove);
-		if (!result) {
-			state.moveMessage = "Red Elephant must not cross river";
-			return ILLEGAL;
-		}
-		return OK;
-	};
+	
 	
 	public static MoveValidator<XiangqiState, XNC, MoveResult> isValidCannonMove = (state, from, to) -> {		
 		XiangqiPiece destinationPiece = state.board.getPieceAt(to);

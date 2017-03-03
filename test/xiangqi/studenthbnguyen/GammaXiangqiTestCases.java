@@ -83,7 +83,7 @@ public class GammaXiangqiTestCases {
 	{
 		game = XiangqiGameFactory.makeXiangqiGame(XiangqiGameVersion.GAMMA_XQ);
 	}
-	
+
 	@Test
 	public void correctInitialPositions()
 	{
@@ -372,8 +372,7 @@ public class GammaXiangqiTestCases {
 		assertEquals(OK, game.makeMove(c2_1, c1_1));
 		
 		assertEquals(OK, game.makeMove(c1_1, c2_1));
-		assertEquals(OK, game.makeMove(c1_1, c2_1));
-		assertEquals(DRAW, game.makeMove(c2_1, c1_1));
+		assertEquals(DRAW, game.makeMove(c1_1, c2_1));
 	}
 	
 	@Test 
@@ -385,6 +384,7 @@ public class GammaXiangqiTestCases {
 		assertEquals(OK, game.makeMove(c2_4, c9_4));
 		assertEquals(ILLEGAL, game.makeMove(c1_5, c2_5));
 	}
+	
 	
 	@Test 
 	public void checkRemovedByBlocking() {
@@ -399,20 +399,21 @@ public class GammaXiangqiTestCases {
 	@Test
 	public void checkRemovedByCapturingTheAttacker() {
 		assertEquals(OK, game.makeMove(c1_1, c2_1));
-		assertEquals(OK, game.makeMove(c1_6, c2_7));
-		assertEquals(OK, game.makeMove(c2_1, c2_2));
-		assertEquals(OK, game.makeMove(c1_7, c3_5));
-		assertEquals(OK, game.makeMove(c2_2, c10_2));
-		assertEquals(OK, game.makeMove(c2_7, c1_8));
+		assertEquals(OK, game.makeMove(c1_6, c2_5));
+		assertEquals(OK, game.makeMove(c2_1, c2_4));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_4, c10_4));
+		assertEquals(OK, game.makeMove(c2_5, c1_6));
 	}
 	
 	@Test 
 	public void checkRemovedByMovingGeneral() {
 		assertEquals(OK, game.makeMove(c1_1, c2_1));
-		assertEquals(OK, game.makeMove(c1_6, c2_7));
-		assertEquals(OK, game.makeMove(c2_1, c2_2));
-		assertEquals(OK, game.makeMove(c1_7, c3_5));
-		assertEquals(OK, game.makeMove(c2_2, c10_2));
+		assertEquals(OK, game.makeMove(c1_6, c2_5));
+		assertEquals(OK, game.makeMove(c2_1, c2_4));
+		assertEquals(OK, game.makeMove(c2_5, c3_4));
+		assertEquals(OK, game.makeMove(c2_4, c10_4));
 		assertEquals(OK, game.makeMove(c1_5, c2_5));
 	}
+	
 }

@@ -41,14 +41,12 @@ public class GammaInitializer extends InitializerTemplate {
 	private static final XiangqiPieceImpl RED_ADVISOR = (XiangqiPieceImpl) makePiece(ADVISOR, RED);
 	private static final XiangqiPieceImpl RED_GENERAL = (XiangqiPieceImpl) makePiece(GENERAL, RED);
 	private static final XiangqiPieceImpl RED_SOLDIER = (XiangqiPieceImpl) makePiece(SOLDIER, RED);
-	private static final XiangqiPieceImpl RED_CANNON = (XiangqiPieceImpl) makePiece(CANNON, RED);
 
 	private static final XiangqiPieceImpl BLACK_CHARIOT = (XiangqiPieceImpl) makePiece(CHARIOT, BLACK);
 	private static final XiangqiPieceImpl BLACK_ELEPHANT = (XiangqiPieceImpl) makePiece(ELEPHANT, BLACK);
 	private static final XiangqiPieceImpl BLACK_ADVISOR = (XiangqiPieceImpl) makePiece(ADVISOR, BLACK);
 	private static final XiangqiPieceImpl BLACK_GENERAL = (XiangqiPieceImpl) makePiece(GENERAL, BLACK);
 	private static final XiangqiPieceImpl BLACK_SOLDIER = (XiangqiPieceImpl) makePiece(SOLDIER, BLACK);
-	private static final XiangqiPieceImpl BLACK_CANNON = (XiangqiPieceImpl) makePiece(CANNON, BLACK);
 
 	public GammaInitializer() {
 		super();
@@ -84,14 +82,22 @@ public class GammaInitializer extends InitializerTemplate {
 		// advisor
 		List<MoveValidator> advisorValidators = new LinkedList<MoveValidator>();
 		advisorValidators.add(PieceValidators.isMoveDiagonal);
+		advisorValidators.add(PieceValidators.isInPalace);
 		pieceValidators.put(RED_ADVISOR, advisorValidators);
 		pieceValidators.put(BLACK_ADVISOR, advisorValidators);
 
 		// soldiers
 		List<MoveValidator> soldierValidators = new LinkedList<MoveValidator>();
-		soldierValidators.add(PieceValidators.isForwardOneStep);
+		soldierValidators.add(PieceValidators.soldierValidator);
 		pieceValidators.put(RED_SOLDIER, soldierValidators);
 		pieceValidators.put(BLACK_SOLDIER, soldierValidators);
+		
+		// elephants
+		List<MoveValidator> elephantValidators = new LinkedList<MoveValidator>();
+		elephantValidators.add(PieceValidators.moveDiagonallyTwoSteps);
+		elephantValidators.add(PieceValidators.isNotCrossingRiver);
+		pieceValidators.put(RED_ELEPHANT, elephantValidators);
+		pieceValidators.put(BLACK_ELEPHANT, elephantValidators);
 	}
 
 	/**
