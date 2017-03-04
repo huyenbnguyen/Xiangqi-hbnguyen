@@ -2,13 +2,18 @@
  * 
  */
 package xiangqi.studenthbnguyen.common;
+import static xiangqi.common.MoveResult.ILLEGAL;
+import static xiangqi.common.MoveResult.OK;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import xiangqi.common.XiangqiColor;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.common.XiangqiPieceType;
 import xiangqi.studenthbnguyen.util.DeepCopyMaker;
+import xiangqi.studenthbnguyen.validatorchecker.PieceChecker;
 
 /**
  * @author huyennguyen
@@ -84,5 +89,31 @@ public class XiangqiBoard {
 		XiangqiBoard clone = new XiangqiBoard(ranks, files);
 		clone.boardMap = DeepCopyMaker.makeDeepCopy(boardMap);
 		return clone;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		XiangqiBoard other = (XiangqiBoard) obj;
+		if (boardMap == null) {
+			if (other.boardMap != null)
+				return false;
+		} else {
+			for (Entry<XNC, XiangqiPieceImpl> entry : boardMap.entrySet()) {
+				XiangqiPieceImpl piece = entry.getValue();
+				XNC coordinate = entry.getKey();
+				if (!other.findPiece(piece.getPieceType(), piece.getColor()).equals(coordinate))
+					return false;
+			}
+		}
+		return true;
 	}
 }
