@@ -13,6 +13,7 @@
 package xiangqi;
 
 import xiangqi.common.*;
+import static xiangqi.common.XiangqiGameVersion.*;
 import xiangqi.studenthbnguyen.common.XiangqiBaseGame;
 import xiangqi.studenthbnguyen.common.XiangqiState;
 import xiangqi.studenthbnguyen.validatorchecker.PieceChecker;
@@ -30,6 +31,10 @@ import xiangqi.studenthbnguyen.versions.otherxiangqiversions.InitializerTemplate
  */
 public class XiangqiGameFactory
 {
+	private static XiangqiBaseGame game = null;
+	private static XiangqiState state = null;
+	private static InitializerTemplate initializer;
+	
 	/**
 	 * Factory method that returns an instance of the requested game.
 	 * @param version the version requested
@@ -37,34 +42,33 @@ public class XiangqiGameFactory
 	 */
 	public static XiangqiGame makeXiangqiGame(XiangqiGameVersion version)
 	{
-		XiangqiBaseGame game = null;
-		XiangqiState state = null;
-		switch (version) {
-		case ALPHA_XQ:
+		
+		if (version == ALPHA_XQ) {
 			return new AlphaXiangqi();
-		case BETA_XQ:
-			BetaInitializer betaInitializer = new BetaInitializer();
-			state = betaInitializer.getState();
+		} else {
+			chooseInitialzer(version);
+			state = initializer.getState();
 			game = new XiangqiBaseGame(state);
-			setCheckers(betaInitializer);
+			setCheckers(initializer);
+		}
+		return (XiangqiGame) game;
+	}
+	
+	private static void chooseInitialzer(XiangqiGameVersion version) {
+		switch (version) {
+		case BETA_XQ:
+			initializer = new BetaInitializer();
 			break;
 		case GAMMA_XQ:
-			GammaInitializer gammaInitializer = new GammaInitializer();
-			state = gammaInitializer.getState();
-			game = new XiangqiBaseGame(state);
-			setCheckers(gammaInitializer);
+			initializer = new GammaInitializer();
 			break;
 		case DELTA_XQ:
-			DeltaInitializer deltaInitializer = new DeltaInitializer();
-			state = deltaInitializer.getState();
-			game = new XiangqiBaseGame(state);
-			setCheckers(deltaInitializer);
+			initializer = new DeltaInitializer();
 			break;
 		default:
 			System.out.println("Not yet implemented");
 			break;
 		}
-		return (XiangqiGame) game;
 	}
 	
 	private static void setCheckers(InitializerTemplate init) {

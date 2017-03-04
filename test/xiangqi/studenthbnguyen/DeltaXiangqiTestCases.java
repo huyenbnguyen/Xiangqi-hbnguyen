@@ -178,17 +178,13 @@ public class DeltaXiangqiTestCases {
 	@Test 
 	public void perpetualCheckRedWins() {
 		assertEquals(OK, game.makeMove(c4_5, c5_5));
-		assertEquals(OK, game.makeMove(c4_5, c5_5));
-		
+		assertEquals(OK, game.makeMove(c4_5, c5_5));		
 		assertEquals(OK, game.makeMove(c1_1, c2_1));
-		assertEquals(OK, game.makeMove(c1_1, c2_1));
-		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));		
 		assertEquals(OK, game.makeMove(c2_1, c1_1));
-		assertEquals(OK, game.makeMove(c2_1, c1_1));
-		
+		assertEquals(OK, game.makeMove(c2_1, c1_1));		
 		assertEquals(OK, game.makeMove(c1_1, c2_1));
-		assertEquals(OK, game.makeMove(c1_1, c2_1));
-		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));		
 		assertEquals(OK, game.makeMove(c2_1, c1_1));		
 		assertEquals(RED_WINS, game.makeMove(c2_1, c1_1));
 	}
