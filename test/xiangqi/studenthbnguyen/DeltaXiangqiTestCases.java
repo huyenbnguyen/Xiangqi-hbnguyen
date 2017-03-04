@@ -10,6 +10,9 @@ import static xiangqi.common.XiangqiPieceType.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import test.util.CheckmateGame;
+
 import static test.util.TestPiece.*;
 import static test.util.TestCoordinate.*;
 import xiangqi.XiangqiGameFactory;
@@ -189,4 +192,9 @@ public class DeltaXiangqiTestCases {
 		assertEquals(RED_WINS, game.makeMove(c2_1, c1_1));
 	}
 	
+	@Test 
+	public void checkmateRedWins() {
+		XiangqiGame checkmateGame = CheckmateGame.makeCheckmateGame();
+		assertEquals(RED_WINS, checkmateGame.makeMove(c2_3, c2_4));
+	}
 }

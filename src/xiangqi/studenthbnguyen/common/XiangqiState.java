@@ -20,7 +20,7 @@ public class XiangqiState {
 	public XiangqiColor onMove = RED;
 	public XiangqiBoard board;
 	public XiangqiGameVersion version;
-	public XiangqiPiece generalAttacker;
+	public XNC generalAttackerCoordinate;
 	public int moveCount = 0;
 	public int maxMove;
 	
@@ -37,7 +37,7 @@ public class XiangqiState {
 		XiangqiState stateCopy = new XiangqiState();
 		stateCopy.onMove = state.onMove;
 		stateCopy.moveMessage = state.moveMessage;
-		stateCopy.generalAttacker = state.generalAttacker;
+		stateCopy.generalAttackerCoordinate = state.generalAttackerCoordinate;
 		stateCopy.version = state.version;
 		stateCopy.maxMove = state.maxMove;
 		stateCopy.board = new XiangqiBoard(state.board.ranks, state.board.files);

@@ -34,15 +34,15 @@ public class PostMoveValidators {
 		XNC generalCoordinate = state.board.findPiece(GENERAL, state.onMove);
 		for (Entry<XNC, XiangqiPieceImpl> entry : state.board.boardMap.entrySet()) {
 			XiangqiPieceImpl piece = entry.getValue();
-			boolean a = true;
+			XNC coordinate = entry.getKey();
 			if (piece.getColor() != state.onMove && 
 					PieceChecker.runChecker(state, entry.getKey(), generalCoordinate) == OK) { 
-				state.generalAttacker = piece;
+				state.generalAttackerCoordinate = coordinate;
 //				stateCopy.moveMessage = "ILLEGAL: Move puts the general in check";
-				return true;
+				return true; 
 			}  
 		}
-		state.generalAttacker = null;
+		state.generalAttackerCoordinate = null;
 		return false;
 	};
 	
@@ -71,10 +71,8 @@ public class PostMoveValidators {
 					PreMoveValidators.isGeneralInCheck.apply(stateCopy, generalXNC, newCoordinate) == OK)
 				return false;
 		}
-//		
-		// Check can be blocked
-		XiangqiPieceImpl attacker = (XiangqiPieceImpl) state.generalAttacker;
-		XNC attackerCoordinate = state.board.findPiece(attacker.getPieceType(), attacker.getColor());
+
+		XNC attackerCoordinate = state.generalAttackerCoordinate;
 		List<XNC> intermediateCoordinates = XNC.generateIntermediateCoordinates(generalXNC, attackerCoordinate);		
 		ListIterator<XNC> intermediateListIterator = intermediateCoordinates.listIterator();
 		while (intermediateListIterator.hasNext()) {
