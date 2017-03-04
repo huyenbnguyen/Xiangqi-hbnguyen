@@ -34,7 +34,7 @@ public class DeltaInitializer extends InitializerTemplate {
 
 	// Change this variable to change the maximum number of moves allowed
 	private static int maxMove = 10000;
-	
+
 	// Change this to change the version of the game 
 	private static XiangqiGameVersion version = DELTA_XQ;
 
@@ -44,6 +44,7 @@ public class DeltaInitializer extends InitializerTemplate {
 	private static final XiangqiPieceImpl RED_GENERAL = (XiangqiPieceImpl) makePiece(GENERAL, RED);
 	private static final XiangqiPieceImpl RED_SOLDIER = (XiangqiPieceImpl) makePiece(SOLDIER, RED);
 	private static final XiangqiPieceImpl RED_CANNON = (XiangqiPieceImpl) makePiece(CANNON, RED);
+	private static final XiangqiPieceImpl RED_HORSE = (XiangqiPieceImpl) makePiece(HORSE, RED);
 
 	private static final XiangqiPieceImpl BLACK_CHARIOT = (XiangqiPieceImpl) makePiece(CHARIOT, BLACK);
 	private static final XiangqiPieceImpl BLACK_ELEPHANT = (XiangqiPieceImpl) makePiece(ELEPHANT, BLACK);
@@ -51,6 +52,7 @@ public class DeltaInitializer extends InitializerTemplate {
 	private static final XiangqiPieceImpl BLACK_GENERAL = (XiangqiPieceImpl) makePiece(GENERAL, BLACK);
 	private static final XiangqiPieceImpl BLACK_SOLDIER = (XiangqiPieceImpl) makePiece(SOLDIER, BLACK);
 	private static final XiangqiPieceImpl BLACK_CANNON = (XiangqiPieceImpl) makePiece(CANNON, BLACK);
+	private static final XiangqiPieceImpl BLACK_HORSE = (XiangqiPieceImpl) makePiece(HORSE, BLACK);
 
 	/**
 	 * 
@@ -64,7 +66,6 @@ public class DeltaInitializer extends InitializerTemplate {
 	 */
 	@Override
 	protected void initializeState() {
-		
 		state.version = version;
 		state.board = new XiangqiBoard(maxRank, maxFile);
 		state.maxMove = maxMove;
@@ -77,7 +78,7 @@ public class DeltaInitializer extends InitializerTemplate {
 	 */
 	@Override
 	protected void initializeBoard() {
-		XiangqiBoard board = new XiangqiBoard(maxRank, maxFile);
+		XiangqiBoard board = state.board;
 		board.placePiece(RED_CHARIOT, XNC.makeXNC(1, 1));
 		board.placePiece(RED_ELEPHANT, XNC.makeXNC(1, 3));
 		board.placePiece(RED_ADVISOR, XNC.makeXNC(1, 4));		
@@ -92,6 +93,8 @@ public class DeltaInitializer extends InitializerTemplate {
 		board.placePiece(RED_SOLDIER, XNC.makeXNC(4, 9));
 		board.placePiece(RED_CANNON, XNC.makeXNC(3, 2));
 		board.placePiece(RED_CANNON, XNC.makeXNC(3, 8));
+		board.placePiece(RED_HORSE, XNC.makeXNC(1, 2));
+		board.placePiece(RED_HORSE, XNC.makeXNC(1, 8));
 
 		board.placePiece(BLACK_CHARIOT, XNC.makeXNC(1, 1));
 		board.placePiece(BLACK_ELEPHANT, XNC.makeXNC(1, 3));
@@ -107,6 +110,8 @@ public class DeltaInitializer extends InitializerTemplate {
 		board.placePiece(BLACK_SOLDIER, XNC.makeXNC(4, 9));
 		board.placePiece(BLACK_CANNON, XNC.makeXNC(3, 2));
 		board.placePiece(BLACK_CANNON, XNC.makeXNC(3, 8));
+		board.placePiece(BLACK_HORSE, XNC.makeXNC(1, 2));
+		board.placePiece(BLACK_HORSE, XNC.makeXNC(1, 2));
 	}
 
 	/* (non-Javadoc)
@@ -140,12 +145,13 @@ public class DeltaInitializer extends InitializerTemplate {
 		// advisor
 		List<MoveValidator> advisorValidators = new LinkedList<MoveValidator>();
 		advisorValidators.add(PieceValidators.isMoveDiagonal);
+		advisorValidators.add(PieceValidators.isInPalace);
 		pieceValidators.put(RED_ADVISOR, advisorValidators);
 		pieceValidators.put(BLACK_ADVISOR, advisorValidators);
 
 		// soldiers
 		List<MoveValidator> soldierValidators = new LinkedList<MoveValidator>();
-		soldierValidators.add(PieceValidators.isForwardOneStep);
+		soldierValidators.add(PieceValidators.soldierValidator);
 		pieceValidators.put(RED_SOLDIER, soldierValidators);
 		pieceValidators.put(BLACK_SOLDIER, soldierValidators);
 
@@ -161,6 +167,12 @@ public class DeltaInitializer extends InitializerTemplate {
 		cannonValidators.add(PieceValidators.isValidCannonMove);
 		pieceValidators.put(RED_CANNON, cannonValidators);
 		pieceValidators.put(BLACK_CANNON, cannonValidators);
+		
+		// horses
+		List<MoveValidator> horseValidators = new LinkedList<MoveValidator>();
+		horseValidators.add(PieceValidators.isValidHorseMove);
+		pieceValidators.put(RED_HORSE, horseValidators);
+		pieceValidators.put(BLACK_HORSE, horseValidators);
 	}
 
 	/* (non-Javadoc)

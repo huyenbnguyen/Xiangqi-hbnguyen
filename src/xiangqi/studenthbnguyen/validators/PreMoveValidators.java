@@ -60,19 +60,17 @@ public class PreMoveValidators {
 		XiangqiState stateCopy = XiangqiState.makeDeepCopy(state);
 		XiangqiBoard boardCopy = stateCopy.board;
 		boardCopy.movePiece(from, to);
+		stateCopy.onMove = (state.onMove == RED) ? BLACK : RED;
 		
 		XNC generalCoordinate = boardCopy.findPiece(GENERAL, state.onMove);
 		for (Entry<XNC, XiangqiPieceImpl> entry : boardCopy.boardMap.entrySet()) {
 			XiangqiPieceImpl piece = entry.getValue();
 			if (piece.getColor() != state.onMove && 
 					PieceChecker.runChecker(stateCopy, entry.getKey(), generalCoordinate) == OK) { 
-				// if there's not a move to be made, it means we're dealing with the game itself, not a copy
-//				stateCopy.generalAttacker = entry.getValue();
-//				stateCopy.moveMessage = "ILLEGAL: Move puts the general in check";
+				stateCopy.moveMessage = "ILLEGAL: Move puts the general in check";
 				return ILLEGAL;
 			}  
 		}
-//		state.generalAttacker = null;
 		return OK;
 	};
 

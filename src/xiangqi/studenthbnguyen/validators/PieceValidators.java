@@ -26,7 +26,7 @@ public class PieceValidators {
 	public static MoveValidator<XiangqiState, XNC, MoveResult> hasNoBlockingPiece = (state, from, to) -> {
 		return (countBlockingPiece(state, from, to) == 0) ? OK : ILLEGAL;
 	};
-	
+
 	public static MoveValidator<XiangqiState, XNC, MoveResult> isMoveOrthogonal = (state, from, to) -> {
 		boolean result = from.isOrthogonal(to) && (hasNoBlockingPiece.apply(state, from, to) == OK);
 		if (!result) { 
@@ -62,7 +62,7 @@ public class PieceValidators {
 		}
 		return OK;
 	};
-	
+
 	public static MoveValidator<XiangqiState, XNC, MoveResult> isNotCrossingRiver = (state, from, to) -> {
 		boolean result = from.isNotCrossingRiver(to, state.onMove);
 		if (!result) {
@@ -71,7 +71,7 @@ public class PieceValidators {
 		}
 		return OK;
 	};
-	
+
 	public static MoveValidator<XiangqiState, XNC, MoveResult> moveDiagonallyTwoSteps = (state, from, to) -> {
 		boolean result = from.moveDiagonallyTwoSteps(to) && (hasNoBlockingPiece.apply(state, from, to) == OK);
 		if (!result) {
@@ -80,13 +80,13 @@ public class PieceValidators {
 		}
 		return OK;
 	};
-	
+
 	public static MoveValidator<XiangqiState, XNC, MoveResult> soldierValidator = (state, from, to) -> {
-		
+
 		if (from.isNotCrossingRiver(to, state.onMove)) {
 			return isForwardOneStep.apply(state, from, to);
 		}
-		
+
 		boolean rightVersion = (state.version != ALPHA_XQ && state.version != BETA_XQ);
 		boolean isSoldierPiece = (state.board.getPieceAt(from).getPieceType() == SOLDIER);
 		boolean isValidMove = from.moveLeftOrRightOrUpOneStep(to, state.onMove);
@@ -96,7 +96,7 @@ public class PieceValidators {
 		}
 		return OK;
 	};
-	
+
 	public static MoveValidator<XiangqiState, XNC, MoveResult> isInPalace = (state, from, to) -> {
 		boolean result = from.isInPalace(to, state.onMove);
 		if (!result) {
@@ -105,27 +105,72 @@ public class PieceValidators {
 		}
 		return OK;
 	};
-	
-	
-	
+
+
+
 	public static MoveValidator<XiangqiState, XNC, MoveResult> isValidCannonMove = (state, from, to) -> {		
 		XiangqiPiece destinationPiece = state.board.getPieceAt(to);
-		
+
 		// normal move
 		if (destinationPiece.getPieceType() == NONE) {
 			return isMoveOrthogonal.apply(state, from, to);
 		} else { // capture move
-			if (!(from.isOrthogonal(to)) &&
-					(destinationPiece.getPieceType() != NONE) &&
-					(destinationPiece.getColor() != state.onMove) &&
-					(countBlockingPiece(state, from, to) == 1)) {
+			if (!from.isOrthogonal(to) ||
+					(destinationPiece.getColor() == state.onMove) ||
+					(countBlockingPiece(state, from, to) != 1)) {
 				state.moveMessage = "ILLEGAL: Cannon made an invalid move";
 				return ILLEGAL;
 			}
 			return OK;
 		}
 	};
+
+	private static MoveValidator<XiangqiState, XNC, MoveResult> isValidVerticalHorseMove = (state, from, to) -> {		
+		XiangqiPiece intermediatePiece;
+		if (from.getRank() == to.getRank() - 2) { // to is above from
+			intermediatePiece = state.board.getPieceAt(XNC.makeXNC(from.getRank()+1, from.getFile()));
+			if (intermediatePiece.getPieceType() != NONE) {
+				state.moveMessage = "ILLEGAL: Horse is blocked";
+				return ILLEGAL;
+			}
+			return OK;
+		} else { // to is below from
+			intermediatePiece = state.board.getPieceAt(XNC.makeXNC(from.getRank()-1, from.getFile()));
+			if (intermediatePiece.getPieceType() != NONE) {
+				state.moveMessage = "ILLEGAL: Horse is blocked";
+				return ILLEGAL;
+			}
+			return OK;
+		}
+	};
 	
+	private static MoveValidator<XiangqiState, XNC, MoveResult> isValidHorizontalHorseMove = (state, from, to) -> {		
+		XiangqiPiece intermediatePiece;
+		if (from.getRank() == to.getFile() - 2) { // to is right of from
+			intermediatePiece = state.board.getPieceAt(XNC.makeXNC(from.getRank(), from.getFile()+1));
+			if (intermediatePiece.getPieceType() != NONE) {
+				state.moveMessage = "ILLEGAL: Horse is blocked";
+				return ILLEGAL;
+			}
+			return OK;
+		} else { // to is left of from
+			intermediatePiece = state.board.getPieceAt(XNC.makeXNC(from.getRank(), from.getFile()-1));
+			if (intermediatePiece.getPieceType() != NONE) {
+				state.moveMessage = "ILLEGAL: Horse is blocked";
+				return ILLEGAL;
+			}
+			return OK;
+		}
+	};
+	
+	public static MoveValidator<XiangqiState, XNC, MoveResult> isValidHorseMove = (state, from, to) -> {		
+		if (Math.abs(to.getRank() - from.getRank()) == 2) {
+			return (isValidVerticalHorseMove.apply(state, from, to));
+		}
+
+		return (isValidHorizontalHorseMove.apply(state, from, to));
+	};
+
 	private static int countBlockingPiece(XiangqiState state, XNC from, XNC to) {
 		int blockingPieceNum = 0;
 		List<XNC> intermediateCoordinates = XNC.generateIntermediateCoordinates(from, to);		
@@ -135,5 +180,5 @@ public class PieceValidators {
 				blockingPieceNum++;
 		}
 		return blockingPieceNum;
-	}
+	}	
 }

@@ -37,18 +37,8 @@ public class XiangqiBoard {
 	 * @return the piece at the coordinate
 	 */
 	public XiangqiPiece getPieceAt(XNC sourceNormalized) {
-		XiangqiPieceImpl piece = (XiangqiPieceImpl) boardMap.get(sourceNormalized);
-		return (piece != null) ? piece : XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE); 
-	}
-	
-	/**
-	 * Get the piece at a coordinate
-	 * @param sourceNormalized the normalized coordinate
-	 * @return the piece at the coordinate
-	 */
-	public XiangqiPiece getPieceAtForClient(XNC sourceNormalized) {
 		XiangqiPiece piece = boardMap.get(sourceNormalized);
-		return (piece != null) ? XiangqiPieceImpl.makePiece(piece.getPieceType(), piece.getColor()) : XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE); 
+		return (piece != null) ? piece : XiangqiPieceImpl.makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE); 
 	}
 
 	/**

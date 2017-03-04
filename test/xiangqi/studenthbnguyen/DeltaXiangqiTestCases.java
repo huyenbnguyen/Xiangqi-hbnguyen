@@ -33,12 +33,14 @@ public class DeltaXiangqiTestCases {
 			redGeneral = makePiece(GENERAL, RED),
 			redSoldier = makePiece(SOLDIER, RED),
 			redCannon = makePiece(CANNON, RED),
+			redHorse = makePiece(HORSE, RED),
 			blackChariot = makePiece(CHARIOT, BLACK),
 			blackElephant = makePiece(ELEPHANT, BLACK),
 			blackAdvisor = makePiece(ADVISOR, BLACK),
 			blackGeneral = makePiece(GENERAL, BLACK),
 			blackSoldier = makePiece(SOLDIER, BLACK),
 			blackCannon = makePiece(CANNON, BLACK),
+			blackHorse = makePiece(HORSE, BLACK),
 			noPiece = makePiece(XiangqiPieceType.NONE, XiangqiColor.NONE); 
 
 	private static XiangqiCoordinate c1_1 = makeCoordinate(1, 1),
@@ -92,7 +94,7 @@ public class DeltaXiangqiTestCases {
 	public void setup()
 	{
 		game = XiangqiGameFactory.makeXiangqiGame(XiangqiGameVersion.DELTA_XQ);
-	}
+	} 
 	
 	@Test
 	public void correctInitialPositions()
@@ -111,6 +113,9 @@ public class DeltaXiangqiTestCases {
 		assertEquals(redSoldier, game.getPieceAt(c4_9, RED));
 		assertEquals(redCannon, game.getPieceAt(c3_2, RED));
 		assertEquals(redCannon, game.getPieceAt(c3_8, RED));
+		assertEquals(redHorse, game.getPieceAt(c1_2, RED));
+		assertEquals(redHorse, game.getPieceAt(c1_8, RED));
+		assertEquals(blackGeneral, game.getPieceAt(c1_5, BLACK));
 		assertEquals(blackChariot, game.getPieceAt(c1_1, BLACK));
 		assertEquals(blackChariot, game.getPieceAt(c1_9, BLACK));
 		assertEquals(blackAdvisor, game.getPieceAt(c1_4, BLACK));

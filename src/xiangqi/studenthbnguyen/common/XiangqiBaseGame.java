@@ -103,6 +103,6 @@ public class XiangqiBaseGame implements XiangqiGame {
 		if (!PreMoveValidators.checkBounds(where, state)) {
 			throw new CompletionException(null);
 		}
-		return state.board.getPieceAtForClient(XNC.makeXNC(where, aspect));
+		return state.board.getPieceAt(XNC.makeXNC(where, aspect));
 	}
 }
