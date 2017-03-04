@@ -15,12 +15,16 @@ import static xiangqi.common.XiangqiGameVersion.*;
  */
 public class PerpetualChecker {
 	public static BiPredicate<XiangqiState, FixedSizeQueue> perpetualCheck = (state, boardConfig) -> {
-		if (state.version != ALPHA_XQ && state.version != BETA_XQ) {
+		if (state.version != ALPHA_XQ && state.version != BETA_XQ && state.version != GAMMA_XQ) {
 			for (int i = 0; i < boardConfig.getCapacity(); i++) {
 				for (int j = i+1; j < boardConfig.getCapacity(); j++) {
-					if (boardConfig.get(i).equals(boardConfig.get(j))) {
+					if (boardConfig.get(i) != null && 
+							boardConfig.get(j) != null &&
+							boardConfig.get(i).equals(boardConfig.get(j))) {
 						for (int k = j+1; k < boardConfig.getCapacity(); k++) {
-							if (boardConfig.get(k).equals(boardConfig.get(j)))
+							if (boardConfig.get(j) != null && 
+									boardConfig.get(k) != null &&
+									boardConfig.get(k).equals(boardConfig.get(j)))
 								return true;
 						}
 					}
