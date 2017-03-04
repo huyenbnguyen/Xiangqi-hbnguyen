@@ -41,7 +41,12 @@ public class FixedSizeQueue<T> {
 		int indexCount = 0;
 		while (iterator.hasNext() && indexCount != index) {
 			indexCount++;
+			iterator.next();
 		}
 		return iterator.next();
+	}
+	
+	public int getSize() {
+		return size;
 	}
 }

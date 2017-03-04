@@ -96,8 +96,6 @@ public class XiangqiBoard {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
@@ -110,7 +108,9 @@ public class XiangqiBoard {
 			for (Entry<XNC, XiangqiPieceImpl> entry : boardMap.entrySet()) {
 				XiangqiPieceImpl piece = entry.getValue();
 				XNC coordinate = entry.getKey();
-				if (!other.findPiece(piece.getPieceType(), piece.getColor()).equals(coordinate))
+				XiangqiPieceImpl pieceInOtherBoard = other.boardMap.get(coordinate);
+				if (pieceInOtherBoard == null || 
+						(pieceInOtherBoard != null && !pieceInOtherBoard.equals(piece)))
 					return false;
 			}
 		}

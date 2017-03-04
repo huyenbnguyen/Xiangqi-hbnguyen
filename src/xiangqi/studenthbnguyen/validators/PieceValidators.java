@@ -143,7 +143,7 @@ public class PieceValidators {
 			return OK;
 		}
 	};
-	
+
 	private static MoveValidator<XiangqiState, XNC, MoveResult> isValidHorizontalHorseMove = (state, from, to) -> {		
 		XiangqiPiece intermediatePiece;
 		if (from.getRank() == to.getFile() - 2) { // to is right of from
@@ -162,13 +162,15 @@ public class PieceValidators {
 			return OK;
 		}
 	};
-	
+
 	public static MoveValidator<XiangqiState, XNC, MoveResult> isValidHorseMove = (state, from, to) -> {		
 		if (Math.abs(to.getRank() - from.getRank()) == 2) {
 			return (isValidVerticalHorseMove.apply(state, from, to));
 		}
 
-		return (isValidHorizontalHorseMove.apply(state, from, to));
+		if (Math.abs(to.getFile() - from.getFile()) == 2)
+			return (isValidHorizontalHorseMove.apply(state, from, to));
+		return ILLEGAL;
 	};
 
 	private static int countBlockingPiece(XiangqiState state, XNC from, XNC to) {

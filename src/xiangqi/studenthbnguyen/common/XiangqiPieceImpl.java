@@ -46,4 +46,21 @@ public class XiangqiPieceImpl implements XiangqiPiece {
 	public XiangqiPieceType getPieceType() {
 		return pieceType;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		XiangqiPieceImpl other = (XiangqiPieceImpl) obj;
+		if (color != other.color)
+			return false;
+		if (pieceType != other.pieceType)
+			return false;
+		return true;
+	}	
 }

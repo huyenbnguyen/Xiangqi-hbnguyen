@@ -34,6 +34,7 @@ public class PostMoveValidators {
 		XNC generalCoordinate = state.board.findPiece(GENERAL, state.onMove);
 		for (Entry<XNC, XiangqiPieceImpl> entry : state.board.boardMap.entrySet()) {
 			XiangqiPieceImpl piece = entry.getValue();
+			boolean a = true;
 			if (piece.getColor() != state.onMove && 
 					PieceChecker.runChecker(state, entry.getKey(), generalCoordinate) == OK) { 
 				state.generalAttacker = piece;

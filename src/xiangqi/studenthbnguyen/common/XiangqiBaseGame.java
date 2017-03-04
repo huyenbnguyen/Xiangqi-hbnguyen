@@ -79,12 +79,14 @@ public class XiangqiBaseGame implements XiangqiGame {
 		state.moveCount++;
 
 		// perpetual check
+		XiangqiState stateCopy = XiangqiState.makeDeepCopy(state);
+		XiangqiBoard boardCopy = stateCopy.board;
 		if (state.onMove == RED) {
-			redBoardConfigs.add(state.board);
+			redBoardConfigs.add(boardCopy);
 			if (PerpetualChecker.perpetualCheck.test(state, redBoardConfigs))
 				return BLACK_WINS;
 		} else {
-			blackBoardConfigs.add(state.board);
+			blackBoardConfigs.add(boardCopy);
 			if (PerpetualChecker.perpetualCheck.test(state, blackBoardConfigs))
 				return RED_WINS;
 		}

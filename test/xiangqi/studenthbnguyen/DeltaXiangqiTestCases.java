@@ -161,4 +161,36 @@ public class DeltaXiangqiTestCases {
 		assertEquals(OK, game.makeMove(c1_1, c2_1));
 		assertEquals(ILLEGAL, game.makeMove(c1_2, c3_3));
 	}
+	
+	@Test 
+	public void perpetualCheckBlackWins() {
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(BLACK_WINS, game.makeMove(c1_1, c2_1));
+	}
+	
+	@Test 
+	public void perpetualCheckRedWins() {
+		assertEquals(OK, game.makeMove(c4_5, c5_5));
+		assertEquals(OK, game.makeMove(c4_5, c5_5));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		assertEquals(OK, game.makeMove(c2_1, c1_1));
+		
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		assertEquals(OK, game.makeMove(c1_1, c2_1));
+		
+		assertEquals(OK, game.makeMove(c2_1, c1_1));		
+		assertEquals(RED_WINS, game.makeMove(c2_1, c1_1));
+	}
+	
 }
