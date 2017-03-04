@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import test.util.CheckmateGame;
+import test.util.StalemateGame;
 
 import static test.util.TestPiece.*;
 import static test.util.TestCoordinate.*;
@@ -196,5 +197,11 @@ public class DeltaXiangqiTestCases {
 	public void checkmateRedWins() {
 		XiangqiGame checkmateGame = CheckmateGame.makeCheckmateGame();
 		assertEquals(RED_WINS, checkmateGame.makeMove(c2_3, c2_4));
+	}
+	
+	@Test
+	public void stalemateRedWins() {
+		XiangqiGame stalemateGame = StalemateGame.makeStalemateGame();
+		assertEquals(RED_WINS, stalemateGame.makeMove(c8_1, c9_1));
 	}
 }

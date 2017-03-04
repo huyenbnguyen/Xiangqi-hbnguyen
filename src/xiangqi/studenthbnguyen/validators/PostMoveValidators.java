@@ -71,7 +71,7 @@ public class PostMoveValidators {
 					PreMoveValidators.isGeneralInCheck.apply(stateCopy, generalXNC, newCoordinate) == OK)
 				return false;
 		}
-
+ 
 		XNC attackerCoordinate = state.generalAttackerCoordinate;
 		List<XNC> intermediateCoordinates = XNC.generateIntermediateCoordinates(generalXNC, attackerCoordinate);		
 		ListIterator<XNC> intermediateListIterator = intermediateCoordinates.listIterator();
