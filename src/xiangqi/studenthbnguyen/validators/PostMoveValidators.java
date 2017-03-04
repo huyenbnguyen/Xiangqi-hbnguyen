@@ -20,6 +20,7 @@ import xiangqi.studenthbnguyen.common.XiangqiBoard;
 import xiangqi.studenthbnguyen.common.XiangqiPieceImpl;
 import xiangqi.studenthbnguyen.common.XiangqiState;
 import xiangqi.studenthbnguyen.util.FindPieceToMakeMove;
+import xiangqi.studenthbnguyen.util.FixedSizeQueue;
 import xiangqi.studenthbnguyen.validatorchecker.PieceChecker;
 import xiangqi.studenthbnguyen.validcoordinategenerators.ValidCoordinateGenerators;
 

@@ -21,6 +21,8 @@ import xiangqi.common.XiangqiCoordinate;
 import xiangqi.common.XiangqiGame;
 import xiangqi.common.XiangqiPiece;
 import xiangqi.common.XiangqiPieceType;
+import xiangqi.studenthbnguyen.util.FixedSizeQueue;
+import xiangqi.studenthbnguyen.validatorchecker.PerpetualChecker;
 import xiangqi.studenthbnguyen.validatorchecker.PieceChecker;
 import xiangqi.studenthbnguyen.validatorchecker.PostMoveChecker;
 import xiangqi.studenthbnguyen.validatorchecker.PreMoveChecker;
@@ -35,12 +37,17 @@ import xiangqi.studenthbnguyen.versions.otherxiangqiversions.BetaInitializer;
  */
 public class XiangqiBaseGame implements XiangqiGame {
 	private XiangqiState state;
+	private FixedSizeQueue<XiangqiBoard> redBoardConfigs;
+	private FixedSizeQueue<XiangqiBoard> blackBoardConfigs;
+	private static final int PERPETUAL_BOARD_CONFIG = 5;
 
 	/**
 	 * @param state
 	 */
 	public XiangqiBaseGame(XiangqiState state) {
 		this.state = state;
+		redBoardConfigs = new FixedSizeQueue<>(PERPETUAL_BOARD_CONFIG);
+		blackBoardConfigs = new FixedSizeQueue<>(PERPETUAL_BOARD_CONFIG);
 	}
 
 	/**
@@ -59,25 +66,36 @@ public class XiangqiBaseGame implements XiangqiGame {
 		state.moveMessage = "";
 		XNC sourceNormalized = XNC.makeXNC(source, state.onMove);
 		XNC destinationNormalized = XNC.makeXNC(destination, state.onMove); 
-		
+
 		MoveResult preMove = PreMoveChecker.runChecker(state, sourceNormalized, destinationNormalized);
-		
+
 		if (preMove != OK) return preMove;	
-		
+
 		if (PieceChecker.runChecker(state, sourceNormalized, destinationNormalized) == ILLEGAL) 
 			return ILLEGAL;
-			
+
 		// if the move is valid, make the move
 		state.board.movePiece(sourceNormalized, destinationNormalized);
 		state.moveCount++;
+
+		// perpetual check
+		if (state.onMove == RED) {
+			redBoardConfigs.add(state.board);
+			if (PerpetualChecker.perpetualCheck.test(state, redBoardConfigs))
+				return BLACK_WINS;
+		} else {
+			blackBoardConfigs.add(state.board);
+			if (PerpetualChecker.perpetualCheck.test(state, blackBoardConfigs))
+				return RED_WINS;
+		}
 		
 		switchTurn();
-		
+
 		MoveResult isDraw = PreMoveValidators.gameRanOutOfMove.apply(state, sourceNormalized, destinationNormalized);
 		if (isDraw != OK) return isDraw;
 		return PostMoveChecker.runChecker(state, sourceNormalized, destinationNormalized);
 	}
-	
+
 
 
 	/**
